@@ -14,4 +14,4 @@ wp-content/themes/*
 
 # Ignore all plugins except for those that start with "ed"
 wp-content/plugins/*
-!wp-content/plugins/ed*/
+!wp-content/plugins/ed-*/
