@@ -1,0 +1,79 @@
+/*
+Theme Name: Epic Darkness
+Theme URI: http://demo.agnidesigns.com/cartify
+Author: AgniHD
+Author URI: http://agnidesigns.com/
+Description: Multipurpose WooCommerce WordPress Theme
+Version: 1.0.0
+template: cartify
+Requires at least: 5.0
+Tested up to: 5.6.1
+Requires PHP: 5.6
+License: GNU General Public License v2 or later
+License URI: LICENSE
+Text Domain: epic-darkness
+Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-comments, translation-ready
+
+*/
+
+body,
+.site-content {
+    background-color: #161616;
+    //background: url('assets/images/bgr.jpg') no-repeat center center fixed;
+    //background-size: cover;
+    background: url('assets/images/bgr.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+.site-header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+}
+
+.admin-bar .site-header {
+    top: 32px;
+}
+
+body {
+    padding-top: 104px;
+}
+
+.site-header-icon-cart__count {
+    color: #000;
+    line-height: 0;
+}
+
+/* Import Fonts */
+@font-face {
+    font-family: "Classica";
+    src: url("assets/fonts/Classica/classica-book-webfont.woff2") format("woff2");
+    font-weight: var(--cartify_font_weight_regular) var(--cartify_font_weight_primary);
+    font-display: swap;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Segment";
+    src: url("assets/fonts/Classica/classica-book-webfont.woff2") format("woff2");
+    font-weight: var(--cartify_font_weight_regular) var(--cartify_font_weight_primary);
+    font-display: swap;
+    font-style: normal;
+}
+:root {
+    --cartify_color_text_primary: #e6e6e6!important;
+    --cartify_color_text_body: #e6e6e6!important;
+  }
+
+
+.site-header {
+    z-index: 100;
+
+    /* position: fixed;
+    width: 100%; */
+}
+.site-header-main {
+    background-color: rgb(0, 0, 0, 0.9)!important;
+}
+
+    

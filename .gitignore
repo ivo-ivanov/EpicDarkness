@@ -1,0 +1,17 @@
+# Ignore everything in the root except the "wp-content" folder
+/*
+!.gitignore
+!wp-content/
+
+# Ignore everything in the "wp-content" folder except for the "themes" and "plugins" folders
+wp-content/*
+!wp-content/themes/
+!wp-content/plugins/
+
+# Ignore everything in the "themes" folder except for the folders and files within it
+wp-content/themes/*
+!wp-content/themes/**/
+
+# Ignore all plugins except for those that start with "ed"
+wp-content/plugins/*
+!wp-content/plugins/ed*/
