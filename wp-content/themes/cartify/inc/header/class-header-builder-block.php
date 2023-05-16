@@ -6,7 +6,8 @@ class Agni_Header_Block{
 
         if( is_admin() ){
             add_action( 'after_setup_theme', array( $this, 'set_header_default') );
-                    }
+            // add_action( 'after_setup_theme', array( $this, 'set_header_presets') );
+        }
 
         add_action( 'agni_header_builder_block', array( $this, 'header_builder_block') );
 
@@ -26,7 +27,8 @@ class Agni_Header_Block{
         add_action( 'agni_header_sticky_center', array( $this, 'header_processing_blocks' ), 10 );
         add_action( 'agni_header_sticky_right', array( $this, 'header_processing_blocks' ), 10 );
 
-        
+        // add_filter( 'agni_header_default', array( $this, 'get_header_default' ) );
+
     }
 
     public function header_builder_block( $header_choice ){
@@ -39,15 +41,25 @@ class Agni_Header_Block{
         }
 
 
-        foreach ($header_list as $key => $header) {
-            if( !empty($header_choice) && $header_choice == $header['id']){
-                $header_array = $header;
+		$header_array = array();
+
+
+		        if( !empty($header_choice) ){
+
+            foreach ($header_list as $key => $header) {
+                if( $header_choice == $header['id']){
+                    $header_array = $header;
+                }
             }
-            else if( isset( $header['default'] ) && $header['default'] ){
-                $header_array = $header;
-            }
-            else if( $header['id'] == '0' ){
-                $header_array = $header;
+        }
+        else{
+            foreach ($header_list as $key => $header) {
+                if( isset( $header['default'] ) && $header['default'] ){
+                    $header_array = $header;
+                }
+                else if( $header['id'] == '0' ){
+                    $header_array = $header;
+                }
             }
         }
 
@@ -55,7 +67,8 @@ class Agni_Header_Block{
         $header_content = $header_array['content'];
         $header_settings = $header_array['settings'];       
 
-        
+        // wp_enqueue_style( 'cartify-header-custom-' . $header_id );
+
 
         $header_overlap = isset( $header_settings['overlap'] ) ? $header_settings['overlap'] : 'off';
         $header_fullwidth = isset( $header_settings['fullwidth'] ) ? $header_settings['fullwidth'] : 'off';
@@ -196,10 +209,12 @@ class Agni_Header_Block{
                         break;
                     case 'menu-3':
                         apply_filters( 'agni_header_categories_dropdown', $block_options );
-                                                break;
+                        //cartify_header_menu_categories_dropdown($block_options); // done
+                        break;
                     case 'search':
                         apply_filters( 'agni_header_search', $block_options );
-                                                break;
+                        //cartify_header_search($block_options);
+                        break;
                     case 'info':
                         apply_filters( 'agni_header_additional_info', $block_options );
                         break;
@@ -211,30 +226,36 @@ class Agni_Header_Block{
                         break;
                     case 'my-account':
                         apply_filters( 'agni_header_myaccount', $block_options );
-                                                break;
+                        //cartify_header_icons_myaccount($block_options); // done
+                        break;
                     case 'cart':
                         apply_filters( 'agni_header_cart', $block_options );
-                                                break;
+                        //cartify_header_icons_cart($block_options); // done
+                        break;
                     case 'wishlist':
                         apply_filters( 'agni_header_wishlist', $block_options );
-                                                break;
+                        //cartify_header_icons_wishlist($block_options); // done
+                        break;
                     case 'compare':
                         apply_filters( 'agni_header_compare', $block_options );
                         break;
                     case 'social':
                         apply_filters( 'agni_header_social_icons', $block_options );
-                                                break;
+                        //cartify_header_social_icons($block_options); // done
+                        break;
                     case 'button':
                         apply_filters( 'agni_header_button', $block_options );
-                                                break;
+                        //cartify_header_social_icons($block_options); // done
+                        break;
                     case 'content-block':
                         apply_filters( 'agni_header_content_block', $block_options );
                         break;
 
                                         default:
-                                                break;
+                        # code...
+                        break;
                 } 
-                ?>
+                // echo $block['id']; ?>
                 <?php
             }
         }
@@ -251,7 +272,8 @@ class Agni_Header_Block{
             return;
         }
 
-                if( !empty( get_option('agni_header_builder_headers_list') ) ){
+        // delete_option('agni_header_builder_headers_list');
+        if( !empty( get_option('agni_header_builder_headers_list') ) ){
             return;
         }
 
@@ -277,12 +299,22 @@ class Agni_Header_Block{
 
     }
 
-    
-            
-    
-    
-            
-    
+    // public function set_header_presets(){
+
+    //     if( !current_user_can( 'edit_posts' ) ){
+    //         return;
+    //     }
+
+    //     $header = $header_presets = array();
+
+    //     $header_presets = $this->get_header_json_file( 'header-presets' );
+
+    //     if( empty( get_option('agni_header_builder_headers_preset') ) ){
+    //         update_option( 'agni_header_builder_headers_preset', $header_presets );
+    //     }
+
+    // }
+
     public static function get_header_json_file( $filename = '' ){
 
         if( empty( $filename ) ){

@@ -1,5 +1,6 @@
 <?php
 
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -24,7 +25,7 @@ function cartify_ajax_sidecart(){
                 <div class="agni-sidecart__body">
                     <?php do_action( 'agni_ajax_sidecart_contents' ); ?>
 
-                    <?php ?>
+                    <?php // cartify_woocommerce_cart_coupon(); ?>
                 </div>
                 <div class="agni-sidecart__footer">
                     <?php do_action( 'agni_ajax_sidecart_footer' ); ?>
@@ -52,7 +53,8 @@ function cartify_woocommerce_sidecart_title(){
 
 function cartify_ajax_sidecart_contents(){
 
-		?>
+	// ob_start();
+	?>
 
     <?php 
     if( !WC()->cart->is_empty() ){
@@ -122,7 +124,8 @@ function cartify_ajax_sidecart_contents(){
                         );
                     }
 
-                    echo apply_filters( 'woocommerce_cart_item_quantity', $product_quantity, $cart_item_key, $cart_item );                     ?>
+                    echo apply_filters( 'woocommerce_cart_item_quantity', $product_quantity, $cart_item_key, $cart_item ); // PHPCS: XSS ok.
+                    ?>
                 </div>
 
                             </div>
@@ -135,7 +138,8 @@ function cartify_ajax_sidecart_contents(){
     }
     ?>
 	<?php
-	}
+	// return ob_get_clean();
+}
 
 /**
  * Cart Total
@@ -153,10 +157,15 @@ function cartify_ajax_sidecart_footer(){
 
         <?php
     }
-    
+    // ob_start();
+
         if( !WC()->cart->is_empty() ){
 
-                  
+      // GLOBAL $woocommerce;
+    // if ( ! defined('WOOCOMMERCE_CART') ) {
+    //   define( 'WOOCOMMERCE_CART', true );
+    // }
+
     WC()->cart->calculate_shipping();
     ?>
 
@@ -170,10 +179,10 @@ function cartify_ajax_sidecart_footer(){
 
             <?php  foreach ( WC()->cart->get_coupons() as $code => $coupon ) : ?>
                 <div class="cart-discount coupon-<?php echo esc_attr( sanitize_title( $code ) ); ?>">
-                    <span><?php echo apply_filters( 'agni_woocommerce_totals_coupon_label_text', '<i class="lni lni-tag"></i>' ); ?></span>
+                    <span><?php echo apply_filters( 'agni_woocommerce_totals_coupon_label_text', '<i class="lni lni-tag"></i>' ); //wc_cart_totals_coupon_label( $coupon ); ?></span>
                     <span><?php echo esc_html($coupon->get_code()); ?></span>
                     <span><a href="<?php echo esc_url( add_query_arg( 'remove_coupon', rawurlencode( $coupon->get_code() ), defined( 'WOOCOMMERCE_CHECKOUT' ) ? wc_get_checkout_url() : wc_get_cart_url() ) ); ?>" class="woocommerce-remove-coupon" data-coupon="<?php echo esc_attr( $coupon->get_code() ) ?>"><?php echo esc_html_x( 'Remove', 'Side cart coupon remove', 'cartify' ); ?></a></span>
-                    <span data-title="<?php echo esc_attr( wc_cart_totals_coupon_label( $coupon, false ) ); ?>"><?php cartify_wc_cart_totals_coupon_html( $coupon ); ?></span>
+                    <span data-title="<?php echo esc_attr( wc_cart_totals_coupon_label( $coupon, false ) ); ?>"><?php cartify_wc_cart_totals_coupon_html( $coupon ); //wc_cart_totals_coupon_html( $coupon ); ?></span>
                 </div>
             <?php endforeach; ?>
 
@@ -207,14 +216,15 @@ function cartify_ajax_sidecart_footer(){
                 $estimated_text  = '';
 
                 if ( WC()->customer->is_customer_outside_base() && ! WC()->customer->has_calculated_shipping() ) {
-                    
+                    /* translators: %s location. */
                     $estimated_text = sprintf( ' <small>' . esc_html__( '(estimated for %s)', 'cartify' ) . '</small>', WC()->countries->estimated_for_prefix( $taxable_address[0] ) . WC()->countries->countries[ $taxable_address[0] ] );
                 }
 
                 if ( 'itemized' === get_option( 'woocommerce_tax_total_display' ) ) {
-                    foreach ( WC()->cart->get_tax_totals() as $code => $tax ) {                         ?>
+                    foreach ( WC()->cart->get_tax_totals() as $code => $tax ) { // phpcs:ignore WordPress.WP.GlobalVariablesOverride.OverrideProhibited
+                        ?>
                         <div class="tax-rate tax-rate-<?php echo esc_attr( sanitize_title( $code ) ); ?>">
-                            <span><?php echo esc_html( $tax->label ) . $estimated_text; ?></span>
+                            <span><?php echo esc_html( $tax->label ) . $estimated_text; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
                             <span data-title="<?php echo esc_attr( $tax->label ); ?>"><?php echo wp_kses( $tax->formatted_amount, 'post' ); ?></span>
                         </div>
                         <?php
@@ -222,7 +232,7 @@ function cartify_ajax_sidecart_footer(){
                 } else {
                     ?>
                     <div class="tax-total">
-                        <span><?php echo esc_html( WC()->countries->tax_or_vat() ) . $estimated_text; ?></span>
+                        <span><?php echo esc_html( WC()->countries->tax_or_vat() ) . $estimated_text; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
                         <span data-title="<?php echo esc_attr( WC()->countries->tax_or_vat() ); ?>"><?php wc_cart_totals_taxes_total_html(); ?></span>
                     </div>
                     <?php
@@ -248,7 +258,8 @@ function cartify_ajax_sidecart_footer(){
     <?php
         }
 
-        }
+        // return ob_get_clean();
+}
 
 /**
  * Cart Footer
@@ -285,7 +296,8 @@ if( !function_exists( 'cartify_ajax_cart_item_keys' ) ){
                 $cart_item_keys[$cart_item['product_id']] = $cart_item_key;
             }
 
-                    }
+            // print_r( $cart_item_keys );
+        }
 
     }
 
@@ -317,7 +329,8 @@ function cartify_ajax_fragments($fragments){
 
     $cart_item_keys = ob_get_clean();
 
-		$fragments['div.agni-sidecart__body'] = '<div class="agni-sidecart__body">'.$cart_content.'</div>';
+	//Cart content
+	$fragments['div.agni-sidecart__body'] = '<div class="agni-sidecart__body">'.$cart_content.'</div>';
     $fragments['div.agni-sidecart__footer'] = '<div class="agni-sidecart__footer">'.$cart_footer.'</div>';
 
 
@@ -329,25 +342,39 @@ function cartify_ajax_fragments($fragments){
 
 function cartify_ajax_add_to_cart(){
 
-    			
-			$error = wc_get_notices( 'error' );
+    	// if(!isset($_POST['action']) || $_POST['action'] != 'agni_ajax_add_to_cart' || !isset($_POST['add-to-cart'])){
+	// 	die();
+	// }
+
+		// get woocommerce error notice
+	$error = wc_get_notices( 'error' );
 	$html = '';
 
 	if( $error ){
-        
-        				ob_start();
+        // wp_send_json($error);
+
+        		// print notice
+		ob_start();
 		foreach( $error as $value ) {
-			            $data[] = $value['notice'];
+			// wc_print_notice( $value['notice'], 'error' );
+            $data[] = $value['notice'];
 		}
 
-						
-        
-		wc_clear_notices(); 		wp_send_json($data);
+		// $data =  array(
+		// 	'error' => ob_get_clean()
+		// );
+
+        // $data = ob_get_clean();
+
+		wc_clear_notices(); // clear other notice
+		wp_send_json($data);
 	}
 
 		else{
-				do_action( 'woocommerce_ajax_added_to_cart', intval( $_POST['add-to-cart'] ) );
-		wc_clear_notices();         WC_AJAX::get_refreshed_fragments();	
+		// trigger action for added to cart in ajax
+		do_action( 'woocommerce_ajax_added_to_cart', intval( $_POST['add-to-cart'] ) );
+		wc_clear_notices(); // clear other notice
+        WC_AJAX::get_refreshed_fragments();	
 	}
 
     wp_die();
@@ -356,10 +383,12 @@ function cartify_ajax_add_to_cart(){
 
 function cartify_ajax_update_cart(){
 
-		$cart_key = sanitize_text_field($_POST['cart_key']);
+	//Form Input Values
+	$cart_key = sanitize_text_field($_POST['cart_key']);
     $new_qty = sanitize_text_field($_POST['new_qty']);
 
-    		if(!$cart_key){
+    	//If empty return error
+	if(!$cart_key){
 		wp_send_json(array('error' => esc_html__( 'Something went wrong', 'cartify' )));
 	}
 
@@ -390,16 +419,22 @@ function cartify_ajax_apply_coupon() {
         return wp_send_json_error(WC_Coupon::get_generic_coupon_error( WC_Coupon::E_WC_COUPON_PLEASE_ENTER ));
     }
 
-    WC()->cart->add_discount( wc_format_coupon_code( wp_unslash( $_POST['coupon_code'] ) ) );         
+    WC()->cart->add_discount( wc_format_coupon_code( wp_unslash( $_POST['coupon_code'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+        // wp_send_json_success( wc_print_notices() );
+
         $error = wc_get_notices( 'error' );
     $success = wc_get_notices( 'success' );
     if( $error ){
-                wc_clear_notices();                 foreach( $error as $value ) {
+        // print notice
+        wc_clear_notices(); // clear other notice
+        // ob_start();
+        foreach( $error as $value ) {
             wp_send_json_error($value['notice']);
         }
     }
     else{
-        wc_clear_notices();         foreach( $success as $value ) {
+        wc_clear_notices(); // clear other notice
+        foreach( $success as $value ) {
             wp_send_json_success($value['notice']);
         }
     }
@@ -413,7 +448,8 @@ function cartify_ajax_apply_coupon() {
  */
 function cartify_ajax_remove_coupon() {
 
-    $coupon = isset( $_POST['coupon'] ) ? wc_format_coupon_code( wp_unslash( $_POST['coupon'] ) ) : false; 
+    $coupon = isset( $_POST['coupon'] ) ? wc_format_coupon_code( wp_unslash( $_POST['coupon'] ) ) : false; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
     if ( empty( $coupon ) ) {
         wp_send_json_error( esc_html__( 'Sorry there was a problem removing this coupon.', 'cartify' ) );
     } else {
@@ -421,7 +457,8 @@ function cartify_ajax_remove_coupon() {
         wp_send_json_success( esc_html__( 'Coupon has been removed.', 'cartify' ) );
     }
 
-        wp_die();
+    // wc_print_notices();
+    wp_die();
 }
 
 
@@ -435,7 +472,8 @@ function cartify_ajax_update_shipping_method(){
 
         WC()->cart->calculate_totals();
 
-        wc_clear_notices();         WC_AJAX::get_refreshed_fragments();
+        wc_clear_notices(); // clear other notice
+        WC_AJAX::get_refreshed_fragments();
 
     }
 
@@ -446,9 +484,11 @@ function cartify_ajax_update_shipping_method(){
  * AJAX receive updated cart_totals div.
  */
 function cartify_ajax_get_cart_totals() {
-        WC()->cart->calculate_totals();
+    // wc_maybe_define_constant( 'WOOCOMMERCE_CART', true );
+    WC()->cart->calculate_totals();
 
-        wc_clear_notices();     WC_AJAX::get_refreshed_fragments();
+        wc_clear_notices(); // clear other notice
+    WC_AJAX::get_refreshed_fragments();
 
     wp_die();
 }
@@ -463,7 +503,8 @@ function cartify_ajax_sidecart_scripts() {
 
 	    $ajax_sidecart = 1;
 
-    		if(isset($_POST['add-to-cart'])){
+    	//Check if item added to cart
+	if(isset($_POST['add-to-cart'])){
 		$added_to_cart = 1;
 	}
 
@@ -471,14 +512,18 @@ function cartify_ajax_sidecart_scripts() {
     wp_register_script('cartify-ajax-sidecart', AGNI_FRAMEWORK_JS_URL . '/agni-ajax-sidecart/agni-ajax-sidecart.js', array('jquery'), wp_get_theme()->get('Version'), true);
     wp_localize_script('cartify-ajax-sidecart', 'cartify_ajax_sidecart', array(
         'ajaxurl' => admin_url('admin-ajax.php'),
-                        'ajaxurl_wc' => WC_AJAX::get_endpoint( "%%endpoint%%" ),
-                'ajax_sidecart' => $ajax_sidecart,
+        // 'security' => wp_create_nonce('agni_ajax_sidecart_nonce'),
+        //'action' => 'agni_ajax_add_to_cart',
+        'ajaxurl_wc' => WC_AJAX::get_endpoint( "%%endpoint%%" ),
+        //'added_to_cart' => true, //$added_to_cart,
+        'ajax_sidecart' => $ajax_sidecart,
         'checkout_url'  => esc_url( wc_get_checkout_url() )
     ));
 }
 
 
 
+// if(!is_admin() || wp_doing_ajax()){
     add_action('agni_ajax_sidecart', 'cartify_ajax_sidecart');
     add_action('agni_ajax_sidecart_contents', 'cartify_ajax_sidecart_contents');
     add_action('agni_ajax_sidecart_footer', 'cartify_ajax_sidecart_footer');
@@ -491,6 +536,9 @@ function cartify_ajax_sidecart_scripts() {
     add_action('wc_ajax_agni_ajax_get_cart_totals', 'cartify_ajax_get_cart_totals');
     add_action('wc_ajax_agni_ajax_update_shipping_method', 'cartify_ajax_update_shipping_method');
 
-	    
+	// add_action('wc_ajax_nopriv_agni_ajax_add_to_cart', 'cartify_ajax_add_to_cart');
+    // add_action('wc_ajax_nopriv_agni_ajax_update_cart', 'cartify_ajax_update_cart');
+
     	add_filter('woocommerce_add_to_cart_fragments', 'cartify_ajax_fragments', 10, 1);
     add_action('wp_enqueue_scripts', 'cartify_ajax_sidecart_scripts');
+// }

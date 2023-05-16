@@ -30,7 +30,8 @@ function cartify_product_data_compare_custom_field(){
         }
     }
 
-		?><div id='agni-compare-options' class='panel woocommerce_options_panel'><?php
+	// Note the 'id' attribute needs to match the 'target' parameter set above
+	?><div id='agni-compare-options' class='panel woocommerce_options_panel'><?php
 
 		?><div class='options_group'>
             <?php
@@ -70,14 +71,18 @@ function cartify_compare_products_search_results(){
 
     $product_list = array();
     $args = array( 
-        's'=> $_GET['q'],         'post_type'             => 'product',
-		'post_status' => 'publish', 		'ignore_sticky_posts' => 1,
-		'posts_per_page' => 10 	);
+        's'=> $_GET['q'], // the search query
+        'post_type'             => 'product',
+		'post_status' => 'publish', // if you don't want drafts to be returned
+		'ignore_sticky_posts' => 1,
+		'posts_per_page' => 10 // how much to show at once
+	);
 
  	$products_compare_query = new WP_Query( $args );
 	if( $products_compare_query->have_posts() ) {
 		while( $products_compare_query->have_posts() ) { $products_compare_query->the_post();
-			$product_list[] = array( $products_compare_query->post->ID, $products_compare_query->post->post_title );         }
+			$product_list[] = array( $products_compare_query->post->ID, $products_compare_query->post->post_title ); // array( Post ID, Post Title )
+        }
     }
 
         wp_reset_postdata();
@@ -89,7 +94,8 @@ function cartify_compare_products_search_results(){
 
 function cartify_admin_compare_scripts(){
 
-        wp_enqueue_script('cartify-admin-compare', AGNI_FRAMEWORK_JS_URL . '/agni-compare/admin-agni-compare.js', array('jquery', 'select2'), wp_get_theme()->get('Version'), true);
+    // Registering JS for compare
+    wp_enqueue_script('cartify-admin-compare', AGNI_FRAMEWORK_JS_URL . '/agni-compare/admin-agni-compare.js', array('jquery', 'select2'), wp_get_theme()->get('Version'), true);
 }
 
 

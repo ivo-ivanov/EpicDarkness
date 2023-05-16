@@ -52,7 +52,9 @@ if( !function_exists( 'cartify_product_layout_css' ) ){
 
         $styles = '';
 
-                        $layout_settings = $layout['settings'];
+        // print_r( $layout );
+        // print_r($layout['settings']);
+        $layout_settings = $layout['settings'];
         $layout_settings['className'] = '.' . $layout_settings['className'];
 
         $styles .= apply_filters( 'agni_product_layout_css_block_processor', $layout );
@@ -67,7 +69,8 @@ if( !function_exists( 'cartify_product_layout_css' ) ){
 
                         if( isset( $col['content'] ) && !empty( $col['content'] ) ){
                 foreach ($col['content'] as $block_key => $block) {
-                                        $block_classname = isset( $block['settings']['className'] ) ? '.'.$block['settings']['className'] : '';
+                    // print_r($block);
+                    $block_classname = isset( $block['settings']['className'] ) ? '.'.$block['settings']['className'] : '';
                     if( !empty($col_classname) ){
                         $block_classname = $col_classname . ' ' . $block_classname;
                     }
@@ -90,7 +93,8 @@ if( !function_exists( 'cartify_product_layout_css_block_processor' ) ){
         $styles = '';
         $block_settings = isset($block['settings']) ? $block['settings'] : '';
 
-                        $block_settings['className'] = isset( $block_settings['className'] ) ? '' . $block_settings['className'] : '';
+                // title, spacer, price
+        $block_settings['className'] = isset( $block_settings['className'] ) ? '' . $block_settings['className'] : '';
 
         $styles .= apply_filters( 'agni_product_layout_css_parser', $block_settings, $row_classname, $col_classname );
 
@@ -112,7 +116,9 @@ if( !function_exists( 'cartify_product_layout_css_block_processor' ) ){
                     $styles .= apply_filters( 'agni_product_layout_css_spacer', $block_settings, $row_classname, $col_classname );
                     break;
                 case 'columns': 
-                                        
+                    // $block_settings = isset( $block['settings'] ) ? $block['settings'] : '';
+                    // $block_settings['className'] = isset( $block_settings['className'] ) ? '.' . $block_settings['className'] : '';
+
                     $styles .= apply_filters( 'agni_product_layout_css_columns', $block_settings );
 
                     foreach ($block['content'] as $inner_row_key => $inner_col) {
@@ -120,7 +126,8 @@ if( !function_exists( 'cartify_product_layout_css_block_processor' ) ){
                             $inner_col_settings = isset( $inner_col['settings'] ) ? $inner_col['settings'] : '';
 
                                                         $inner_col_settings['className'] = isset( $inner_col_settings['className'] ) ? $block_settings['className'] . '>.' . $inner_col_settings['className'] : '';
-                            
+                            // print_r($inner_col);
+
                                                     $styles .= apply_filters( 'agni_product_layout_css_parser', $inner_col_settings, '' );
                             $styles .= apply_filters( 'agni_product_layout_css_column', $inner_col_settings, '');
 
@@ -411,13 +418,43 @@ if( !function_exists( 'cartify_product_layout_css_separator' ) ){
     }
 }
 
+// if( !function_exists( 'cartify_product_layout_css_divider' ) ){
+//     function cartify_product_layout_css_divider( $block_settings, $row_classname = '', $col_classname = '' ){
+//         $block_classname = isset( $block_settings['className'] ) ? $block_settings['className'] : '';
 
+//         $width = isset( $block_settings['css-width'] ) ? $block_settings['css-width'] : '';
+//         $color = isset( $block_settings['css-color'] ) ? $block_settings['css-color'] : '';
+//         $align = isset( $block_settings['align'] ) ? $block_settings['align'] : '';
 
+//         if( $align == 'center' ){
+//             $alignment = 'margin-right: auto;
+//             margin-left: auto;';
 
+//         }
+//         else if( $align == 'right' ){
+//             $alignment = 'margin-left: auto;';
 
+//         }
+//         else{
+//             $alignment = 'margin-right: auto;';
+//         }
 
+//         $styles = "
+//             {$row_classname} {$col_classname} {$block_classname}{
+//                 width: {$width};
+//                 border-color: {$color};
+//             }
+//         ";
 
+//         $styles = "
+//             {$row_classname} {$col_classname} {$block_classname}{
+//                 $alignment
+//             }
+//         ";
 
+//         return $styles;
+//     }
+// }
 
 
 if( !function_exists( 'cartify_product_layout_css_spacer' ) ){
@@ -455,7 +492,9 @@ if( !function_exists( 'cartify_product_layout_css_breadcrumbs' ) ){
         $font_weight = isset( $block_settings['font-choice']['font-weight'] ) ? $block_settings['font-choice']['font-weight'] : '';
         $font_size = isset( $block_settings['font-size'] ) ? $block_settings['font-size'] : '';
         $letter_spacing = isset( $block_settings['letter-spacing'] ) ? $block_settings['letter-spacing'] : '';
-                
+        // $text_transform = isset( $block_settings['text-transform'] ) ? $block_settings['text-transform'] : '';
+        // $text_align = isset( $block_settings['text-align'] ) ? $block_settings['text-align'] : '';
+
         $styles = '';
 
         $styles .= "{$row_classname} {$col_classname} {$block_classname}{";
@@ -473,7 +512,11 @@ if( !function_exists( 'cartify_product_layout_css_breadcrumbs' ) ){
                 'font-variation-settings' =>  !empty($font_weight) ? '"wght"' . $font_weight : '',
                 'letter-spacing' => $letter_spacing,
             ));
-                                                        $styles .= "}";
+            // $styles .= cartify_prepare_css_styles(array(
+            //     'text-transform' => $text_transform,
+            //     'text-align' => $text_align,
+            // ));
+        $styles .= "}";
 
         $styles .= "{$row_classname} {$col_classname} {$block_classname} a{";
             $styles .= cartify_prepare_css_styles(array(
@@ -549,7 +592,8 @@ if( !function_exists( 'cartify_product_layout_css_short_description' ) ){
 
         $styles .= "{$row_classname} {$col_classname} {$block_classname}{";
             $styles .= cartify_prepare_css_styles(array(
-                                '--agni_product_layout_description_font_size_desktop' => !empty( $font_size['desktop'] ) ? $font_size['desktop'] : '',
+                //cartify_font_size_small_3
+                '--agni_product_layout_description_font_size_desktop' => !empty( $font_size['desktop'] ) ? $font_size['desktop'] : '',
                 '--agni_product_layout_description_font_size_laptop' => !empty( $font_size['laptop'] ) ? $font_size['laptop'] : '',
                 '--agni_product_layout_description_font_size_tab' => !empty( $font_size['tab'] ) ? $font_size['tab'] : '',
                 '--agni_product_layout_description_font_size_mobile' => !empty( $font_size['mobile'] ) ? $font_size['mobile'] : '',
@@ -589,12 +633,15 @@ if( !function_exists( 'cartify_product_layout_css_sale' ) ){
         $font_weight = isset( $block_settings['font-choice']['font-weight'] ) ? $block_settings['font-choice']['font-weight'] : '';
         $font_size = isset( $block_settings['font-size'] ) ? $block_settings['font-size'] : '';
         $letter_spacing = isset( $block_settings['letter-spacing'] ) ? $block_settings['letter-spacing'] : '';
-                
+        // $text_transform = isset( $block_settings['text-transform'] ) ? $block_settings['text-transform'] : '';
+        // $text_align = isset( $block_settings['text-align'] ) ? $block_settings['text-align'] : '';
+
         $styles = '';
 
         $styles .= "{$row_classname} {$col_classname} {$block_classname}{";
             $styles .= cartify_prepare_css_styles(array(
-                                '--agni_product_layout_sale_text_font_size_desktop' => !empty( $font_size['desktop'] ) ? $font_size['desktop'] : '',
+                //cartify_font_size_small_3
+                '--agni_product_layout_sale_text_font_size_desktop' => !empty( $font_size['desktop'] ) ? $font_size['desktop'] : '',
                 '--agni_product_layout_sale_text_font_size_laptop' => !empty( $font_size['laptop'] ) ? $font_size['laptop'] : '',
                 '--agni_product_layout_sale_text_font_size_tab' => !empty( $font_size['tab'] ) ? $font_size['tab'] : '',
                 '--agni_product_layout_sale_text_font_size_mobile' => !empty( $font_size['mobile'] ) ? $font_size['mobile'] : '',
@@ -605,11 +652,16 @@ if( !function_exists( 'cartify_product_layout_css_sale' ) ){
                 'font-variation-settings' =>  !empty($font_weight) ? '"wght"' . $font_weight : '',
                 'letter-spacing' => $letter_spacing,
             ));
-                                                        $styles .= "}";
+            // $styles .= cartify_prepare_css_styles(array(
+            //     'text-transform' => $text_transform,
+            //     'text-align' => $text_align,
+            // ));
+        $styles .= "}";
 
         $styles .= "{$row_classname} {$col_classname} {$block_classname} .onsale{";
             $styles .= cartify_prepare_css_styles(array(
-                                '--agni_product_layout_sale_text_padding_desktop' => !empty( $content_padding['desktop'] ) ? $content_padding['desktop'] : '',
+                //cartify_font_size_small_3
+                '--agni_product_layout_sale_text_padding_desktop' => !empty( $content_padding['desktop'] ) ? $content_padding['desktop'] : '',
                 '--agni_product_layout_sale_text_padding_laptop' => !empty( $content_padding['laptop'] ) ? $content_padding['laptop'] : '',
                 '--agni_product_layout_sale_text_padding_tab' => !empty( $content_padding['tab'] ) ? $content_padding['tab'] : '',
                 '--agni_product_layout_sale_text_padding_mobile' => !empty( $content_padding['mobile'] ) ? $content_padding['mobile'] : '',
@@ -646,12 +698,15 @@ if( !function_exists( 'cartify_product_layout_css_new' ) ){
         $font_weight = isset( $block_settings['font-choice']['font-weight'] ) ? $block_settings['font-choice']['font-weight'] : '';
         $font_size = isset( $block_settings['font-size'] ) ? $block_settings['font-size'] : '';
         $letter_spacing = isset( $block_settings['letter-spacing'] ) ? $block_settings['letter-spacing'] : '';
-                
+        // $text_transform = isset( $block_settings['text-transform'] ) ? $block_settings['text-transform'] : '';
+        // $text_align = isset( $block_settings['text-align'] ) ? $block_settings['text-align'] : '';
+
         $styles = '';
 
         $styles .= "{$row_classname} {$col_classname} {$block_classname}{";
             $styles .= cartify_prepare_css_styles(array(
-                                '--agni_product_layout_new_text_font_size_desktop' => !empty( $font_size['desktop'] ) ? $font_size['desktop'] : '',
+                //cartify_font_size_small_3
+                '--agni_product_layout_new_text_font_size_desktop' => !empty( $font_size['desktop'] ) ? $font_size['desktop'] : '',
                 '--agni_product_layout_new_text_font_size_laptop' => !empty( $font_size['laptop'] ) ? $font_size['laptop'] : '',
                 '--agni_product_layout_new_text_font_size_tab' => !empty( $font_size['tab'] ) ? $font_size['tab'] : '',
                 '--agni_product_layout_new_text_font_size_mobile' => !empty( $font_size['mobile'] ) ? $font_size['mobile'] : '',
@@ -662,11 +717,16 @@ if( !function_exists( 'cartify_product_layout_css_new' ) ){
                 'font-variation-settings' =>  !empty($font_weight) ? '"wght"' . $font_weight : '',
                 'letter-spacing' => $letter_spacing,
             ));
-                                                        $styles .= "}";
+            // $styles .= cartify_prepare_css_styles(array(
+            //     'text-transform' => $text_transform,
+            //     'text-align' => $text_align,
+            // ));
+        $styles .= "}";
 
         $styles .= "{$row_classname} {$col_classname} {$block_classname} .agni-product-new-label{";
             $styles .= cartify_prepare_css_styles(array(
-                                '--agni_product_layout_new_text_padding_desktop' => !empty( $content_padding['desktop'] ) ? $content_padding['desktop'] : '',
+                //cartify_font_size_small_3
+                '--agni_product_layout_new_text_padding_desktop' => !empty( $content_padding['desktop'] ) ? $content_padding['desktop'] : '',
                 '--agni_product_layout_new_text_padding_laptop' => !empty( $content_padding['laptop'] ) ? $content_padding['laptop'] : '',
                 '--agni_product_layout_new_text_padding_tab' => !empty( $content_padding['tab'] ) ? $content_padding['tab'] : '',
                 '--agni_product_layout_new_text_padding_mobile' => !empty( $content_padding['mobile'] ) ? $content_padding['mobile'] : '',
@@ -703,12 +763,15 @@ if( !function_exists( 'cartify_product_layout_css_hot' ) ){
         $font_weight = isset( $block_settings['font-choice']['font-weight'] ) ? $block_settings['font-choice']['font-weight'] : '';
         $font_size = isset( $block_settings['font-size'] ) ? $block_settings['font-size'] : '';
         $letter_spacing = isset( $block_settings['letter-spacing'] ) ? $block_settings['letter-spacing'] : '';
-                
+        // $text_transform = isset( $block_settings['text-transform'] ) ? $block_settings['text-transform'] : '';
+        // $text_align = isset( $block_settings['text-align'] ) ? $block_settings['text-align'] : '';
+
         $styles = '';
 
         $styles .= "{$row_classname} {$col_classname} {$block_classname}{";
             $styles .= cartify_prepare_css_styles(array(
-                                '--agni_product_layout_hot_text_font_size_desktop' => !empty( $font_size['desktop'] ) ? $font_size['desktop'] : '',
+                //cartify_font_size_small_3
+                '--agni_product_layout_hot_text_font_size_desktop' => !empty( $font_size['desktop'] ) ? $font_size['desktop'] : '',
                 '--agni_product_layout_hot_text_font_size_laptop' => !empty( $font_size['laptop'] ) ? $font_size['laptop'] : '',
                 '--agni_product_layout_hot_text_font_size_tab' => !empty( $font_size['tab'] ) ? $font_size['tab'] : '',
                 '--agni_product_layout_hot_text_font_size_mobile' => !empty( $font_size['mobile'] ) ? $font_size['mobile'] : '',
@@ -719,11 +782,16 @@ if( !function_exists( 'cartify_product_layout_css_hot' ) ){
                 'font-variation-settings' =>  !empty($font_weight) ? '"wght"' . $font_weight : '',
                 'letter-spacing' => $letter_spacing,
             ));
-                                                        $styles .= "}";
+            // $styles .= cartify_prepare_css_styles(array(
+            //     'text-transform' => $text_transform,
+            //     'text-align' => $text_align,
+            // ));
+        $styles .= "}";
 
         $styles .= "{$row_classname} {$col_classname} {$block_classname} .agni-product-hot-label{";
             $styles .= cartify_prepare_css_styles(array(
-                                '--agni_product_layout_hot_text_padding_desktop' => !empty( $content_padding['desktop'] ) ? $content_padding['desktop'] : '',
+                //cartify_font_size_small_3
+                '--agni_product_layout_hot_text_padding_desktop' => !empty( $content_padding['desktop'] ) ? $content_padding['desktop'] : '',
                 '--agni_product_layout_hot_text_padding_laptop' => !empty( $content_padding['laptop'] ) ? $content_padding['laptop'] : '',
                 '--agni_product_layout_hot_text_padding_tab' => !empty( $content_padding['tab'] ) ? $content_padding['tab'] : '',
                 '--agni_product_layout_hot_text_padding_mobile' => !empty( $content_padding['mobile'] ) ? $content_padding['mobile'] : '',
@@ -764,7 +832,10 @@ if( !function_exists( 'cartify_product_layout_css_images' ) ){
 
             ));
 
-                                            $styles .= "}";
+            // $styles .= cartify_prepare_css_styles( array(
+            //     'text-align' => $text_align
+            // ));
+        $styles .= "}";
 
         $styles .= "{$row_classname} {$col_classname} {$block_classname} .woocommerce-product-gallery{";
             $styles .= cartify_prepare_css_styles( array(
@@ -787,7 +858,10 @@ if( !function_exists( 'cartify_product_layout_css_images' ) ){
 
             ));
 
-                                            $styles .= "}";
+            // $styles .= cartify_prepare_css_styles( array(
+            //     'text-align' => $text_align
+            // ));
+        $styles .= "}";
 
         return $styles;
     }
@@ -1087,7 +1161,8 @@ if( !function_exists( 'cartify_product_layout_css_rating' ) ){
         $block_classname = isset( $block_settings['className'] ) ? $block_settings['className'] : '';
 
 
-        
+        // print_r( $star_show );
+
         $star_size = isset( $block_settings['star-size'] ) ? $block_settings['star-size'] : '';
         $star_color = isset( $block_settings['star-color'] ) ? $block_settings['star-color'] : '';
         $star_base_color = isset( $block_settings['star-base-color'] ) ? $block_settings['star-base-color'] : '';
@@ -1341,9 +1416,14 @@ if( !function_exists( 'cartify_product_layout_css_featured' ) ){
                 'font-family' => $font_family,
                 'font-weight' =>  $font_weight,
                 'font-variation-settings' =>  !empty($font_weight) ? '"wght"' . $font_weight : '',
-                                'letter-spacing' => $letter_spacing,
+                // 'line-height' => $line_height,
+                'letter-spacing' => $letter_spacing,
             ));
-                                                        $styles .= "}";
+            // $styles .= cartify_prepare_css_styles(array(
+            //     'text-transform' => $text_transform,
+            //     'text-align' => $text_align,
+            // ));
+        $styles .= "}";
         $styles .= "{$row_classname} {$col_classname} {$block_classname} span{";
             $styles .= cartify_prepare_css_styles(array(
                 'background-color' => $background_color
@@ -1408,9 +1488,15 @@ if( !function_exists( 'cartify_product_layout_css_countdown' ) ){
                 'font-family' => $font_family,
                 'font-weight' =>  $font_weight,
                 'font-variation-settings' =>  !empty($font_weight) ? '"wght"' . $font_weight : '',
-                                'letter-spacing' => $letter_spacing,
+                // 'line-height' => $line_height,
+                'letter-spacing' => $letter_spacing,
             ));
-                                                                    $styles .= "}";
+            // $styles .= cartify_prepare_css_styles(array(
+            //     'background-color' => $background_color,
+            //     'border-width' => $border_width,
+            //     'border-color' => $border_color,
+            // ));
+        $styles .= "}";
 
         $styles .= "{$row_classname} {$col_classname} {$block_classname} .agni-sale-countdown-holder__label{";
             $styles .= cartify_prepare_css_styles(array(
@@ -1424,7 +1510,8 @@ if( !function_exists( 'cartify_product_layout_css_countdown' ) ){
                 'font-family' => $label_font_family,
                 'font-weight' =>  $label_font_weight,
                 'font-variation-settings' =>  !empty($label_font_weight) ? '"wght"' . $label_font_weight : '',
-                                'letter-spacing' => $label_letter_spacing,
+                // 'line-height' => $line_height,
+                'letter-spacing' => $label_letter_spacing,
 
                 'text-transform' => $label_text_transform
             ));
@@ -1579,7 +1666,8 @@ if( !function_exists( 'cartify_product_layout_css_add_to_cart' ) ){
         $bn_btn_hover_border_color = isset( $block_settings['bn-btn-hover-border-color'] ) ? $block_settings['bn-btn-hover-border-color'] : '';
         $bn_btn_border_radius = isset( $block_settings['bn-btn-border-radius'] ) ? $block_settings['bn-btn-border-radius'] : '';
         $bn_btn_padding = isset( $block_settings['bn-btn-padding'] ) ? $block_settings['bn-btn-padding'] : '';
-        
+        //variations-label-font-choice
+
         $styles = '';
 
         $styles .= "{$row_classname} {$col_classname} {$block_classname}{";
@@ -1940,7 +2028,8 @@ if( !function_exists( 'cartify_product_layout_css_add_to_wishlist' ) ){
 
 
         $btn_padding = isset( $block_settings['btn-padding'] ) ? $block_settings['btn-padding'] : '';
-                $btn_background_color = isset( $block_settings['bg-color'] ) ? $block_settings['bg-color'] : '';
+        // $btn_fullwidth = isset( $block_settings['btn-fullwidth'] ) ? $block_settings['btn-fullwidth'] : '';
+        $btn_background_color = isset( $block_settings['bg-color'] ) ? $block_settings['bg-color'] : '';
         $btn_border_width = isset( $block_settings['border-width'] ) ? $block_settings['border-width'] : '';
         $btn_border_color = isset( $block_settings['border-color'] ) ? $block_settings['border-color'] : '';
         $btn_border_radius = isset( $block_settings['border-radius'] ) ? $block_settings['border-radius'] : '';
@@ -2042,7 +2131,8 @@ if( !function_exists( 'cartify_product_layout_css_add_to_compare' ) ){
 
 
         $btn_padding = isset( $block_settings['btn-padding'] ) ? $block_settings['btn-padding'] : '';
-                $btn_background_color = isset( $block_settings['bg-color'] ) ? $block_settings['bg-color'] : '';
+        // $btn_fullwidth = isset( $block_settings['btn-fullwidth'] ) ? $block_settings['btn-fullwidth'] : '';
+        $btn_background_color = isset( $block_settings['bg-color'] ) ? $block_settings['bg-color'] : '';
         $btn_border_width = isset( $block_settings['border-width'] ) ? $block_settings['border-width'] : '';
         $btn_border_color = isset( $block_settings['border-color'] ) ? $block_settings['border-color'] : '';
         $btn_border_radius = isset( $block_settings['border-radius'] ) ? $block_settings['border-radius'] : '';
@@ -2144,7 +2234,8 @@ if( !function_exists( 'cartify_product_layout_css_compare' ) ){
 
 
         $btn_padding = isset( $block_settings['btn-padding'] ) ? $block_settings['btn-padding'] : '';
-                $btn_background_color = isset( $block_settings['bg-color'] ) ? $block_settings['bg-color'] : '';
+        // $btn_fullwidth = isset( $block_settings['btn-fullwidth'] ) ? $block_settings['btn-fullwidth'] : '';
+        $btn_background_color = isset( $block_settings['bg-color'] ) ? $block_settings['bg-color'] : '';
         $btn_border_width = isset( $block_settings['border-width'] ) ? $block_settings['border-width'] : '';
         $btn_border_color = isset( $block_settings['border-color'] ) ? $block_settings['border-color'] : '';
         $btn_border_radius = isset( $block_settings['border-radius'] ) ? $block_settings['border-radius'] : '';
@@ -2335,7 +2426,10 @@ if( !function_exists( 'cartify_product_layout_css_stock' ) ){
 
             ));
 
-                                            $styles .= "}";
+            // $styles .= cartify_prepare_css_styles( array(
+            //     'text-align' => $text_align
+            // ));
+        $styles .= "}";
 
         $styles .= "{$row_classname} {$col_classname} {$block_classname} .agni-stock-indicator{";
             $styles .= cartify_prepare_css_styles(array(
@@ -2882,7 +2976,8 @@ if( !function_exists( 'cartify_product_layout_css_parser' ) ){
 
 
         $block_classname = isset( $settings['className'] ) ? $settings['className'] : '';
-        $classname = $block_classname; 
+        $classname = $block_classname; //$row_classname .' '. $col_classname .' '. $block_classname;
+
         foreach ($settings as $field_key => $field_value) {
             if (strpos($field_key, $css_pattern) !== false || strpos($field_key, $hover_css_pattern) !== false) {
 
@@ -2907,7 +3002,8 @@ if( !function_exists( 'cartify_product_layout_css_parser' ) ){
             }
 
             if( strpos($field_key, $array_pattern) !== false ){
-                                $font_values = $field_value;
+                // print_r($field_value);
+                $font_values = $field_value;
                 $font_values['className'] = $block_classname;
 
                 $styles .= apply_filters( 'agni_product_layout_css_parser', $font_values, $row_classname, $col_classname );
@@ -2940,7 +3036,10 @@ if( !function_exists( 'cartify_product_layout_css_array_parser' ) ){
                 else if( $device == 'tab' ){
                     $break_point = '667px';
                 }
-                                                
+                // else if( $device == 'mobile' ){
+                //     $break_point = '';
+                // }
+
                                 if( $device !== 'common' && $device !== 'mobile' ){
                     $styles .= '@media (min-width: ' . $break_point . '){';
                 }
@@ -2962,9 +3061,43 @@ if( !function_exists( 'cartify_product_layout_css_array_parser' ) ){
 }
 
 
+// function cartify_prepare_css_styles($css_array){
+//     $css_values_array = [];
+//     foreach ($css_array as $key => $value) {
+//         if(!empty($value)){
+//             $css_values_array[] = "{$key}:{$value};";
+//         }
+//     }
+//     return implode(' ', array_filter($css_values_array));
+// }
 
+// function cartify_prepare_responsive_values($value_array, $default = false){
+//     $new_value_array = [];
+//     $default_array = [];
 
+//     $default_array = $default;
 
+//     if( !is_array( $default ) ){
+//         $default_array = array(
+//             'desktop' => $default,
+//             'laptop' => $default,
+//             'tab' => $default,
+//             'mobile' => $default,
+//         );
+//     }
 
+//     $new_value_array = array(
+//         'desktop' => isset( $value_array['desktop'] ) ? $value_array['desktop'] : $default_array['desktop'],
+//         'laptop' => isset( $value_array['laptop'] ) ? $value_array['laptop'] : $default_array['laptop'],
+//         'tab' => isset( $value_array['tab'] ) ? $value_array['tab'] : $default_array['tab'],
+//         'mobile' => isset( $value_array['mobile'] ) ? $value_array['mobile'] : $default_array['mobile'],
+//     );
 
+//     // echo "value array \n\n";
+//     // print_r( $new_value_array );
+//     // echo "value default \n\n";
+//     // print_r( $default_array );
+//     // echo "value ends \n\n";
 
+//     return $new_value_array;
+// }

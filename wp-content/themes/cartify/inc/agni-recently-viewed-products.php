@@ -3,6 +3,7 @@
 add_action( 'woocommerce_after_single_product_summary', 'cartify_recently_viewed_products' );
 add_action( 'template_redirect', 'cartify_recently_viewed_products_set_cookie' );
 
+// add_filter( 'agni_recently_viewed_products_args', 'cartify_recently_viewed_products_args', 10, 1 );
 
 if( !function_exists('cartify_woocommerce_recently_viewed_products_title') ){
     function cartify_woocommerce_recently_viewed_products_title(){
@@ -55,7 +56,10 @@ if( !function_exists('cartify_recently_viewed_products') ){
             <ul class="<?php echo esc_attr( cartify_prepare_classes( $recent_products_contents_classes ) ); ?>">
                 <?php
 
-                                                                $viewed_products = cartify_recently_viewed_products_id();
+                // Get recently viewed product cookies data
+                // $viewed_products = ! empty( $_COOKIE['woocommerce_recently_viewed'] ) ? (array) explode( '|', $_COOKIE['woocommerce_recently_viewed'] ) : array();
+                // $viewed_products = array_reverse( array_filter( array_map( 'absint', $viewed_products ) ) );
+                $viewed_products = cartify_recently_viewed_products_id();
 
                                 if ( empty( $viewed_products ) ) {
                     return;
@@ -67,7 +71,8 @@ if( !function_exists('cartify_recently_viewed_products') ){
                     'post_status'    => 'publish', 
                     'post_type'      => 'product', 
                     'post__in'       => $viewed_products, 
-                                    );
+                    // 'order'        => 'DESC'
+                );
 
                 $product_recent_query = new WP_Query($args);
 
@@ -83,7 +88,8 @@ if( !function_exists('cartify_recently_viewed_products') ){
                             ?>
                             <div class="woocommerce-loop-product__thumbnail">
                                 <?php
-                                    echo apply_filters( 'agni_woocommerce_recently_viewed_products_image_thumbnail_html', wp_get_attachment_image($thumbnail_id, 'woocommerce_thumbnail'), $thumbnail_id );                                 ?>
+                                    echo apply_filters( 'agni_woocommerce_recently_viewed_products_image_thumbnail_html', wp_get_attachment_image($thumbnail_id, 'woocommerce_thumbnail'), $thumbnail_id ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
+                                ?>
                             </div>
                             <?php
 
@@ -107,7 +113,9 @@ if( !function_exists('cartify_recently_viewed_products') ){
 if( !function_exists( 'cartify_recently_viewed_products_args' ) ){
     function cartify_recently_viewed_products_args( $args ){
 
-        $args['posts_per_page'] = 10;         $args['columns'] = 10; 
+        $args['posts_per_page'] = 10; // 4 related products
+        $args['columns'] = 10; // arranged in 2 columns
+
         return $args;
     }
 }

@@ -40,6 +40,7 @@ function cartify_woocommerce_variation_swatch_form_field_image($value = false){
 }
 
 
+// A callback function to add a custom field to our "presenters" taxonomy
 function cartify_woocommerce_variation_swatches_edit_form_fields($tag) {
 
     $attribute_taxonomies = wc_get_attribute_taxonomies();
@@ -89,6 +90,7 @@ function cartify_woocommerce_variation_swatches_edit_form_fields($tag) {
 
      }
 
+// A callback function to add a custom field to our "presenters" taxonomy
 function cartify_woocommerce_variation_swatches_add_form_fields($tag) {
 
     $attribute_taxonomies = wc_get_attribute_taxonomies();
@@ -135,7 +137,8 @@ function cartify_woocommerce_variation_swatches_add_form_fields($tag) {
 
  }
 
- function save_taxonomy_custom_fields( $term_id ) {
+ // A callback function to save our extra taxonomy field(s)
+function cartify_save_taxonomy_custom_fields( $term_id ) {
 
     if( !isset( $_POST['agni_variation_swatch_fields'] ) ){
         return;
@@ -151,25 +154,36 @@ function cartify_woocommerce_variation_swatches_add_form_fields($tag) {
         $field_value = $_POST['agni_variation_swatch_fields']['label'];
     }
 
-        update_term_meta( $term_id, 'agni_variation_swatch_field', $field_value );
+    // update_option( 'agni_variation_swatch_field_'.$term_id, $field_value );
+    update_term_meta( $term_id, 'agni_variation_swatch_field', $field_value );
 
 }
 
 function cartify_woocommerce_variation_swatches_init(){
 
     $attribute_taxonomies = wc_get_attribute_taxonomies();
-        if ( $attribute_taxonomies ) {
+    //print_r($attribute_taxonomies);
+    if ( $attribute_taxonomies ) {
         foreach ($attribute_taxonomies as $tax) {
 
-                                                                        
+            // register_term_meta( 'pa_'.$tax->attribute_name, 'agni_variation_swatch_field', array(
+            //     'type' => 'string',
+            //     'single' => true,
+            //     'default' => '',
+            //     'show_in_rest' => true,
+            // ) );
+
             add_filter( 'woocommerce_rest_prepare_pa_' . $tax->attribute_name, 'cartify_woocommerce_variation_swatches_rest_meta_preparation', 10, 3 );
 
-                            add_action( 'pa_'.$tax->attribute_name.'_edit_form_fields', 'cartify_woocommerce_variation_swatches_edit_form_fields', 10, 2 );
+            //if (taxonomy_exists(wc_attribute_taxonomy_name($tax->attribute_name))) {
+    //echo $tax->attribute_name;
+            add_action( 'pa_'.$tax->attribute_name.'_edit_form_fields', 'cartify_woocommerce_variation_swatches_edit_form_fields', 10, 2 );
             add_action( 'pa_'.$tax->attribute_name.'_add_form_fields', 'cartify_woocommerce_variation_swatches_add_form_fields', 10, 2 );
 
-                        add_action( 'edited_pa_'.$tax->attribute_name, 'save_taxonomy_custom_fields', 10, 2 );
-            add_action( 'create_pa_'.$tax->attribute_name, 'save_taxonomy_custom_fields', 10, 2 );
-                    }
+                        add_action( 'edited_pa_'.$tax->attribute_name, 'cartify_save_taxonomy_custom_fields', 10, 2 );
+            add_action( 'create_pa_'.$tax->attribute_name, 'cartify_save_taxonomy_custom_fields', 10, 2 );
+            //}
+        }
     }
 }
 
@@ -222,5 +236,6 @@ function cartify_admin_variation_swatches(){
 
     wp_enqueue_media();
 
-        wp_enqueue_script('cartify-admin-variation-swatches', AGNI_FRAMEWORK_JS_URL . '/agni-ajax-variation-swatches/admin-agni-ajax-variation-swatches.js', array('jquery'), wp_get_theme()->get('Version'), true);
+    // Registering JS for Variation swatches
+    wp_enqueue_script('cartify-admin-variation-swatches', AGNI_FRAMEWORK_JS_URL . '/agni-ajax-variation-swatches/admin-agni-ajax-variation-swatches.js', array('jquery'), wp_get_theme()->get('Version'), true);
 }

@@ -23,7 +23,8 @@ if( !function_exists( 'cartify_header_css' ) ){
     function cartify_header_css( $header ){
         $styles = '';
 
-        
+        // print_r( $header );
+
         $header_devices = array(
             'mobile' => isset( $header['content']['mobile'] ) ? $header['content']['mobile'] : array(),
             'tab' => isset( $header['content']['tab'] ) ? $header['content']['tab'] : array(),
@@ -47,7 +48,8 @@ if( !function_exists( 'cartify_header_css' ) ){
             }
 
             $height = 0;
-            
+            // echo $deviceKey;
+
             foreach ($device as $rowKey => $row) {
                 $row_settings = $row['settings'];
 
@@ -72,7 +74,20 @@ if( !function_exists( 'cartify_header_css' ) ){
                     $height += (int)$row_height;
                 }
 
-                                                                                                                                                                                                                                
+                                // $styles .= "
+                // {$row_classname} .site-header-{$row['rowName']}__contents--center {
+                //     -webkit-box-flex: {$row_flex_ratio};
+                //     -ms-flex: {$row_flex_ratio};
+                //     flex: {$row_flex_ratio};
+                // }
+                // {$row_classname} {
+                //     height: {$row_height};
+                //     background-image: url('{$row_bg_image}');
+                //     background-color: {$row_bg_color};
+                //     border-color: {$row_border_color};
+                // }
+                // ";
+
                 $styles .= "{$row_classname} .site-header-{$row['rowName']}__contents--center {";
                     $styles .= agni_header_prepare_css_styles(array(
                         '-webkit-box-flex' => $row_flex_ratio,
@@ -93,13 +108,15 @@ if( !function_exists( 'cartify_header_css' ) ){
                                 $styles .= apply_filters( 'agni_header_css_spacing_processor', $row['settings'], ".site-header-{$deviceKey}", '' );
 
                 foreach ($row['content'] as $colKey => $col) {
-                                        $col_settings = isset( $col['settings'] ) ? $col['settings'] : '';
+                    // print_r($col);
+                    $col_settings = isset( $col['settings'] ) ? $col['settings'] : '';
 
                     $col_classname = isset( $col_settings['className'] ) ? '.' . $col_settings['className'] : '';
 
 
                                                             foreach ($col['content'] as $blockKey => $block) {
-                                                $block_settings = isset($block['settings']) ? $block['settings'] : '';
+                        // print_r($block);
+                        $block_settings = isset($block['settings']) ? $block['settings'] : '';
 
                         $styles .= apply_filters( 'agni_header_css_spacing_processor', $block_settings, $row_classname, $col_classname );
 
@@ -177,7 +194,12 @@ if( !function_exists( 'cartify_header_css_logo' ) ){
 
         $height = isset( $block_settings['css-height'] ) ? $block_settings['css-height'] : '';
 
-                                        
+        // $styles = "
+        //     {$row_classname} {$col_classname} {$block_classname} a{
+        //         height: {$height}
+        //     }
+        // ";
+
         $styles .= "{$row_classname} {$col_classname} {$block_classname} a{";
             $styles .= agni_header_prepare_css_styles(array(
                 'height' => $height,
@@ -213,11 +235,46 @@ if( !function_exists( 'cartify_header_css_menu' ) ){
 
         $wrap = $overflow_wrap == 'on' ? 'wrap' : '';
 
-                                                        
-                                                
-                                
-                                                                
-                                                                                
+        // if( !empty( $gutter ) ){
+        //     $styles .= "
+        //         {$row_classname} {$col_classname} {$block_classname}{
+        //             --cartify_header_menu_gap: {$gutter};
+        //         }
+        //     ";
+        // }
+
+        // $styles .= "
+        //     {$row_classname} {$col_classname} {$block_classname}{
+        //         --cartify_header_menu_max_width: {$max_width}; 
+        //         --cartify_header_menu_overflow_wrap: {$wrap}; 
+        //     }
+        // ";
+
+        // $styles .= "
+        //     {$row_classname} {$col_classname} {$block_classname} >ul >li >a{
+        //         color: {$color}
+        //     }
+
+        //     {$row_classname} {$col_classname} {$block_classname} >ul >li ul,
+        //     {$row_classname} {$col_classname} {$block_classname} >ul >li ul:before{
+        //         background-color: {$submenu_bg_color}
+        //     }
+        //     {$row_classname} {$col_classname} {$block_classname} >ul >li ul a{
+        //         color: {$submenu_color}
+        //     }
+        // ";
+
+        // $styles .= "
+        //     {$row_classname} {$col_classname} {$block_classname} a,
+        //     {$row_classname} {$col_classname} {$block_classname} li >ul a{
+        //         font-family: {$font_family};
+        //         font-weight: {$font_weight};
+        //         font-size: {$font_size}; 
+        //         letter-spacing: {$letter_spacing};
+        //         text-transform: {$text_transform};
+        //     }
+        // ";
+
 
 
         $styles .= "{$row_classname} {$col_classname} {$block_classname}{";
@@ -296,12 +353,48 @@ if( !function_exists( 'cartify_header_css_category_menu' ) ){
 
         $category_menu_repeatable = isset( $block_settings['menu-3-general-menu-choice'] ) ? $block_settings['menu-3-general-menu-choice'] : '';
 
-        
-                                                                                                        
-                                                
-                                                
-                                
-                                                            
+        // print_r( $block_settings, $row_classname, $col_classname );
+
+        // $styles .= "
+        //     {$row_classname} {$col_classname} {$block_classname} .site-header-category-dropdown__text{
+        //         font-family: {$category_text_1_font_family};
+        //         font-weight: {$category_text_1_font_weight};
+        //         font-size: {$category_text_1_font_size}; 
+        //         letter-spacing: {$category_text_1_letter_spacing};
+        //     }
+        //     {$row_classname} {$col_classname} {$block_classname} .site-header-category-dropdown__text-2{
+        //         font-family: {$category_text_2_font_family};
+        //         font-weight: {$category_text_2_font_weight};
+        //         font-size: {$category_text_2_font_size}; 
+        //         letter-spacing: {$category_text_2_letter_spacing};
+        //     }
+
+        //     {$row_classname} {$col_classname} {$block_classname} .category-dropdown-menu-nav-menu__title{
+        //         font-family: {$category_menu_title_font_family};
+        //         font-weight: {$category_menu_title_font_weight};
+        //         font-size: {$category_menu_title_font_size}; 
+        //         letter-spacing: {$category_menu_title_letter_spacing};
+        //     }
+
+        //     {$row_classname} {$col_classname} {$block_classname} .category-dropdown-menu-nav-menu__btn{
+        //         font-family: {$category_menu_button_font_family};
+        //         font-weight: {$category_menu_button_font_weight};
+        //         font-size: {$category_menu_button_font_size}; 
+        //         letter-spacing: {$category_menu_button_letter_spacing};
+        //     }
+
+        //     {$row_classname} {$col_classname} {$block_classname} .site-header-category-dropdown__text,
+        //     {$row_classname} {$col_classname} {$block_classname} .site-header-category-dropdown__text-2{
+        //         color: {$category_typo_color};
+        //     }
+
+                    //     {$row_classname} {$col_classname} {$block_classname} .burg-icon, 
+        //     {$row_classname} {$col_classname} {$block_classname} .burg-icon:before, 
+        //     {$row_classname} {$col_classname} {$block_classname} .burg-icon:after{
+        //         background-color: {$category_typo_color};
+        //     }
+        // ";
+
 
         $styles .= "{$row_classname} {$col_classname} {$block_classname} .site-header-category-dropdown__text{";
             $styles .= agni_header_prepare_css_styles(array(
@@ -374,7 +467,27 @@ if( !function_exists( 'cartify_header_css_category_menu' ) ){
 
                 $padding = ((int)$gap / 2);
 
-                                                                                                                                                                                                                                                                                                                                
+                // $styles .= "
+                // {$row_classname} {$col_classname} .category-menu-{$key} a{
+                //     font-family: {$font_family};
+                //     font-weight: {$font_weight};
+                //     font-size: {$font_size}; 
+                //     letter-spacing: {$letter_spacing};
+                //     color: {$color};
+                //     text-transform: {$text_transform};
+                // }
+                // {$row_classname} {$col_classname} .category-menu-{$key} .category-dropdown-menu-nav-menu__contents > ul > li{
+                //     padding-top: {$padding}px;
+                //     padding-bottom: {$padding}px;
+                // }
+                // {$row_classname} {$col_classname} .category-menu-{$key} .category-dropdown-menu-nav-menu__contents >ul >li ul{
+                //     background-color: {$submenu_bg_color}
+                // }
+                // {$row_classname} {$col_classname} .category-menu-{$key} .category-dropdown-menu-nav-menu__contents >ul >li ul a{
+                //     color: {$submenu_color}
+                // }
+                // ";
+
 
 
                 $styles .= "{$row_classname} {$col_classname} {$block_classname} .category-menu-{$key} a{";
@@ -416,7 +529,8 @@ if( !function_exists( 'cartify_header_css_category_menu' ) ){
         }
 
 
-                
+                // $styles .= cartify_header_css_process_typo_menu(); //apply_filter( '',  ); 
+
         return $styles;
     }
 }
@@ -460,7 +574,27 @@ if( !function_exists( 'cartify_header_css_search' ) ){
             ";
         }
 
-                                                                                                                                                                
+        // $styles .= "
+        //     {$row_classname} {$col_classname} {$block_classname} .site-header-icon-container{
+        //         width: {$icon_size};
+        //         height: {$icon_size};
+        //     }
+        //     {$row_classname} {$col_classname} {$block_classname}{
+        //         font-family: {$font_family};
+        //         font-weight: {$font_weight};
+        //         letter-spacing: {$letter_spacing};
+        //     }
+        //     {$row_classname} {$col_classname} {$block_classname} .agni-ajax-search-form{
+        //         background-color: {$form_bg_color};
+        //         border-color: {$form_border_color};
+        //     }
+        //     {$row_classname} {$col_classname} {$block_classname} .site-header-icon-search__text,
+        //     {$row_classname} {$col_classname} {$block_classname} .agni-ajax-search-form input[type='text'],
+        //     {$row_classname} {$col_classname} {$block_classname} .agni-ajax-search-form select{
+        //         font-size: {$font_size}; 
+        //     }
+        // ";
+
 
 
         if( $search_general_display_style == '1' && !empty( $search_general_icon_custom ) ){
@@ -527,8 +661,28 @@ if( !function_exists( 'cartify_header_css_additional_info' ) ){
         $additional_info_text_2_line_height = isset($block_settings['typo-line-height-2']) ? $block_settings['typo-line-height-2'] : '';
         $additional_info_color = isset( $block_settings['typo-color'] ) ? $block_settings['typo-color'] : '';
 
-                                                                                
-                                                                                
+        // $styles .= "
+        //     {$row_classname} {$col_classname} {$block_classname} {
+        //         text-align: {$additional_info_align};
+        //     }
+        //     {$row_classname} {$col_classname} {$block_classname} .site-header-additional-info__name{
+        //         font-family: {$additional_info_text_1_font_family};
+        //         font-weight: {$additional_info_text_1_font_weight};
+        //         font-size: {$additional_info_text_1_font_size};
+        //         letter-spacing: {$additional_info_text_1_letter_spacing};
+        //     }
+
+        //     {$row_classname} {$col_classname} {$block_classname} .site-header-additional-info__value{
+        //         font-family: {$additional_info_text_2_font_family};
+        //         font-weight: {$additional_info_text_2_font_weight};
+        //         font-size: {$additional_info_text_2_font_size};
+        //         letter-spacing: {$additional_info_text_2_letter_spacing};
+        //     }
+        //     {$row_classname} {$col_classname} {$block_classname}{
+        //         color: {$additional_info_color};
+        //     }
+        // ";
+
         $styles .= "{$row_classname} {$col_classname} {$block_classname} .site-header-additional-info__name{";
             $styles .= agni_header_prepare_css_styles(array(
                 'font-family' => $additional_info_text_1_font_family,
@@ -581,10 +735,44 @@ if( !function_exists( 'cartify_header_css_myaccount' ) ){
         $my_account_submenu_color = isset( $block_settings['typo-submenu-color'] ) ? $block_settings['typo-submenu-color'] : '';
         $my_account_submenu_bg_color = isset( $block_settings['typo-submenu-background-color'] ) ? $block_settings['typo-submenu-background-color'] : '';
 
-                                                                                        
-                                                                                
-                                                
-                                                        
+        // $styles .= "
+        //     {$row_classname} {$col_classname} {$block_classname} .site-header-icon-container{
+        //         width: {$icon_size};
+        //         height: {$icon_size};
+        //     }
+        //     {$row_classname} {$col_classname} {$block_classname}.site-header-icon .site-header-icon-myaccount__label{
+        //         font-family: {$my_account_text_1_font_family};
+        //         font-weight: {$my_account_text_1_font_weight};
+        //         font-size: {$my_account_text_1_font_size};
+        //         letter-spacing: {$my_account_text_1_letter_spacing};
+        //     }
+
+        //     {$row_classname} {$col_classname} {$block_classname}.site-header-icon .site-header-icon-myaccount__username{
+        //         font-family: {$my_account_text_2_font_family};
+        //         font-weight: {$my_account_text_2_font_weight};
+        //         font-size: {$my_account_text_2_font_size};
+        //         letter-spacing: {$my_account_text_2_letter_spacing};
+        //     }
+        //     {$row_classname} {$col_classname} {$block_classname} .site-header-icon-myaccount__label,
+        //     {$row_classname} {$col_classname} {$block_classname} .site-header-icon-myaccount__username{
+        //         color: {$my_account_color};
+        //     }
+
+        //     {$row_classname} {$col_classname} {$block_classname}.logged-in .site-header-icon-myaccount__contents{
+        //         background-color: {$my_account_submenu_bg_color};
+        //     }
+        //     {$row_classname} {$col_classname} {$block_classname}.logged-in .site-header-icon-myaccount__contents a{
+        //         color: {$my_account_submenu_color};
+        //     }
+
+        //     {$row_classname} {$col_classname} {$block_classname} svg{
+        //         fill: {$my_account_color}
+        //     }
+        //     {$row_classname} {$col_classname} {$block_classname} .site-header-icon-container{
+        //         color: {$my_account_color}
+        //     }
+        // ";
+
         $styles .= "{$row_classname} {$col_classname} {$block_classname} .site-header-icon-container{";
             $styles .= agni_header_prepare_css_styles(array(
                 'width' => $icon_size,
@@ -656,7 +844,17 @@ if( !function_exists( 'cartify_header_css_language' ) ){
         $language_letter_spacing = isset($block_settings['typo-letter-spacing']) ? $block_settings['typo-letter-spacing'] : '';
         $language_color = isset($block_settings['typo-color']) ? $block_settings['typo-color'] : '';
 
-                                                                                
+        // $styles .= "
+        //     {$row_classname} {$col_classname} {$block_classname} span,
+        //     {$row_classname} {$col_classname} {$block_classname} a{
+        //         font-family: {$language_font_family};
+        //         font-weight: {$language_font_weight};
+        //         font-size: {$language_font_size};
+        //         letter-spacing: {$language_letter_spacing};
+        //         color: {$language_color}
+        //     }
+        // ";
+
         $styles .= "{$row_classname} {$col_classname} {$block_classname} span,
         {$row_classname} {$col_classname} {$block_classname} a{";
             $styles .= agni_header_prepare_css_styles(array(
@@ -684,7 +882,17 @@ if( !function_exists( 'cartify_header_css_currency' ) ){
         $currency_letter_spacing = isset($block_settings['typo-letter-spacing']) ? $block_settings['typo-letter-spacing'] : '';
         $currency_color = isset($block_settings['typo-color']) ? $block_settings['typo-color'] : '';
 
-                                                                                
+        // $styles .= "
+        //     {$row_classname} {$col_classname} {$block_classname} span,
+        //     {$row_classname} {$col_classname} {$block_classname} a{
+        //         font-family: {$currency_font_family};
+        //         font-weight: {$currency_font_weight};
+        //         font-size: {$currency_font_size};
+        //         letter-spacing: {$currency_letter_spacing};
+        //         color: {$currency_color}
+        //     }
+        // ";
+
         $styles .= "{$row_classname} {$col_classname} {$block_classname} span,
         {$row_classname} {$col_classname} {$block_classname} a{";
             $styles .= agni_header_prepare_css_styles(array(
@@ -718,8 +926,32 @@ if( !function_exists( 'cartify_header_css_cart' ) ){
         $cart_text_2_letter_spacing = isset($block_settings['typo-letter-spacing-2']) ? $block_settings['typo-letter-spacing-2'] : '';
         $cart_color = isset( $block_settings['typo-color'] ) ? $block_settings['typo-color'] : '';
 
-                                                                                        
-                                                                                                        
+        // $styles .= "
+        //     {$row_classname} {$col_classname} {$block_classname} .site-header-icon-container{
+        //         width: {$icon_size};
+        //         height: {$icon_size};
+        //     }
+        //     {$row_classname} {$col_classname} {$block_classname} .site-header-icon-cart__text{
+        //         font-family: {$cart_text_1_font_family};
+        //         font-weight: {$cart_text_1_font_weight};
+        //         font-size: {$cart_text_1_font_size};
+        //         letter-spacing: {$cart_text_1_letter_spacing};
+        //     }
+
+        //     {$row_classname} {$col_classname} {$block_classname} .site-header-icon-cart__amount{
+        //         font-family: {$cart_text_2_font_family};
+        //         font-weight: {$cart_text_2_font_weight};
+        //         font-size: {$cart_text_2_font_size};
+        //         letter-spacing: {$cart_text_2_letter_spacing};
+        //     }
+        //     {$row_classname} {$col_classname} {$block_classname} > a{
+        //         color: {$cart_color};
+        //     }
+        //     {$row_classname} {$col_classname} {$block_classname} svg{
+        //         fill: {$cart_color};
+        //     }
+        // ";
+
         $styles .= "{$row_classname} {$col_classname} {$block_classname} .site-header-icon-container{";
             $styles .= agni_header_prepare_css_styles(array(
                 'width' => $icon_size,
@@ -760,9 +992,16 @@ if( !function_exists( 'cartify_header_css_cart' ) ){
         return $styles;
     }
 }
+// if( !function_exists( 'cartify_header_css_wishlist' ) ){
+//     function cartify_header_css_wishlist( $block_settings, $row_classname, $col_classname ){
+//         $styles = '';
+
+//         $block_classname = isset( $block_settings['className'] ) ? '.' . $block_settings['className'] : '';
 
 
-
+//         return $styles;
+//     }
+// }
 if( !function_exists( 'cartify_header_css_icon' ) ){
     function cartify_header_css_icon( $block_settings, $row_classname, $col_classname ){
         $styles = '';
@@ -776,7 +1015,23 @@ if( !function_exists( 'cartify_header_css_icon' ) ){
         $compare_letter_spacing = isset($block_settings['typo-letter-spacing']) ? $block_settings['typo-letter-spacing'] : '';
         $compare_color = isset($block_settings['typo-color']) ? $block_settings['typo-color'] : '';
 
-                                                                                                                                
+        // $styles .= "
+        //     {$row_classname} {$col_classname} {$block_classname} .site-header-icon-container{
+        //         width: {$icon_size};
+        //         height: {$icon_size};
+        //     }
+        //     {$row_classname} {$col_classname} {$block_classname} > a{
+        //         font-family: {$compare_font_family};
+        //         font-weight: {$compare_font_weight};
+        //         font-size: {$compare_font_size};
+        //         letter-spacing: {$compare_letter_spacing};
+        //         color: {$compare_color}
+        //     }
+        //     {$row_classname} {$col_classname} {$block_classname} svg{
+        //         fill: {$compare_color}
+        //     }
+        // ";
+
 
         $styles .= "{$row_classname} {$col_classname} {$block_classname} .site-header-icon-container{";
             $styles .= agni_header_prepare_css_styles(array(
@@ -816,7 +1071,19 @@ if( !function_exists( 'cartify_header_css_social' ) ){
         $social_letter_spacing = isset($block_settings['typo-letter-spacing']) ? $block_settings['typo-letter-spacing'] : '';
         $social_color = isset($block_settings['typo-color']) ? $block_settings['typo-color'] : '';
 
-                                                                                                
+        // $styles .= "
+        //     {$row_classname} {$col_classname} {$block_classname} a{
+        //         font-family: {$social_font_family};
+        //         font-weight: {$social_font_weight};
+        //         font-size: {$social_font_size};
+        //         letter-spacing: {$social_letter_spacing};
+        //         color: {$social_color}
+        //     }
+        //     {$row_classname} {$col_classname} {$block_classname} i{
+        //         color: {$social_color}
+        //     }
+        // ";
+
 
         $styles .= "{$row_classname} {$col_classname} {$block_classname} a{";
             $styles .= agni_header_prepare_css_styles(array(
@@ -929,7 +1196,10 @@ function cartify_header_css_spacing_processor( $block_settings, $row_classname, 
 function agni_header_prepare_css_styles($css_array){
     $css_values_array = [];
     foreach ($css_array as $key => $value) {
-                                if($value !== '' && $value !== 'px' && $value !== '%' && $value !== 'em' && $value !== 'rem' && $value !== 'vw' && $value !== 'vh'){
+        // if(!empty($value)){
+        //     $css_values_array[] = "{$key}:{$value};";
+        // }
+        if($value !== '' && $value !== 'px' && $value !== '%' && $value !== 'em' && $value !== 'rem' && $value !== 'vw' && $value !== 'vh'){
             $css_values_array[] = "{$key}:{$value};";
         }
     }

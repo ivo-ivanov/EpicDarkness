@@ -10,12 +10,18 @@ class Agni_Wishlist_Page {
             $this->wishlist_default = $_REQUEST['wishlist_id'];
         }
 
-                        add_action( 'wc_ajax_agni_wishlist_page', array( $this, 'ajax_wishlist_page' ) );
+        // add_action( 'agni_woocommerce_wishlist_dropdown', array( $this, 'wishlist_dropdown' ) );
+        // add_action( 'agni_woocommerce_wishlist_contents', array( $this, 'wishlist_contents' ) );
+        add_action( 'wc_ajax_agni_wishlist_page', array( $this, 'ajax_wishlist_page' ) );
 
     }
 
     public function contents(){
-        
+        /*?>
+        <div>
+            <?php $this->wishlist_header(); ?>
+        </div>
+        <?php*/
 
         wp_enqueue_script( 'cartify-wishlist' );
 
@@ -24,7 +30,7 @@ class Agni_Wishlist_Page {
             <div class="agni-wishlist-page__header">
                 <div class="agni-wishlist-page__dropdown">
                     <?php $this->wishlist_dropdown(); ?>
-                    <?php ?>
+                    <?php // do_action( 'agni_woocommerce_wishlist_dropdown' ); ?>
                 </div>
                 <div class="agni-wishlist-page__new">
                     <span class="agni-wishlist-page__new-link"><?php echo esc_html__( 'Create new wishlist', 'cartify' ); ?></span>
@@ -52,7 +58,7 @@ class Agni_Wishlist_Page {
                     $this->wishlist_page($this->wishlist_default);
                 }
                 ?>
-                <?php ?>
+                <?php // do_action( 'agni_woocommerce_wishlist_contents' ); ?>
             </div>
         </div>
 
@@ -83,7 +89,8 @@ class Agni_Wishlist_Page {
 
         $wishlists = get_posts( $args );
 
-        
+        // print_r($wishlists);
+
         if( !empty($wishlists) ){
 
             $set_wishlist_default = 0;
@@ -163,17 +170,21 @@ class Agni_Wishlist_Page {
 
         $product_ids = $this->get_product_ids($wishlist_id);
 
-        
+        // print_r($existing_product_ids_array); 
+
         if( !empty($product_ids) ){ ?>
             <?php 
             foreach ($product_ids as $key => $value) {
                 $product_id = $variation_id = "";
-                                $value_array = explode(':', $value);
+                // $value = '32:98';
+                $value_array = explode(':', $value);
                 $product_id = $value_array[0];
 
                 $product = wc_get_product( $product_id );
 
-                                                $price = wc_price( wc_get_price_to_display( $product ) );
+                // $price = wc_get_price_excluding_tax( $product ); // price without VAT
+                // $price = wc_get_price_including_tax( $product );  // price with VAT
+                $price = wc_price( wc_get_price_to_display( $product ) );
 
                 if( $product->is_type('variable') ){
                     $variation_id = !empty($value_array[1]) ? $value_array[1] : '';

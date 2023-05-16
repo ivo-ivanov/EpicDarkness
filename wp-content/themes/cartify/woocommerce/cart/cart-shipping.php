@@ -14,7 +14,7 @@
  *
  * @see https://docs.woocommerce.com/document/template-structure/
  * @package WooCommerce/Templates
- * @version 3.6.0
+ * @version 7.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -36,9 +36,12 @@ $calculator_text          = '';
 					<li>
 						<?php
 						if ( 1 < count( $available_methods ) ) {
-							printf( '<input type="radio" name="shipping_method[%1$d]" data-index="%1$d" id="shipping_method_%1$d_%2$s" value="%3$s" class="shipping_method" %4$s />', $index, esc_attr( sanitize_title( $method->id ) ), esc_attr( $method->id ), checked( $method->id, $chosen_method, false ) ); 						} else {
-							printf( '<input type="hidden" name="shipping_method[%1$d]" data-index="%1$d" id="shipping_method_%1$d_%2$s" value="%3$s" class="shipping_method" />', $index, esc_attr( sanitize_title( $method->id ) ), esc_attr( $method->id ) ); 						}
-						printf( '<label for="shipping_method_%1$s_%2$s">%3$s</label>', $index, esc_attr( sanitize_title( $method->id ) ), wc_cart_totals_shipping_method_label( $method ) ); 						do_action( 'woocommerce_after_shipping_rate', $method, $index );
+							printf( '<input type="radio" name="shipping_method[%1$d]" data-index="%1$d" id="shipping_method_%1$d_%2$s" value="%3$s" class="shipping_method" %4$s />', $index, esc_attr( sanitize_title( $method->id ) ), esc_attr( $method->id ), checked( $method->id, $chosen_method, false ) ); // WPCS: XSS ok.
+						} else {
+							printf( '<input type="hidden" name="shipping_method[%1$d]" data-index="%1$d" id="shipping_method_%1$d_%2$s" value="%3$s" class="shipping_method" />', $index, esc_attr( sanitize_title( $method->id ) ), esc_attr( $method->id ) ); // WPCS: XSS ok.
+						}
+						printf( '<label for="shipping_method_%1$s_%2$s">%3$s</label>', $index, esc_attr( sanitize_title( $method->id ) ), wc_cart_totals_shipping_method_label( $method ) ); // WPCS: XSS ok.
+						do_action( 'woocommerce_after_shipping_rate', $method, $index );
 						?>
 					</li>
 				<?php endforeach; ?>
@@ -47,7 +50,8 @@ $calculator_text          = '';
 				<p class="woocommerce-shipping-destination">
 					<?php
 					if ( $formatted_destination ) {
-												printf( esc_html__( 'Shipping to %s.', 'cartify' ) . ' ', '<span>' . esc_html( $formatted_destination ) . '</span>' );
+						// Translators: $s shipping destination.
+						printf( esc_html__( 'Shipping to %s.', 'cartify' ) . ' ', '<span>' . esc_html( $formatted_destination ) . '</span>' );
 						$calculator_text = esc_html__( 'Change address', 'cartify' );
 					} else {
 						echo apply_filters( 'woocommerce_shipping_estimate_html', esc_html__( 'Shipping options will be updated during checkout.', 'cartify' ) );
@@ -61,7 +65,22 @@ $calculator_text          = '';
 		elseif ( ! is_cart() ) :
 			echo apply_filters( 'woocommerce_no_shipping_available_html', esc_html__( 'There are no shipping options available. Please ensure that your address has been entered correctly, or contact us if you need any help.', 'cartify' ) );
 		else :
-						echo apply_filters( 'woocommerce_cart_no_shipping_available_html', sprintf( esc_html__( 'No shipping options were found for %s.', 'cartify' ) . ' ', '<span>' . esc_html( $formatted_destination ) . '</span>' ) );
+			echo wp_kses_post(
+				/**
+				 * Provides a means of overriding the default 'no shipping available' HTML string.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param string $html                  HTML message.
+				 * @param string $formatted_destination The formatted shipping destination.
+				 */
+				apply_filters(
+					'woocommerce_cart_no_shipping_available_html',
+					// Translators: $s shipping destination.
+					sprintf( esc_html__( 'No shipping options were found for %s.', 'cartify' ) . ' ', '<span>' . esc_html( $formatted_destination ) . '</span>' ),
+					$formatted_destination
+				)
+			);
 			$calculator_text = esc_html__( 'Enter a different address', 'cartify' );
 		endif;
 		?>

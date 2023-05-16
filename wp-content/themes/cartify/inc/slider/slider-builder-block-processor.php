@@ -39,6 +39,15 @@ function cartify_slider_slide( $slide ){
     $slide_classname = isset( $slide_settings['className'])?$slide_settings['className']: '';
 
 
+//     $slide_background_video_selfhosted = 'demo.agnidesigns.local/wp-content/uploads/2013/12/2014-slider-mobile-behavior-1.mov';
+//     $slide_background_video_external_link = "vimeo.com/73351257"; //"www.youtube.com/watch?v=ABatIcDswh4";
+//     $slide_background_video_fallback = 'demo.agnidesigns.local/wp-content/uploads/2008/06/windmill.jpg';
+// $slide_background_video_code = "autoPlay: true,
+// loop: true,
+// mute: true,
+// startAt: 0,
+// stopAt: 0,
+// vol: 50";
 
 
 
@@ -53,7 +62,9 @@ function cartify_slider_slide( $slide ){
 
 
 
-            $random_number = rand(10000, 99999);
+    // $slide_background_player_class = 'player-yt';
+    // $slide_background_player_class = 'player-vimeo';
+    $random_number = rand(10000, 99999);
     $slide_background_video_container_id = 'agni_slide_bg_'.$random_number;
 
     $slide_classes = array(
@@ -71,7 +82,8 @@ function cartify_slider_slide( $slide ){
 
     $slide_contents_classes = array(
         "agni-slide__contents",
-                $slide_content_width_choice,
+        // "fullwidth",
+        $slide_content_width_choice,
         $slide_content_placement
     );
 
@@ -104,8 +116,12 @@ function cartify_slider_slide( $slide ){
         </div>
         <div class="<?php echo esc_attr( cartify_prepare_classes($slide_contents_classes) ); ?>">
             <?php foreach ($slide_content as $key => $slide_block) {
-                                                
-                                                apply_filters( 'agni_slider_block_processor', $slide_block, $slide_settings );
+                // $slide_block_id = $slide_block['id'];
+                // $slide_block_settings = $slide_block['settings'];
+                // $slide_block_settings['content-animation'] = $slide_settings['content-animation'];
+
+                                // $this->get_block($slide_block, $slide_settings);
+                apply_filters( 'agni_slider_block_processor', $slide_block, $slide_settings );
             } ?>
         </div>
     </div>
@@ -155,7 +171,8 @@ if( !function_exists( 'cartify_slider_group' ) ){
         $agni_slide_group_classnames = array(
             'agni-slide-group',
             $block_classname,
-                        !empty( $content_animation ) ? $content_animation : ''
+            // !empty( $slide_text_bg_color ) ? 'has-background' : '',
+            !empty( $content_animation ) ? $content_animation : ''
         );
 
         ?>
@@ -165,7 +182,7 @@ if( !function_exists( 'cartify_slider_group' ) ){
             <?php } ?>
             <div class="agni-slide-group__contents">
                 <?php foreach ($block['content'] as $key => $innerBlock) { ?>                    
-                    <?php apply_filters( 'agni_slider_block_processor', $innerBlock, $slide_settings ); ?>
+                    <?php apply_filters( 'agni_slider_block_processor', $innerBlock, $slide_settings ); // apply_filters( 'agni_slider_block_image', $slide_block_settings ); ?>
                 <?php } ?>
             </div>
         </div>
@@ -191,7 +208,11 @@ if( !function_exists( 'cartify_slider_text' ) ){
             !empty( $slide_text_content_animation ) ? $slide_text_content_animation : ''
         );
 
-                                        
+        // $data_animista = array(
+        //     "name" => "fade-in-top", 
+        //     "offset" => "100%"
+        // )
+        /*  data-animista-options="<?php echo esc_attr( json_encode( $data_animista ) ); ?>" */
 
         ?>
         <div class="<?php echo esc_attr( cartify_prepare_classes($agni_slide_text_classnames) );?>">
@@ -293,8 +314,18 @@ if( !function_exists( 'cartify_slider_video' ) ){
         $options = isset( $block_options['options'] ) ? $block_options['options']: '';
         $fallback = isset( $block_options['fallback'] ) ? $block_options['fallback']: '';
 
-        
-                                                                        
+        // print_r( $options );
+
+        // $selfhosted = 'demo.agnidesigns.local/wp-content/uploads/2021/04/pexels-tima-miroshnichenko-6262756.mp4';
+        // $external_link = "vimeo.com/73351257"; //"www.youtube.com/watch?v=ABatIcDswh4";
+        // $fallback = 'demo.agnidesigns.local/wp-content/uploads/2008/06/windmill.jpg';
+        // $code = "autoPlay: true,
+        // loop: true,
+        // mute: true,
+        // startAt: 0,
+        // stopAt: 0,
+        // vol: 50";
+
         $visibility = isset( $block_options['visibility'] ) ? $block_options['visibility']: '';
 
         $content_animation = isset( $block_options['content-animation'] )?$block_options['content-animation']: '';

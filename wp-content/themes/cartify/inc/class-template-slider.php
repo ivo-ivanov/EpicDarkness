@@ -9,7 +9,10 @@ class Agni_Slider{
 
         $this->includes();
 
-                        
+        // if( is_admin() ){
+        //     add_action( 'after_setup_theme', array( $this, 'set_slider_presets') );
+        // }
+
         add_action( 'agni_slider', array($this, 'slider_init') );
 
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -29,7 +32,9 @@ class Agni_Slider{
             return;
         }
 
-                        
+                // wp_enqueue_style( 'cartify-slider-custom-'.$slider_id );
+        // wp_enqueue_style( 'cartify-animista' );
+
 
         $sliders = (array)get_option('agni_slider_builder_sliders');
 
@@ -39,7 +44,9 @@ class Agni_Slider{
                 $slides = $slider['content'];
                 $slider_settings = $slider['settings'];
 
-                                
+                // echo sizeof($slides);
+                // echo $slider['type'];
+
 
 
                                                                 $slider_constrained = isset($slider_settings['width-choice'])?$slider_settings['width-choice']: '';
@@ -92,12 +99,23 @@ class Agni_Slider{
                         }
                     }
 
-                    
-                    
-                                        
-                    
-                                                                                
+                    // $slider_settings_options = array();
 
+                    // $slider_settings_options_array = explode( ', ', trim(preg_replace('/\s+/', ' ', $slider_settings['slider-carousel-options'])) );
+
+                    // foreach ($slider_settings_options_array as $key => $value) {
+                    //     $value = explode( ':', $value );
+
+                    //     $boolean_check =  array( 'true', 'false' );
+
+                    //     $new_value = preg_replace('/[\s+\']/', '', $value[1]);
+                    //     $new_value = in_array( $new_value, $boolean_check ) ? filter_var($new_value, FILTER_VALIDATE_BOOLEAN) : $new_value;
+                    //     $slider_settings_options[preg_replace('/\s+/', '', $value[0])] = $new_value;
+                    // }
+
+/*
+
+*/
 
                     ?>
                     <div id="<?php echo esc_attr( 'agni-slider-' . $slider_id ); ?>" class="<?php echo esc_attr( cartify_prepare_classes($agni_slider_classnames) ) ?>" data-slick="<?php echo esc_attr( cartify_prepare_slick_options( $slider_settings['slider-carousel-options'] ) ); ?>" data-slick-slide-to-show="<?php echo esc_attr( json_encode( $new_slide_to_show ) ); ?>">
@@ -107,7 +125,8 @@ class Agni_Slider{
                     <div id="<?php echo esc_attr( 'agni-slider-' . $slider_id ); ?>" class="<?php echo esc_attr( cartify_prepare_classes($agni_slider_classnames) ) ?>">
                 <?php } ?>
                     <?php foreach ($slides as $key => $slide) {
-                                                $revised_slide = $slide;
+                        // $revised_slide = array_replace_recursive($slides[0], $slide); // new slide 1 array and keep global unchanged. 
+                        $revised_slide = $slide;
                         apply_filters( 'agni_slider_slide', $revised_slide );
                     } ?>
                 </div>
@@ -123,11 +142,21 @@ class Agni_Slider{
     }
 
 
-    
-                
-    
-            
-    
+    // public function set_slider_presets(){
+
+    //     if( !current_user_can( 'edit_posts' ) ){
+    //         return;
+    //     }
+    //     $slider = $slider_presets = array();
+
+    //     $slider_presets = Agni_Slider::get_slider_json_file( 'slider-presets' );
+
+    //     if( empty( get_option('agni_slider_builder_presets') ) ){
+    //         update_option( 'agni_slider_builder_presets', $slider_presets );
+    //     }
+
+    // }
+
     public static function get_slider_json_file( $filename = '' ){
 
         if( empty( $filename ) ){
@@ -159,8 +188,10 @@ class Agni_Slider{
 
                 $styles = apply_filters( 'agni_slider_css', $slider );
 
-                
-                                wp_register_style( 'cartify-slider-custom-'.$slider_id, AGNI_FRAMEWORK_CSS_URL . '/custom.css' );
+                // print_r( $styles );
+
+                // register styles
+                wp_register_style( 'cartify-slider-custom-'.$slider_id, AGNI_FRAMEWORK_CSS_URL . '/custom.css' );
 
                 wp_add_inline_style( 'cartify-slider-custom-'.$slider_id, $styles );
 

@@ -12,12 +12,13 @@
  *
  * @see     https://docs.woocommerce.com/document/template-structure/
  * @package WooCommerce\Templates
- * @version 4.6.0
+ * @version 7.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
-$order = wc_get_order( $order_id ); 
+$order = wc_get_order( $order_id ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.OverrideProhibited
+
 if ( ! $order ) {
 	return;
 }
@@ -75,16 +76,7 @@ if ( $show_downloads ) {
 				?>
 					<div class="woocommerce-table__summary-item <?php echo esc_attr($key); ?>">
 						<span><?php echo esc_html( $total['label'] ); ?></span>
-						<?php if( 'payment_method' === $key ){ ?>
-							<span><?php echo wp_kses( $total['value'], 'price' ); ?></span>
-
-						<?php } 
-						else if( 'order_total' === $key ){ ?>
-							<strong><?php echo wp_kses( $total['value'], 'price' ); ?></strong>
-						<?php } 
-						else{ ?>
-							<span><?php echo wp_kses( $total['value'], 'price' ); ?></span>
-						<?php } ?>
+						<strong><?php echo wp_kses( $total['value'], 'price' ); ?></strong>
 					</div>
 					<?php
 			}

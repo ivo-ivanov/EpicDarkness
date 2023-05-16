@@ -15,14 +15,29 @@
 get_header();?>
 
 <?php
+// if (!is_front_page()) {$page = new stdClass();
+//     $page->ID = get_option('page_for_posts');
+//     $agni_slider = '';
+//     $agni_slides_post_id = esc_attr(get_post_meta($page->ID, 'page_agni_sliders', true));
+//     foreach ((array) $agni_slides_post_id as $key => $slider) {
+//         echo agni_slider($slider, false);
+//     }
 
+//     echo agni_page_header($page->ID);
+// }
 ?>
 <?php do_action('agni_posts');?>
 
 <?php 
+// if(have_posts()){
 
+//     while(have_posts()){
+//         the_post();
 
+//         the_title();
+//     }
 
+// } 
 ?>
 
 <?php get_footer();?>

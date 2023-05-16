@@ -70,11 +70,19 @@ function cartify_footer_dock(){
     $dock_category_dropdown_show = cartify_get_theme_option( 'dock_settings_general_category_dropdown_show', '1' );
     $dock_shop_show = cartify_get_theme_option( 'dock_settings_general_shop_show', '1' );
 
-    
-        
-                
-                
-            
+    // if( $dock_myaccount_show ){
+
+    // }
+    // if( $dock_cart_show ){
+
+            // }
+    // if( $dock_category_dropdown_show ){
+
+            // }
+    // if( $dock_shop_show ){
+
+            // }
+
     if( $dock_myaccount_show ){
         if( !cartify_get_theme_option( 'agni_header_block_field_show_login_form', '' ) ){
             set_theme_mod( 'agni_header_block_field_show_login_form', '1' );
@@ -111,7 +119,9 @@ function cartify_footer_dock(){
         return;
     }
 
-        
+    // $header_login_form = cartify_get_theme_option( 'agni_header_block_field_show_login_form', '' );
+    // $header_sidecart = cartify_get_theme_option( 'agni_header_block_field_show_sidecart', '' );
+
     ?>
     <div class="agni-shop-dock">
         <div class="agni-shop-dock__container">
@@ -144,7 +154,8 @@ function cartify_footer_dock(){
                     $dock_categories_custom_link = cartify_get_theme_option( 'dock_settings_general_category_dropdown_link', '' );
 
                                         $dock_categories_icon = wp_kses( cartify_get_icon_svg( 'common', 'hamburger' ), 'svg' );
-                    
+                    // $dock_categories_link = '';
+
                                         $dock_categories_link_classes = array(
                         'agni-shop-dock-categories__link',
                         !empty($dock_shop_custom_link) ? 'has-custom-link' : ''

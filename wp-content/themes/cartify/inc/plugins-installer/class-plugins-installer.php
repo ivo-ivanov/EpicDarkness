@@ -1,7 +1,8 @@
 <?php
 
 if (!defined('ABSPATH')) {
-    exit; }
+    exit; // Exit if accessed directly.
+}
 
 if ( !class_exists( 'Plugin_Upgrader' ) ) {
     require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
@@ -32,7 +33,8 @@ class Agni_Plugins_Installer{
 
         add_action( 'admin_menu', array( $this, 'header_builder_menu_page') );
 
-        
+        // add_action( 'plugins_loaded', array( $this, 'install' ) );
+
         add_action( 'wp_ajax_activation', array( $this, 'activation' ), 10, 1 );
         add_action( 'wp_ajax_nopriv_activation', array( $this, 'activation' ), 10, 1 );
 
@@ -90,7 +92,20 @@ class Agni_Plugins_Installer{
                 'author'                => 'AgniHD',
                 'author_uri'            => esc_url( 'agnidesigns.com' )
             ), 
-                                                                                                                                                                        array(
+            // array(
+            //     'name'                  => 'Revolution Slider', 
+            //     'slug'                  => 'revslider', 
+            //     'source'                => 'bundled', 
+            //     'required'              => false,
+            //     'version'               => '6.0.6', 
+            //     'force_activation'      => false,
+            //     'force_deactivation'    => false,
+            //     'external_url'          => esc_url( 'revolution.themepunch.com/' ),
+            //     'author'                => 'themepunch',
+            //     'author_uri'            => esc_url( 'revolution.themepunch.com/' ),
+            //     'premium'               => true
+            // ),
+            array(
                 'name'                  => 'WooCommerce',
                 'slug'                  => 'woocommerce',
                 'source'                => '',
@@ -139,7 +154,9 @@ class Agni_Plugins_Installer{
             return false;
         }
 
-                
+        // wp_enqueue_style( 'agni-header-builder-react-style');
+        // wp_enqueue_script( 'agni-header-builder-react-script');
+
         $purchase_code = Agni_Product_Registration::get_purchase_code();
 
         ?>
@@ -173,7 +190,8 @@ class Agni_Plugins_Installer{
                                 'slug' => $plugin['slug'],
                                 'fields' => array(
                                     'version' => true,
-                                                                    )
+                                    // 'icons' => true
+                                )
                             );
 
                                             if ( ! function_exists( 'plugins_api' ) ) {
@@ -195,11 +213,14 @@ class Agni_Plugins_Installer{
                                 'redirection' => 5,
                                 'blocking'    => true,
                                 'httpversion' => '1.0',
-                                'sslverify'   => true,                             );
+                                'sslverify'   => true, // make it true for live
+                            );
 
-                                                        $response = wp_remote_get( esc_url_raw( $version_request_url ), $args );
+                            // Make an API request.
+                            $response = wp_remote_get( esc_url_raw( $version_request_url ), $args );
 
-                                                        $response_code    = wp_remote_retrieve_response_code( $response );
+                            // Check the response code.
+                            $response_code    = wp_remote_retrieve_response_code( $response );
                             $response_message = wp_remote_retrieve_response_message( $response );
 
                             $debugging_information['response_code']   = $response_code;
@@ -210,7 +231,8 @@ class Agni_Plugins_Installer{
                                 $latest_version = $response['body'];
                             }
 
-                                                    }
+                            // $latest_version = '3.0.0';
+                        }
 
                                                 ?>
                         <div class="agni-plugin <?php echo ( isset( $plugin['premium'] ) && $plugin['premium'] && empty($purchase_code)) ? 'disabled' : ''; ?>">
@@ -328,10 +350,12 @@ class Agni_Plugins_Installer{
 
             foreach ($plugin_info as $installedPluginPath => $value) {
                 if( $_POST['activate'] ){
-                                        $result = $this->activatePlugin( $installedPluginPath );
+                    // echo 'DIsplaying activate';
+                    $result = $this->activatePlugin( $installedPluginPath );
                 }
                 else if( $_POST['deactivate'] ){
-                                        $result = $this->deactivatePlugin( $installedPluginPath );
+                    // echo 'DIsplaying deactivate' . $installedPluginPath;
+                    $result = $this->deactivatePlugin( $installedPluginPath );
                 }
                 else if( $_POST['update'] ){
                     if( isset($_POST['premium']) && $_POST['premium'] ){
@@ -380,7 +404,8 @@ class Agni_Plugins_Installer{
             $result['description'] = $existing_plugin['Description'];
             $result['version'] = $existing_plugin['Version'];
             $result['author'] = $existing_plugin['AuthorName'];
-                        $result['installed'] = true;
+            // $result['author_uri'] = $existing_plugin['AuthorURI'];
+            $result['installed'] = true;
             $result['active'] = in_array( $key, (array) get_option( 'active_plugins', array() ), true );
 
             if( !empty( $existing_plugin['AuthorURI'] ) ){
@@ -391,16 +416,23 @@ class Agni_Plugins_Installer{
 
                 if( $plugin['source'] === 'bundled' && !empty($plugin['source']) ){
             if( empty( $plugin_info ) ){
-                                $result['name'] = $plugin['name'];
+                // $result['error'] = 'Need to add details';
+                $result['name'] = $plugin['name'];
                 $result['version'] = $plugin['version'];
                 $result['author'] = $plugin['author'];
-                
+                // $result['installed'] = false;
+
                 if( !empty( $plugin['author_uri'] ) ){
                     $result['author'] = '<a href="' .$plugin['author_uri'] . '">'.$plugin['author'].'</a>';
                 }
             }
         }
-                                                else{
+        // else if( !empty($plugin['source']) ){
+        //     if( empty( $plugin_info ) ){
+        //         $result['error'] = 'Need to add details';
+        //     }
+        // }
+        else{
             $args = array(
                 'slug' => $plugin['slug'],
                 'fields' => array(
@@ -420,7 +452,8 @@ class Agni_Plugins_Installer{
                     $result['name'] = $repo_plugin_info->name;
                     $result['version'] = $repo_plugin_info->version;
                     $result['author'] = $repo_plugin_info->author;
-                                    }
+                    // $result['author_uri'] = $repo_plugin_info->author_profile;
+                }
                 $result['thumb'] = $repo_plugin_info->icons['2x'];
 
                             }
@@ -429,7 +462,8 @@ class Agni_Plugins_Installer{
             }
         }
 
-                
+                // print_r( $result );
+
         return $result;
 
     }
@@ -452,13 +486,17 @@ class Agni_Plugins_Installer{
             } );
 
             foreach ($plugin_info as $installedPluginPath => $value) {
-                                                $result = activate_plugin( $installedPluginPath, self_admin_url( 'admin.php?page=agni_install_plugins' ) );
+                // return $installedPluginPath;
+                // activate_plugin($installedPluginPath);
+                $result = activate_plugin( $installedPluginPath, self_admin_url( 'admin.php?page=agni_install_plugins' ) );
                 if ( is_wp_error( $result ) ) {
                     echo esc_html( $result->get_error_message() );
                 }
 
 
-                                            }
+                // wp_redirect( self_admin_url( "admin.php?page=agni_install_plugins&activate=true" ) );
+                // exit;
+            }
         }
     }
 
@@ -468,18 +506,25 @@ class Agni_Plugins_Installer{
 
         $url = 'https://api.agnihd.com/agni-purchase-verifier/agni-purchase-verifier.php?get_token=1';
 
-                                
+        // $url = add_query_arg(array(
+        //     'domain' => Agni_Product_Registration::get_domain_name(),
+        //     'purchase_code' => Agni_Product_Registration::get_purchase_code()
+        // ), $url);
+
         $args = array(
             'headers'     => array(),
             'timeout'     => 60,
             'redirection' => 5,
             'blocking'    => true,
             'httpversion' => '1.0',
-            'sslverify'   => true,         );
+            'sslverify'   => true, // make it true for live
+        );
 
-                $response = wp_remote_get( esc_url_raw( $url ), $args );
+        // Make an API request.
+        $response = wp_remote_get( esc_url_raw( $url ), $args );
 
-                $response_code    = wp_remote_retrieve_response_code( $response );
+        // Check the response code.
+        $response_code    = wp_remote_retrieve_response_code( $response );
         $response_message = wp_remote_retrieve_response_message( $response );
 
         $debugging_information['response_code']   = $response_code;
@@ -487,12 +532,16 @@ class Agni_Plugins_Installer{
         $debugging_information['response_server'] = wp_remote_retrieve_header( $response, 'server' );
 
                 if ( is_array( $response ) && ! is_wp_error( $response ) ) {
-            $headers = $response['headers'];             $body    = $response['body']; 
-                        return json_decode( $body );
+            $headers = $response['headers']; // array of http header lines
+            $body    = $response['body']; // use the content
+
+            // return 'https://api.agnihd.com/agni-purchase-verifier/api.php?file=envato-market.zip&token=' . json_decode( $body );
+            return json_decode( $body );
         }
 
         return $response;
-            }
+        // $response = wp_remote_get( 'https://api.agnihd.com/agni-purchase-verifier/api.php' );
+    }
 
     public function activatePlugin( $pluginSlug ){
         $result = activate_plugin( $pluginSlug );
@@ -526,7 +575,8 @@ class Agni_Plugins_Installer{
         $installation_paths = array();
         foreach ($this->pluginsList() as $key => $plugin) {
             if( $plugin['slug'] === $pluginSlug ){
-                                if( empty( $plugin['source'] ) ){
+                // $source = $plugin['source'];
+                if( empty( $plugin['source'] ) ){
                     $args = array(
                         'slug' => $plugin['slug'],
                         'fields' => array(
@@ -546,7 +596,8 @@ class Agni_Plugins_Installer{
                     $source = $plugin['source'];
                 }
             }
-                    }
+            // print_r( $plugin );
+        }
 
         $skin = new Cartify_Plugin_Upgrader_Skin(); 
         $upgrader = new Plugin_Upgrader( $skin );
@@ -580,51 +631,64 @@ class Agni_Plugins_Installer{
     public function installPremiumPlugin( $pluginSlug, $token, $update = false ){
 
 
-                        
+                // $fileSystemDirect = new WP_Filesystem_Direct(false);
+        // $fileSystemDirect->rmdir($dir, true);
+
         $body = array(
             'file' => $pluginSlug . '.zip',
-                        'purchase_code' => Agni_Product_Registration::get_purchase_code(),
+            // 'item_code' => Agni_Product_Registration::get_item_code(),
+            'purchase_code' => Agni_Product_Registration::get_purchase_code(),
             'domain' => Agni_Product_Registration::get_domain_name()
         );
 
-                $url = 'https://api.agnihd.com/agni-purchase-verifier/agni-purchase-verifier.php?install_plugins=1' ;
+        // print_r( $body );
+        $url = 'https://api.agnihd.com/agni-purchase-verifier/agni-purchase-verifier.php?install_plugins=1' ;
 
 
         $args = array(
             'body'  => json_encode( $body ),
             'headers'     => array(
                 'Content-Type' => 'application/json',
-                                'Authorization' => 'Bearer ' . $token
+                // 'Content-Type' => 'application/octet-stream',
+                'Authorization' => 'Bearer ' . $token
             ),
             'timeout'     => 120,
             'redirection' => 5,
             'blocking'    => true,
             'httpversion' => '1.0',
-            'sslverify'   => true,         );
+            'sslverify'   => true, // make it true for live
+        );
 
-                $response = wp_remote_post( esc_url_raw( $url ), $args );
+        // Make an API request.
+        $response = wp_remote_post( esc_url_raw( $url ), $args );
 
-                $response_code    = wp_remote_retrieve_response_code( $response );
+        // Check the response code.
+        $response_code    = wp_remote_retrieve_response_code( $response );
         $response_message = wp_remote_retrieve_response_message( $response );
 
         $debugging_information['response_code']   = $response_code;
         $debugging_information['response_cf_ray'] = wp_remote_retrieve_header( $response, 'cf-ray' );
         $debugging_information['response_server'] = wp_remote_retrieve_header( $response, 'server' );
         $source = '';
-        
+        // print_r( $response );
+
         if( is_wp_error( $response ) ){
             echo wp_send_json_error( $response->errors );
         }
 
         if ( is_array( $response ) && !is_wp_error( $response ) ) {
-            $headers = $response['headers'];             $body    = $response['body']; 
-                        $decoded_body = json_decode($body);
+            $headers = $response['headers']; // array of http header lines
+            $body    = $response['body']; // use the content
+
+            // print_r( $body ); 
+            $decoded_body = json_decode($body);
             if( $decoded_body->error ){
                 echo wp_send_json( json_decode($body) );
             }
             else{
                 global $wp_filesystem;
-                                if (empty($wp_filesystem)) {
+                // Initialize the WP filesystem, no more using 'file-put-contents' function
+                if (empty($wp_filesystem)) {
                     require_once (ABSPATH . '/wp-admin/includes/file.php');
                     WP_Filesystem();
                 }

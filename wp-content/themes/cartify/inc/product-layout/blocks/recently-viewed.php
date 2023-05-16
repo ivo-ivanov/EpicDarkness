@@ -11,10 +11,13 @@ function cartify_template_product_layout_block_recently_viewed($block){
     $block_args = array();
 
     $block_args['posts_per_page'] = $posts_per_page;
-    
+    // $block_args['columns'] = $columns;
+
 
     add_filter( 'agni_recently_viewed_products_args', function ($args) use ($block_args){
-        $args['posts_per_page'] = $block_args['posts_per_page'];         
+        $args['posts_per_page'] = $block_args['posts_per_page']; // 4 related products
+        // $args['columns'] = $block_args['columns']; // arranged in 2 columns
+
         return $args;
     }, 10, 1 );
 

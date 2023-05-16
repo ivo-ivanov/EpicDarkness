@@ -1,5 +1,6 @@
 <?php
 
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -71,7 +72,7 @@ if (!function_exists('cartify_ajax_search')) {
                     <button type="submit" class="agni-ajax-search-form__submit"></button>
                     <input type="hidden" name="post_type" value="product" />
 
-                    <div class="agni-ajax-search__loader"><i class="lni lni-reload"></i><?php ?></div>
+                    <div class="agni-ajax-search__loader"><i class="lni lni-reload"></i><?php //echo esc_html__( 'Loading', 'cartify' ); ?></div>
                 </form>
                 <div class="agni-ajax-search-results">
                     <div class="agni-ajax-search-results__container"></div>
@@ -96,7 +97,12 @@ if (!function_exists('cartify_processing_ajax_search')) {
             return 'Invalid Nonce';
         }
 
-                                        
+        // option to enable/disable categories dropdown
+        // option to choose posttypes
+        // option to show/hide category results.
+        // suggested list of keywords at backend.
+        // option to show/hide out of stock.
+
         $keyword = $_POST['s'];
         $product_search_category = $_POST['product_cat'];
 
@@ -105,7 +111,8 @@ if (!function_exists('cartify_processing_ajax_search')) {
         $show_cat = '';
         $show_results_out_of_stock = '';
         $show_results_cat = '';
-        $relevanssi_search = 'off'; 
+        $relevanssi_search = 'off'; //off/on
+
 
         $category_args = array(
             'posts_per_page'     => $posts_per_page
@@ -185,7 +192,7 @@ if (!function_exists('cartify_processing_ajax_search')) {
 
                                                                  ?>
                             </div>
-                            <?php ?>
+                            <?php //the_title('<div class="product-title">', '</div>'); ?>
                             <div class="agni-ajax-search-result__title"><?php echo wp_kses( $product_title, array( 'span' => array( 'class' => array() ) ) ); ?></div>
                             <div class="agni-ajax-search-result__price">
                                 <span class="price">
@@ -215,14 +222,22 @@ if (!function_exists('cartify_processing_ajax_search')) {
                 ?>
                     <?php foreach( $term_ids as $term_id => $count ){
                         $term = get_term( $term_id , 'product_cat' );
-                        
+                        // $terms_array = array();
+
                         $term_name = $term->name;
 
-                                                                                                                        
-                                                                        ?>
+                        // $search_url = add_query_arg(array(
+                        //     's' => $keyword,
+                        //     'product_cat' => $term->slug,
+                        //     'post_type' => $post_types
+                        // ), esc_url(home_url('/')) );
+
+                        // $terms_array = ;
+                        // $term_name = str_ireplace( $keyword, '<span>'.$keyword.'</span>', $term_name );
+                        ?>
                         <li class="agni-ajax-search-result term">
                             <a href="<?php echo esc_url( cartify_ajax_search_url( $keyword, $post_types, $term->slug ) ); ?>" class="agni-ajax-search-result__link">
-                                <div class="agni-ajax-search-result__icon"><?php ?></div>
+                                <div class="agni-ajax-search-result__icon"><?php // echo cartify_get_icon_svg( 'common', 'search' ); ?></div>
                                 <div class="agni-ajax-search-result__title"><span class="keyword"><?php echo esc_html( $keyword ); ?></span><span class="sep"><?php echo esc_html__( 'in', 'cartify' );  ?></span><span><?php echo esc_html( $term->name ); ?></span></div>
                                 <div class="agni-ajax-search-result__categories"><?php echo esc_html__( 'in', 'cartify' );  ?><?php if($term->parent){
                                     cartify_ajax_search_get_category_parents( get_term( $term->parent , 'product_cat' ) ); 
@@ -317,7 +332,8 @@ if (!function_exists('cartify_ajax_search_scripts')) {
      */
     function cartify_ajax_search_scripts()
     {
-                wp_register_script('cartify-ajax-search', AGNI_FRAMEWORK_JS_URL . '/agni-ajax-search/agni-ajax-search.js', array('jquery'), wp_get_theme()->get('Version'), true);
+        // Registering JS
+        wp_register_script('cartify-ajax-search', AGNI_FRAMEWORK_JS_URL . '/agni-ajax-search/agni-ajax-search.js', array('jquery'), wp_get_theme()->get('Version'), true);
         wp_localize_script('cartify-ajax-search', 'cartify_ajax_search', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
             'security' => wp_create_nonce('agni_ajax_search_nonce'),

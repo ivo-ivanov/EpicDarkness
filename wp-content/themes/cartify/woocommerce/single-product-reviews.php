@@ -35,9 +35,9 @@ if ( ! comments_open() ) {
 				<?php
 				$commenter    = wp_get_current_commenter();
 				$comment_form = array(
-					
+					/* translators: %s is product title */
 					'title_reply'         => have_comments() ? esc_html__( 'Add a review', 'cartify' ) : sprintf( esc_html__( 'Be the first to review &ldquo;%s&rdquo;', 'cartify' ), get_the_title() ),
-					
+					/* translators: %s is product title */
 					'title_reply_to'      => esc_html__( 'Leave a Reply to %s', 'cartify' ),
 					'title_reply_before'  => '<span id="reply-title" class="comment-reply-title">',
 					'title_reply_after'   => '</span>',
@@ -80,7 +80,7 @@ if ( ! comments_open() ) {
 
 				$account_page_url = wc_get_page_permalink( 'myaccount' );
 				if ( $account_page_url ) {
-					
+					/* translators: %s opening and closing link tags respectively */
 					$comment_form['must_log_in'] = '<p class="must-log-in">' . sprintf( esc_html__( 'You must be %1$slogged in%2$s to post a review.', 'cartify' ), '<a href="' . esc_url( $account_page_url ) . '">', '</a>' ) . '</p>';
 				}
 
@@ -112,9 +112,10 @@ if ( ! comments_open() ) {
 			<?php
 			$count = $product->get_review_count();
 			if ( $count && wc_review_ratings_enabled() ) {
-				
+				/* translators: 1: reviews count 2: product name */
 				$reviews_title = sprintf( esc_html( _n( '%1$s review for %2$s', '%1$s reviews for %2$s', $count, 'cartify' ) ), esc_html( $count ), '<span>' . get_the_title() . '</span>' );
-				echo wp_kses( apply_filters( 'woocommerce_reviews_title', $reviews_title, $count, $product ), 'title' ); 			} else {
+				echo wp_kses( apply_filters( 'woocommerce_reviews_title', $reviews_title, $count, $product ), 'title' ); // WPCS: XSS ok.
+			} else {
 				esc_html_e( 'Reviews', 'cartify' );
 			}
 			?>
