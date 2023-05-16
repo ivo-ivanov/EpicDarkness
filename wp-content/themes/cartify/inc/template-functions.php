@@ -1,5 +1,6 @@
 <?php
 
+// Actions
 add_action( 'after_setup_theme', 'cartify_add_theme_support' );
 add_action( 'after_setup_theme', 'cartify_register_nav_menus' );
 
@@ -17,7 +18,9 @@ add_action( 'wp_enqueue_scripts', 'cartify_scripts' );
 add_action( 'admin_enqueue_scripts', 'cartify_admin_scripts' );
 add_action( 'enqueue_block_assets', 'cartify_block_assets' );
 add_action( 'enqueue_block_editor_assets', 'cartify_block_editor_assets' );
+// add_action( 'wp_enqueue_scripts', 'cartify_remove_default_block_styles' );
 
+// Filters
 add_filter( 'agni_content_block', 'cartify_agni_content_block', 10, 1 );
 add_filter( 'agni_get_posttype_options', 'cartify_posttype_options', 10, 2 );
 add_filter( 'wp_kses_allowed_html', 'cartify_allowed_html_tags', 10, 2 );
@@ -27,28 +30,48 @@ add_filter( 'wp_kses_allowed_html', 'cartify_allowed_html_tags', 10, 2 );
  */
 function cartify_add_theme_support()
 {
-    
+    /*
+     * Enable support for Post Thumbnails on posts and pages.
+     *
+     * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
+     */
     add_theme_support('post-thumbnails');
-        
-    
+    // add_image_size('cartify-standard-thumbnail', 960, 0, true);
+    // add_image_size('cartify-post-thumbnail', 960, 520, true);
+
+    /*
+	 * Enable support for WooCommerce.
+	 * See http://docs.woothemes.com/documentation/plugins/woocommerce/
+	 */
     add_theme_support('woocommerce');
 
-            
-        add_theme_support('customize-selective-refresh-widgets');
+    // add_theme_support( 'wc-product-gallery-zoom' );
+    // add_theme_support( 'wc-product-gallery-lightbox' );
+    // add_theme_support( 'wc-product-gallery-slider' );
 
-        add_theme_support('wp-block-styles');
+    // Add theme support for selective refresh for widgets.
+    add_theme_support('customize-selective-refresh-widgets');
 
-        add_theme_support('align-wide');
+    // Add support for Block Styles.
+    add_theme_support('wp-block-styles');
 
-        add_theme_support('editor-styles');
+    // Add support for full and wide align images.
+    add_theme_support('align-wide');
 
-        add_theme_support('editor-styles');
+    // Add support for editor styles.
+    add_theme_support('editor-styles');
 
-        add_editor_style('assets/css/blocks/prefixed-editor-style.css');
+    // Add support for editor styles.
+    add_theme_support('editor-styles');
 
-        add_theme_support( 'block-templates' );
+    // Enqueue editor styles.
+    add_editor_style('assets/css/blocks/prefixed-editor-style.css');
 
-        add_theme_support('responsive-embeds');
+    // Add support Block Templates
+    add_theme_support( 'block-templates' );
+
+    // Add support for responsive embedded content.
+    add_theme_support('responsive-embeds');
 
 }
 
@@ -59,11 +82,14 @@ function cartify_add_theme_support()
  */
 function cartify_register_nav_menus(){
 
-        register_nav_menus(array(
+    // This theme uses wp_nav_menu() in one location.
+    register_nav_menus(array(
         'primary' => esc_html__('Primary Menu', 'cartify'),
         'secondary' => esc_html__('Additional Menu', 'cartify'),
-                'category' => esc_html__('Category Menu', 'cartify'),
-            ));
+        // 'ternary' => esc_html__('Ternary Menu', 'cartify'),
+        'category' => esc_html__('Category Menu', 'cartify'),
+        // 'footer' => esc_html__('Footer Menu', 'cartify'),
+    ));
 }
 
 
@@ -74,7 +100,8 @@ function cartify_register_nav_menus(){
  */
 function cartify_widgets_init()
 {
-        register_sidebar(array(
+    // Sidebar widget
+    register_sidebar(array(
         'name' => esc_html__('Sidebar', 'cartify'),
         'id' => 'cartify-sidebar-1',
         'description' => esc_html__('Add widgets here.', 'cartify'),
@@ -84,7 +111,8 @@ function cartify_widgets_init()
         'after_title' => '</h2>',
     ));
 
-        register_sidebar(array(
+    // Footer widget
+    register_sidebar(array(
         'name' => esc_html__('Footerbar', 'cartify'),
         'id' => 'cartify-footerbar-1',
         'description' => esc_html__('Add widgets here.', 'cartify'),
@@ -102,40 +130,50 @@ if (!function_exists('cartify_scripts')) {
     function cartify_scripts()
     {
 
-                wp_register_style( 'lineicons', AGNI_FRAMEWORK_CSS_URL . '/LineIcons.min.css', array(), '1.0.1' );
+        // Registering CSS
+        wp_register_style( 'lineicons', AGNI_FRAMEWORK_CSS_URL . '/LineIcons.min.css', array(), '1.0.1' );
         wp_register_style( 'font-awesome', AGNI_FRAMEWORK_CSS_URL . '/fontawesome.min.css', array(), '5.12' );
         wp_register_style( 'slick', AGNI_FRAMEWORK_CSS_URL . '/slick.min.css', array(), wp_get_theme()->get('Version') );
         wp_register_style( 'cartify-photoswipe-style', AGNI_FRAMEWORK_CSS_URL . '/photoswipe.min.css', array(), wp_get_theme()->get('Version') );
         wp_register_style( 'cartify-custom-style', AGNI_FRAMEWORK_CSS_URL . '/custom.css', array(), wp_get_theme()->get('Version') );
-        
+        // wp_enqueue_style('lineicons');
+
         wp_enqueue_style( 'lineicons' );
         wp_enqueue_style( 'font-awesome' );
 
                 wp_register_style( 'cartify-animista', AGNI_FRAMEWORK_CSS_URL . '/animista.min.css', array(), wp_get_theme()->get('Version') ); 
 
 
-                        wp_enqueue_style( 'cartify-style', get_stylesheet_uri(), array(), wp_get_theme()->get('Version') );
+                // Enqueue Styles
+        wp_enqueue_style( 'cartify-style', get_stylesheet_uri(), array(), wp_get_theme()->get('Version') );
         wp_style_add_data( 'cartify-style', 'rtl', 'replace' );
 
 
-                        wp_register_script( 'slick', AGNI_FRAMEWORK_JS_URL . '/slick.min.js', array( 'jquery' ), wp_get_theme()->get('Version'), true );
+        // Registering JS
+        //wp_register_script('cartify-ajax-search', AGNI_FRAMEWORK_JS_URL . 'agni-ajax-search/agni-ajax-search.js', array('jquery'), '1.0');
+        wp_register_script( 'slick', AGNI_FRAMEWORK_JS_URL . '/slick.min.js', array( 'jquery' ), wp_get_theme()->get('Version'), true );
         wp_register_script( 'easyzoom', AGNI_FRAMEWORK_JS_URL . '/easyzoom.min.js', array(), wp_get_theme()->get('Version'), true );
         wp_register_script( 'threesixty', AGNI_FRAMEWORK_JS_URL . '/threesixty.min.js', array( 'jquery' ), wp_get_theme()->get('Version'), true );
         wp_register_script( 'js-cookie', AGNI_FRAMEWORK_JS_URL . '/js.cookie.min.js', array(), wp_get_theme()->get('Version'), true );
 
-                        wp_register_script( 'cartify-photoswipe-script', AGNI_FRAMEWORK_JS_URL . '/photoswipe.min.js', array( 'jquery' ), wp_get_theme()->get('Version'), true );
+        // wp_register_script( 'resize-sensor', AGNI_FRAMEWORK_JS_URL . '/resize-sensor.min.js', array( 'jquery' ), wp_get_theme()->get('Version'), true );
+        // wp_register_script( 'sticky-sidebar', AGNI_FRAMEWORK_JS_URL . '/sticky-sidebar.min.js', array( 'jquery', 'resize-sensor' ), wp_get_theme()->get('Version'), true );
+        wp_register_script( 'cartify-photoswipe-script', AGNI_FRAMEWORK_JS_URL . '/photoswipe.min.js', array( 'jquery' ), wp_get_theme()->get('Version'), true );
         wp_register_script( 'cartify-mb.ytplayer', AGNI_FRAMEWORK_JS_URL . '/jquery.mb.YTPlayer.min.js', array( 'jquery' ), '', true );
         wp_register_script( 'cartify-mb.vimeo_player', AGNI_FRAMEWORK_JS_URL . '/jquery.mb.vimeo_player.min.js', array( 'jquery' ), '', true );
         wp_register_script( 'cartify-rellax', AGNI_FRAMEWORK_JS_URL . '/rellax.min.js', '', '', true );
         wp_register_script( 'cartify-waypoint', AGNI_FRAMEWORK_JS_URL . '/jquery.waypoints.min.js', '', '', true );
-                wp_register_script( 'cartify-youtube-iframe_api', 'https://www.youtube.com/iframe_api', array( 'jquery' ), wp_get_theme()->get('Version'), true );
+        // Enqueueing JS
+        wp_register_script( 'cartify-youtube-iframe_api', 'https://www.youtube.com/iframe_api', array( 'jquery' ), wp_get_theme()->get('Version'), true );
 
 
-                if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
+        // Threaded comment reply styles.
+        if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
             wp_enqueue_script( 'comment-reply' );
         }
 
-                        wp_enqueue_script( 'cartify-scripts', AGNI_FRAMEWORK_JS_URL . '/scripts.js', array( 'jquery' ), wp_get_theme()->get('Version'), true );
+                // Enqueueing JS
+        wp_enqueue_script( 'cartify-scripts', AGNI_FRAMEWORK_JS_URL . '/scripts.js', array( 'jquery' ), wp_get_theme()->get('Version'), true );
 
     }
 }
@@ -150,7 +188,8 @@ if (!function_exists('cartify_admin_scripts')) {
         wp_register_style('lineicons', AGNI_FRAMEWORK_CSS_URL . '/LineIcons.min.css', array(), '1.0.1');
         wp_register_style('font-awesome', AGNI_FRAMEWORK_CSS_URL . '/fontawesome.min.css', array(), '5.12');
 
-                        wp_enqueue_style('cartify-admin-style', AGNI_FRAMEWORK_CSS_URL . '/admin/admin-style.css', array(), wp_get_theme()->get('Version'));
+                // Enqueueing CSS for admin 
+        wp_enqueue_style('cartify-admin-style', AGNI_FRAMEWORK_CSS_URL . '/admin/admin-style.css', array(), wp_get_theme()->get('Version'));
 
     }
 }
@@ -158,7 +197,10 @@ if (!function_exists('cartify_admin_scripts')) {
 if( !function_exists('cartify_block_assets') ){
     function cartify_block_assets(){
 
-                        
+        // // Registering CSS
+        // wp_register_style('lineicons', AGNI_FRAMEWORK_CSS_URL . '/LineIcons.min.css', array(), '1.0.1');
+        // wp_register_style('font-awesome', AGNI_FRAMEWORK_CSS_URL . '/fontawesome.min.css', array(), '5.12');
+
         wp_enqueue_style('cartify-block-styles', AGNI_FRAMEWORK_CSS_URL . '/blocks/blocks-style.css', array(), wp_get_theme()->get('Version'));
         wp_style_add_data( 'cartify-block-styles', 'rtl', 'replace' );
     }
@@ -174,9 +216,11 @@ if( !function_exists('cartify_block_editor_assets') ){
 
         wp_enqueue_style('lineicons');
         wp_enqueue_style('font-awesome');
-        
+        // wp_enqueue_style('cartify-animista');
 
-                     wp_enqueue_style('cartify-block-editor-styles', AGNI_FRAMEWORK_CSS_URL . '/blocks/editor-style.css', array(), wp_get_theme()->get('Version'));
+
+             // Enqueue Styles
+        wp_enqueue_style('cartify-block-editor-styles', AGNI_FRAMEWORK_CSS_URL . '/blocks/editor-style.css', array(), wp_get_theme()->get('Version'));
 
     }
 }
@@ -277,6 +321,7 @@ if (!function_exists('cartify_content_close_tag')) {
 }
 
 
+// Get Agni Block Contents
 function cartify_agni_content_block( $block_id = '' ){
     if( empty( $block_id ) ){
         return;
@@ -286,6 +331,11 @@ function cartify_agni_content_block( $block_id = '' ){
 
 }
 
+// function cartify_remove_default_block_styles(){
+//     wp_dequeue_style( 'wp-block-library' );
+//     wp_dequeue_style( 'wp-block-library-theme' );
+//     wp_dequeue_style( 'wc-blocks-style' ); // Remove WooCommerce block CSS
+// }
 
 
 function cartify_allowed_html_tags( $tags, $context ) {
@@ -491,14 +541,15 @@ function cartify_prepare_icon( $icon = '' ){
 	}
 
 	return $icon_html;
-	}
+	// return $icon_src
+}
 
 
 function cartify_prepare_css_styles($css_array){
-    $css_values_array = [];
+    $css_values_array = array();
     foreach ($css_array as $key => $value) {
         if(!empty($value)){
-            $css_values_array[] = "{$key}:{$value};";
+            array_push( $css_values_array, "{$key}:{$value};" );
         }
     }
     return implode(' ', array_filter($css_values_array));
@@ -526,7 +577,12 @@ function cartify_prepare_responsive_values($value_array = array(), $default = fa
         'mobile' => isset( $value_array['mobile'] ) ? $value_array['mobile'] : $default_array['mobile'],
     );
 
-                    
+    // echo "value array \n\n";
+    // print_r( $new_value_array );
+    // echo "value default \n\n";
+    // print_r( $default_array );
+    // echo "value ends \n\n";
+
     return $new_value_array;
 }
 
@@ -563,20 +619,23 @@ function cartify_get_theme_option( $option_name, $option_value = '' ){
 
 
 
-
+/* Admin Menu Panel */
 require_once AGNI_TEMPLATE_DIR . '/admin/admin.php';
 
-
+/* Agni Plugins Installer */
 require_once AGNI_TEMPLATE_DIR . '/product-registration/class-product-registration.php';
 
-
+/* Agni Plugins Installer */
 require_once AGNI_TEMPLATE_DIR . '/plugins-installer/class-plugins-installer.php';
 
+// configuration for Kirki theme options
 require AGNI_TEMPLATE_DIR . '/custom-kirki-options.php';
 
+// class for storing svg icons
 require AGNI_TEMPLATE_DIR . '/class-template-svg-icons.php';
 
 
+// functions for displaying basic theme stuffs
 require AGNI_TEMPLATE_DIR . '/class-template-header.php';
 require AGNI_TEMPLATE_DIR . '/template-functions-footer.php';
 require AGNI_TEMPLATE_DIR . '/template-functions-terms.php';
@@ -586,38 +645,55 @@ require AGNI_TEMPLATE_DIR . '/template-functions-portfolio.php';
 require AGNI_TEMPLATE_DIR . '/template-functions-404.php';
 require AGNI_TEMPLATE_DIR . '/template-functions-body.php';
 
+// Including Agni Megamenu
 require AGNI_TEMPLATE_DIR . '/agni-megamenu.php';
 
+// Including Agni Slider
 require AGNI_TEMPLATE_DIR . '/class-template-slider.php';
 
+// Including Agni Product Templates
 require AGNI_TEMPLATE_DIR . '/class-template-product-layouts.php';
 
+// functions for displaying woocommerce stuffs
 if (class_exists('WooCommerce')) {
 
-        require AGNI_TEMPLATE_DIR . '/template-functions-woocommerce.php';
+    // Theme WooCommerce function
+    require AGNI_TEMPLATE_DIR . '/template-functions-woocommerce.php';
 
-        require AGNI_TEMPLATE_DIR . '/agni-custom-tabs/agni-custom-tabs.php';
+    // Custom tabs for woocommerce
+    require AGNI_TEMPLATE_DIR . '/agni-custom-tabs/agni-custom-tabs.php';
 
-        require AGNI_TEMPLATE_DIR . '/agni-recently-viewed-products.php';
+    // Recently viewed products
+    require AGNI_TEMPLATE_DIR . '/agni-recently-viewed-products.php';
 
-        require AGNI_TEMPLATE_DIR . '/agni-ajax-login.php';
+    // agni login/register form
+    require AGNI_TEMPLATE_DIR . '/agni-ajax-login.php';
 
-        require AGNI_TEMPLATE_DIR . '/agni-ajax-search.php';
+    // Search form options
+    require AGNI_TEMPLATE_DIR . '/agni-ajax-search.php';
 
-        require AGNI_TEMPLATE_DIR . '/agni-ajax-sidecart.php';
+    // agni sidecart options
+    require AGNI_TEMPLATE_DIR . '/agni-ajax-sidecart.php';
 
-        require AGNI_TEMPLATE_DIR . '/agni-ajax-variation-swatches/agni-ajax-variation-swatches.php';
+    // agni swatches options
+    require AGNI_TEMPLATE_DIR . '/agni-ajax-variation-swatches/agni-ajax-variation-swatches.php';
 
-        require AGNI_TEMPLATE_DIR . '/agni-quickview.php';
+    // agni quickview
+    require AGNI_TEMPLATE_DIR . '/agni-quickview.php';
 
-        require AGNI_TEMPLATE_DIR . '/agni-wishlist/agni-wishlist.php';
+    // agni wishlist 
+    require AGNI_TEMPLATE_DIR . '/agni-wishlist/agni-wishlist.php';
 
-        require AGNI_TEMPLATE_DIR . '/agni-compare/agni-compare.php';
+    // agni compare
+    require AGNI_TEMPLATE_DIR . '/agni-compare/agni-compare.php';
 
-        require AGNI_TEMPLATE_DIR . '/agni-addon-products/agni-addon-products.php';
+    // agni addon products
+    require AGNI_TEMPLATE_DIR . '/agni-addon-products/agni-addon-products.php';
 
-        require AGNI_TEMPLATE_DIR . '/agni-additional-variation-images/agni-additional-variation-images.php';
+    // agni additional variation images options
+    require AGNI_TEMPLATE_DIR . '/agni-additional-variation-images/agni-additional-variation-images.php';
 
-        include AGNI_TEMPLATE_DIR . '/agni-multistep-navigation.php';
+    // agni multistep checkout tabs
+    include AGNI_TEMPLATE_DIR . '/agni-multistep-navigation.php';
 
 }

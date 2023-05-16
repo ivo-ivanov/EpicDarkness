@@ -2,6 +2,7 @@
 
 add_action( 'wp_enqueue_scripts', 'cartify_additional_variation_images_script' );
 add_action( 'admin_enqueue_scripts', 'cartify_additional_variation_images_admin_script' );
+// add_action( 'admin_footer', 'cartify_admin_template_scripts' );
 add_action( 'woocommerce_product_after_variable_attributes', 'cartify_add_additional_variation_images_uploader', 10, 3 );
 add_action( 'woocommerce_save_product_variation', 'cartify_save_additional_variation_images', 10, 2 );
 add_filter( 'woocommerce_available_variation', 'cartify_update_available_variations', 99, 1);
@@ -10,6 +11,9 @@ add_action( 'wc_ajax_agni_additional_variation_images', 'cartify_additional_vari
 add_action( 'wc_ajax_agni_additional_variation_images_reset', 'cartify_additional_variation_images_reset');
 
 
+// function cartify_admin_template_scripts(){
+//     require_once AGNI_TEMPLATE_DIR . '/agni-additional-variation-images/templates/template-admin-images.php';
+// }
 
 function cartify_add_additional_variation_images_uploader( $loop, $variation_data, $variation ) {
 	$meta_key = 'agni_product_variation_images';
@@ -67,7 +71,8 @@ function cartify_additional_variation_images(){
     $variation_id = $_POST['variation_id'];
 
     $product = wc_get_product( $product_id );
-        $available_variations = $product->get_available_variations();
+    //$variation = new WC_Product_Variation($variation_id);
+    $available_variations = $product->get_available_variations();
     $variation_image_id = '';
     ?>
     <?php
@@ -96,7 +101,28 @@ function cartify_additional_variation_images(){
 
         ?>
     <?php
-        
+        /*
+    ?>
+    <div class="<?php echo esc_attr( implode( ' ', array_map( 'sanitize_html_class', $wrapper_classes ) ) ); ?>" data-columns="<?php echo esc_attr( $columns ); ?>">
+        <figure class="woocommerce-product-gallery__wrapper">
+        <?php 
+
+            foreach( $available_variations as $variation ){
+                if( $variation_id == $variation['variation_id']){
+
+                                        if( $variation['image_id'] ){
+                        echo apply_filters( 'woocommerce_single_product_image_thumbnail_html', wc_get_gallery_image_html( $variation['image_id'], true ), $variation['image_id'] ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
+                    }
+                    foreach($variation['agni_variation_images'] as $variation_image_id){
+                        echo apply_filters( 'woocommerce_single_product_image_thumbnail_html', wc_get_gallery_image_html( $variation_image_id, true ), $variation_image_id ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
+                    }
+                }
+            }
+
+                    ?>
+        </figure>
+    </div>
+    <?php */
 
     die();
 }
@@ -121,11 +147,14 @@ function cartify_additional_variation_images_reset(){
 function cartify_additional_variation_images_admin_script($hook_suffix){
     global $post;
 
-    	    if(!in_array($hook_suffix, array('post.php', 'post-new.php') )){
+    //if ( 'product' !== $post->post_type ) {
+	    if(!in_array($hook_suffix, array('post.php', 'post-new.php') )){
 			return;
 		}
-	
-		if( !did_action( 'wp_enqueue_media' ) ) {
+	//}
+
+	// Enqueue JS
+	if( !did_action( 'wp_enqueue_media' ) ) {
         wp_enqueue_media();
 	}
 

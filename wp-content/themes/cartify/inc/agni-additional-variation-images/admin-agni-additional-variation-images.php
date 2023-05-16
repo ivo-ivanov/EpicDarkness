@@ -10,11 +10,14 @@ add_filter( 'woocommerce_available_variation', 'cartify_update_available_variati
 function cartify_additional_variation_images_admin_script($hook_suffix){
     global $post;
 
-    	    if(!in_array($hook_suffix, array('post.php', 'post-new.php') )){
+    //if ( 'product' !== $post->post_type ) {
+	    if(!in_array($hook_suffix, array('post.php', 'post-new.php') )){
 			return;
 		}
-	
-		if( !did_action( 'wp_enqueue_media' ) ) {
+	//}
+
+	// Enqueue JS
+	if( !did_action( 'wp_enqueue_media' ) ) {
         wp_enqueue_media();
 	}
 

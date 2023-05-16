@@ -16,7 +16,8 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+	exit; // Exit if accessed directly
+}
 
 get_header( 'shop' ); ?>
 
@@ -37,7 +38,7 @@ get_header( 'shop' ); ?>
 
 			<?php wc_get_template_part( 'content', 'single-product' ); ?>
 
-		<?php endwhile; ?>
+		<?php endwhile; // end of the loop. ?>
 
 	<?php
 		/**
@@ -60,4 +61,4 @@ get_header( 'shop' ); ?>
 <?php
 get_footer( 'shop' );
 
-
+/* Omit closing PHP tag at the end of PHP files to avoid "headers already sent" issues. */

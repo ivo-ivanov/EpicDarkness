@@ -33,10 +33,10 @@ defined( 'ABSPATH' ) || exit;
 
 		<?php foreach ( WC()->cart->get_coupons() as $code => $coupon ) : ?>
 			<div class="cart-discount coupon-<?php echo esc_attr( sanitize_title( $code ) ); ?>">
-				<span><?php echo apply_filters( 'agni_woocommerce_totals_coupon_label_text', '<i class="lni lni-tag"></i>' ); ?></span>
+				<span><?php echo apply_filters( 'agni_woocommerce_totals_coupon_label_text', '<i class="lni lni-tag"></i>' ); //wc_cart_totals_coupon_label( $coupon ); ?></span>
 				<span><?php echo esc_html($coupon->get_code()); ?></span>
 				<span><a href="<?php echo esc_url( add_query_arg( 'remove_coupon', rawurlencode( $coupon->get_code() ), defined( 'WOOCOMMERCE_CHECKOUT' ) ? wc_get_checkout_url() : wc_get_cart_url() ) ); ?>" class="woocommerce-remove-coupon" data-coupon="<?php echo esc_attr( $coupon->get_code() ) ?>"><?php echo esc_html_x( 'Remove', 'Cart coupon remove', 'cartify' ); ?></a></span>
-				<span data-title="<?php echo esc_attr( wc_cart_totals_coupon_label( $coupon, false ) ); ?>"><?php cartify_wc_cart_totals_coupon_html( $coupon ); ?></span>
+				<span data-title="<?php echo esc_attr( wc_cart_totals_coupon_label( $coupon, false ) ); ?>"><?php cartify_wc_cart_totals_coupon_html( $coupon ); //wc_cart_totals_coupon_html( $coupon ); ?></span>
 			</div>
 		<?php endforeach; ?>
 
@@ -70,14 +70,15 @@ defined( 'ABSPATH' ) || exit;
 			$estimated_text  = '';
 
 			if ( WC()->customer->is_customer_outside_base() && ! WC()->customer->has_calculated_shipping() ) {
-				
+				/* translators: %s location. */
 				$estimated_text = sprintf( ' <small>' . esc_html__( '(estimated for %s)', 'cartify' ) . '</small>', WC()->countries->estimated_for_prefix( $taxable_address[0] ) . WC()->countries->countries[ $taxable_address[0] ] );
 			}
 
 			if ( 'itemized' === get_option( 'woocommerce_tax_total_display' ) ) {
-				foreach ( WC()->cart->get_tax_totals() as $code => $tax ) { 					?>
+				foreach ( WC()->cart->get_tax_totals() as $code => $tax ) { // phpcs:ignore WordPress.WP.GlobalVariablesOverride.OverrideProhibited
+					?>
 					<div class="tax-rate tax-rate-<?php echo esc_attr( sanitize_title( $code ) ); ?>">
-						<span><?php echo esc_html( $tax->label ) . $estimated_text; ?></span>
+						<span><?php echo esc_html( $tax->label ) . $estimated_text; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 						<span data-title="<?php echo esc_attr( $tax->label ); ?>"><?php echo wp_kses( $tax->formatted_amount, array( 'span' => array( 'class' => array() ) ) ); ?></span>
 					</div>
 					<?php
@@ -85,7 +86,7 @@ defined( 'ABSPATH' ) || exit;
 			} else {
 				?>
 				<div class="tax-total">
-					<span><?php echo esc_html( WC()->countries->tax_or_vat() ) . $estimated_text; ?></span>
+					<span><?php echo esc_html( WC()->countries->tax_or_vat() ) . $estimated_text; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 					<span data-title="<?php echo esc_attr( WC()->countries->tax_or_vat() ); ?>"><?php wc_cart_totals_taxes_total_html(); ?></span>
 				</div>
 				<?php

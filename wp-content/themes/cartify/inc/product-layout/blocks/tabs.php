@@ -20,7 +20,8 @@ function cartify_template_product_layout_block_tabs($block){
         $display_title = cartify_prepare_responsive_values( $block_settings['heading-show'] );
     }
 
-        
+        // $sticky = cartify_prepare_responsive_values( $block_settings['sticky'] );
+
     $block_args['display-style'] = $display_style;
 
     add_filter( 'agni_product_tabs_display_shipping_info_title', function($args) use($display_title){
@@ -51,7 +52,8 @@ function cartify_template_product_layout_block_tabs($block){
         ($display_style == '3') ? 'has-accordion-style-' . $accordion_state : '',
         ( $display_style == '3' && $has_toggle ) ? 'has-toggle' : '',
         !empty($accordion_mobile) ? 'has-accordion-mobile' : '',
-                isset($block_settings['className']) ? $block_settings['className'] : ''
+        // !empty( $sticky ) ? 'sticky' : '',
+        isset($block_settings['className']) ? $block_settings['className'] : ''
     );
 
     ?>

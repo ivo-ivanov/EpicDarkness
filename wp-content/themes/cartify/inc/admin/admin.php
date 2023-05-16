@@ -1,7 +1,8 @@
 <?php 
 
 if (!defined('ABSPATH')) {
-    exit; }
+    exit; // Exit if accessed directly.
+}
 
 class Agni_Cartify_Dashboard {
 
@@ -10,14 +11,17 @@ class Agni_Cartify_Dashboard {
 
     public function __construct(){
 
-        
+        // $this->includes();
+
         add_action( 'admin_menu', array( $this, 'dashboard_menu_page' ) );
 
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
-                add_action( 'wp_ajax_agni_check_theme_update', array( $this, 'check_for_theme_update_ajax' ), 10, 1 );
+        // add_action( 'agni_check_theme_update', array( $this, 'check_for_theme_update' ), 10, 1 );
+        add_action( 'wp_ajax_agni_check_theme_update', array( $this, 'check_for_theme_update_ajax' ), 10, 1 );
         add_action( 'wp_ajax_agni_download_theme_update', array( $this, 'download_theme_update_ajax' ), 10, 1 );
-        
+        // add_action( 'wp_ajax_no_priv_agni_download_theme_update', array( $this, 'download_theme_update_ajax' ), 10, 1 );
+
         $this->init();
     }
 
@@ -32,9 +36,14 @@ class Agni_Cartify_Dashboard {
         }
     }
 
-            
+    // public function includes(){
+    //     include_once AGNI_TEMPLATE_DIR . '/admin/system-status.php';
+    // }
+
     public function dashboard_menu_page(){
-                        add_menu_page( esc_html__( 'Cartify', 'cartify' ), esc_html__( 'Cartify', 'cartify' ), 'edit_theme_options', 'cartify', array( $this, 'dashboard_welcome_page' ), AGNI_FRAMEWORK_IMG_URL . '/icon_logo_dark.svg', 2 );
+        //Creating top level menu as staff
+        //Use add_submenu_page for adding additional submenu
+        add_menu_page( esc_html__( 'Cartify', 'cartify' ), esc_html__( 'Cartify', 'cartify' ), 'edit_theme_options', 'cartify', array( $this, 'dashboard_welcome_page' ), AGNI_FRAMEWORK_IMG_URL . '/icon_logo_dark.svg', 2 );
 
         add_submenu_page( 'cartify', esc_html__( 'Admin Panel', 'cartify' ), esc_html__( 'Welcome', 'cartify' ), 'edit_theme_options', 'cartify', '', null );
 
@@ -64,15 +73,20 @@ class Agni_Cartify_Dashboard {
         $agni_product_registration = new Agni_Product_Registration();
 
         $args = array(
-                        'domain' => $agni_product_registration->get_domain_name(),
+            // 'item_code' => $agni_product_registration->get_item_code(),
+            'domain' => $agni_product_registration->get_domain_name(),
             'purchase_code' => $agni_product_registration->get_purchase_code(),
-                        'email' => $agni_product_registration->get_email(),
+            // 'envato_token' => $agni_product_registration->get_envato_token(),
+            'email' => $agni_product_registration->get_email(),
             'fetch' => true
         );
 
                 $buyer_info = Agni_Product_Activation::get_remote_buyer_info( $args );
 
-                        
+        // echo "Buyer Info:";
+        // print_r( $buyer_info->success );
+        // echo "ends";
+
         if( isset( $buyer_info->success ) ){
             $is_registered = true;
         }
@@ -115,7 +129,8 @@ class Agni_Cartify_Dashboard {
                                     <button class="agni-welcome-dashboard-themeinfo__btn"><?php echo sprintf( esc_html__( 'No update available', 'cartify' ), $latest_version ); ?></button>
                                 <?php } 
                             } ?>
-                            <?php  ?>
+                            <?php /*  ?> <button class="agni-welcome-dashboard-themeinfo__btn check-update"><?php echo esc_html__( 'Check for update', 'cartify' ); ?></button>
+                            <?php */ ?>
                         <?php }
                         else{ ?>
                             <a href="<?php echo esc_url( admin_url() ) ?>admin.php?page=agni_product_registration" class="agni-welcome-dashboard-themeinfo__btn unregistered"><?php echo esc_html__( 'Go to Registration', 'cartify' ); ?></a>
@@ -231,7 +246,8 @@ class Agni_Cartify_Dashboard {
         $info = apply_filters( 'agni_system_status', '' );
 
         $output = '';
-                $output .= "\n"; 
+        // $output = '`';
+        $output .= "\n"; 
         foreach ($info as $info_key => $info_type) { 
             $output .= '### ' . wp_strip_all_tags( $info_type['label'] ) . ' ###'; 
             $output .= "\n\n";
@@ -244,7 +260,8 @@ class Agni_Cartify_Dashboard {
             $output .= "\n";  
         }
         $output .= "\n"; 
-        
+        // $output .= '`';
+
         return $output;
     }
 
@@ -261,12 +278,15 @@ class Agni_Cartify_Dashboard {
             'redirection' => 5,
             'blocking'    => true,
             'httpversion' => '1.0',
-            'sslverify'   => true,         );
+            'sslverify'   => true, // make it true for live
+        );
 
-                $response = wp_remote_get( esc_url_raw( $version_request_url ), $args );
+        // Make an API request.
+        $response = wp_remote_get( esc_url_raw( $version_request_url ), $args );
 
 
-                $response_code    = wp_remote_retrieve_response_code( $response );
+        // Check the response code.
+        $response_code    = wp_remote_retrieve_response_code( $response );
         $response_message = wp_remote_retrieve_response_message( $response );
 
         $debugging_information['response_code']   = $response_code;
@@ -291,7 +311,10 @@ class Agni_Cartify_Dashboard {
         $current_version = $this->current_version;
 
         $is_new_version = version_compare($latest_version, $current_version, '>');
-                        
+        // if( version_compare($latest_version, $current_version, '>') ){
+        //     echo sprintf( esc_html__( ' (Update available - %s)', 'cartify' ), $latest_version ); 
+        // }
+
         wp_send_json(array(
             'version' => $latest_version,
             'new' => $is_new_version,
@@ -346,9 +369,13 @@ class Agni_Cartify_Dashboard {
 
             $get_token = Agni_Plugins_Installer::getToken();
 
-                
+        // $fileSystemDirect = new WP_Filesystem_Direct(false);
+        // $fileSystemDirect->rmdir($dir, true);
+
         $body = array(
-                                    'purchase_code' => Agni_Product_Registration::get_purchase_code(),
+            // 'file' => $pluginSlug . '.zip',
+            // 'item_code' => Agni_Product_Registration::get_item_code(),
+            'purchase_code' => Agni_Product_Registration::get_purchase_code(),
             'domain' => Agni_Product_Registration::get_domain_name()
         );
         $url = 'https://api.agnihd.com/agni-purchase-verifier/agni-purchase-verifier.php?update_theme=1' ;
@@ -357,30 +384,43 @@ class Agni_Cartify_Dashboard {
             'body'  => json_encode( $body ),
             'headers'     => array(
                 'Content-Type' => 'application/json',
-                                'Authorization' => 'Bearer ' . $get_token
+                // 'Content-Type' => 'application/octet-stream',
+                'Authorization' => 'Bearer ' . $get_token
             ),
             'timeout'     => 120,
             'redirection' => 5,
-                        'httpversion' => '1.0',
-            'sslverify'   => true,         );
+            // 'blocking'    => true,
+            'httpversion' => '1.0',
+            'sslverify'   => true, // make it true for live
+        );
 
-                
-                        $response = wp_remote_post( esc_url_raw( $url ), $args );
+        // print_r( $args );
+        // echo 'raw url: ' . esc_url_raw( $url );
 
-                $response_code    = wp_remote_retrieve_response_code( $response );
+                // Make an API request.
+        $response = wp_remote_post( esc_url_raw( $url ), $args );
+
+        // Check the response code.
+        $response_code    = wp_remote_retrieve_response_code( $response );
         $response_message = wp_remote_retrieve_response_message( $response );
 
         $debugging_information['response_code']   = $response_code;
         $debugging_information['response_cf_ray'] = wp_remote_retrieve_header( $response, 'cf-ray' );
         $debugging_information['response_server'] = wp_remote_retrieve_header( $response, 'server' );
         $source = '';
-        
+        // print_r( $response );
+
         if( is_wp_error( $response ) ){
-                        echo wp_send_json_error( $response->errors );
+            // echo wp_send_json_error( $response->get_error_message() );
+            echo wp_send_json_error( $response->errors );
         }
 
         if ( is_array( $response ) && !is_wp_error( $response ) ) {
-            $headers = $response['headers'];             $body    = $response['body'];                         
+            $headers = $response['headers']; // array of http header lines
+            $body    = $response['body']; // use the content
+            // print_r( $headers );
+            // print_r( $body );
+
             $theme_slug = $headers['Filename'];
             $decoded_body = json_decode($body);
 
@@ -389,7 +429,8 @@ class Agni_Cartify_Dashboard {
             }
             else{
                 global $wp_filesystem;
-                                if (empty($wp_filesystem)) {
+                // Initialize the WP filesystem, no more using 'file-put-contents' function
+                if (empty($wp_filesystem)) {
                     require_once (ABSPATH . '/wp-admin/includes/file.php');
                     WP_Filesystem();
                 }

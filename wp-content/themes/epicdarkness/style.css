@@ -19,8 +19,6 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
 body,
 .site-content {
     background-color: #161616;
-    //background: url('assets/images/bgr.jpg') no-repeat center center fixed;
-    //background-size: cover;
     background: url('assets/images/bgr.jpg') no-repeat center center fixed;
     background-size: cover;
 }
@@ -36,7 +34,7 @@ body,
 }
 
 body {
-    padding-top: 110px;
+    padding-top: 104px;
 }
 
 .site-header-icon-cart__count {

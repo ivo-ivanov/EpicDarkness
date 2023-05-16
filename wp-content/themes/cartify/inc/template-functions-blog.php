@@ -21,7 +21,7 @@ function cartify_archive_header($blog_query){
 
         if ( $blog_query->found_posts ) {
             $archive_subtitle = sprintf(
-                
+                /* translators: %s: Number of search results. */
                 _n(
                     'We found %s result for your search.',
                     'We found %s results for your search.',
@@ -96,7 +96,8 @@ function cartify_post_date() {
 		'<a href="' . esc_url( get_permalink() ) . '" rel="bookmark">' . $time_string . '</a>'
 	);
 
-    return '<div class="posted-on">' . $posted_on . '</div>'; 
+    return '<div class="posted-on">' . $posted_on . '</div>'; // WPCS: XSS OK.
+
         ?>
     <?php
 
@@ -130,8 +131,9 @@ function cartify_post_author_bio(){
 }
 
 function cartify_post_cat() {
-		if ( 'post' == get_post_type() ) {
-		
+	// Hide category and tag text for pages.
+	if ( 'post' == get_post_type() ) {
+		/* translators: used between list items, there is a space after the comma */
 		$categories_list = get_the_category_list();
 		if ( $categories_list ) {
 			return '<div class="cat-links">'.$categories_list.'</div>';
@@ -140,10 +142,13 @@ function cartify_post_cat() {
 }
 
 function cartify_post_tag() {
-		if ( 'post' == get_post_type() ) {
-		
-		$tags_list = get_the_tag_list( '', esc_html__( ' ', 'cartify' ) );		if ( $tags_list ) {
-			printf( '<span class="tags-links">' . esc_html__( '%1$s', 'cartify' ) . '</span>', $tags_list ); 		}
+	// Hide category and tag text for pages.
+	if ( 'post' == get_post_type() ) {
+		/* translators: used between list items, there is a space after the comma */
+		$tags_list = get_the_tag_list( '', esc_html__( ' ', 'cartify' ) );// comma deleted 
+		if ( $tags_list ) {
+			printf( '<span class="tags-links">' . esc_html__( '%1$s', 'cartify' ) . '</span>', $tags_list ); // WPCS: XSS OK.
+		}
 	}
 }
 
@@ -163,7 +168,8 @@ function cartify_posts_navigation( $blog_query ){
                 'add_args'     => '',
                 'current'      => max( 1, $paged ),
                 'total'        => $blog_query->max_num_pages,
-                                'prev_text' => sprintf(
+                // 'prev_next'    => true,
+                'prev_text' => sprintf(
                     '<i class="lni lni-chevron-left"></i><span class="nav-prev-text">%s</span>',
                     esc_html__( 'Newer Posts', 'cartify' )
                 ), 
@@ -171,7 +177,9 @@ function cartify_posts_navigation( $blog_query ){
                     '<span class="nav-next-text">%s</span><i class="lni lni-chevron-right"></i>',
                     esc_html__( 'Older Posts', 'cartify' )
                 ),
-                                                'mid_size'     => 1,
+                // 'type'         => 'list',
+                // 'end_size'     => 1,
+                'mid_size'     => 1,
             )), array(
                 'i' => array( 'class' => array() ),
                 'span' => array( 'class' => array() ),
@@ -199,8 +207,10 @@ if (!function_exists('cartify_sidebar')) {
 if (!function_exists('cartify_post_sidebar')) {
     function cartify_post_sidebar( $sidebar = 'no-sidebar' ) {
 
-                    get_sidebar();
-        
+        // if( $sidebar != 'no-sidebar' ){
+            get_sidebar();
+        // }  
+
             }
 }
 
@@ -279,7 +289,8 @@ if (!function_exists('cartify_posts')) {
         $post_id = get_the_id();
 
         if( is_front_page() && is_home() ){
-                        $blog_sidebar = cartify_get_theme_option( 'blog_settings_general_sidebar', 'right' );
+            // $blog_sidebar = cartify_get_theme_option( 'blog_settings_general_sidebar', 'no-sidebar' );
+            $blog_sidebar = cartify_get_theme_option( 'blog_settings_general_sidebar', 'right' );
         }
         else if( is_home() ) {
             $post_id = get_option( 'page_for_posts' );
@@ -491,7 +502,7 @@ if( !function_exists('cartify_post_single') ){
                                 <div class="blog-post-thumbnail"><?php 
                                     apply_filters( 'agni_blog_post_thumbnail', the_post_thumbnail() ); 
                                 ?></div>
-                                <?php ?>
+                                <?php // the_title( '<h1 class="entry-title">', '</h1>' ); ?>
                                 <div class="blog-post-cat">
                                     <?php echo apply_filters( 'agni_post_date', cartify_post_cat() ); ?>
                                 </div>
@@ -515,14 +526,15 @@ if( !function_exists('cartify_post_single') ){
                     <div class="agni-post-author-bio"><?php echo apply_filters( 'agni_post_author_bio', cartify_post_author_bio() ) ?></div>
                     <div class="agni-post-navigation"><?php echo apply_filters( 'agni_post_navigation', cartify_post_navigation() ); ?></div>
                     <?php
-                                                if ( comments_open() || get_comments_number() ) :
+                        // If comments are open or we have at least one comment, load up the comment template.
+                        if ( comments_open() || get_comments_number() ) :
                             comments_template();
                         endif;
                     ?>
                 </main>
             </div>
 
-            <?php ?>
+            <?php // do_action( 'agni_post_single_sidebar', $blog_single_sidebar ); ?>
         </div>
         <?php
     }

@@ -37,12 +37,15 @@ function cartify_product_data_addon_products_custom_field(){
         }
     }
 
-		?><div id='agni-addon-products' class='panel woocommerce_options_panel'><?php
+	// Note the 'id' attribute needs to match the 'target' parameter set above
+	?><div id='agni-addon-products' class='panel woocommerce_options_panel'><?php
 
 		?><div class='options_group'>
             <?php
 
-                        
+            // product type : simple
+            // product id : except current id
+
             if( function_exists('woocommerce_wp_select_multiple') ){
                 woocommerce_wp_select_multiple(
                     array(
@@ -79,17 +82,21 @@ function cartify_addon_products_search_results(){
 
     $product_list = array();
     $args = array( 
-        's'=> $_GET['q'],         'post_type'             => 'product',
-		'post_status' => 'publish',         'ignore_sticky_posts' => 1,
+        's'=> $_GET['q'], // the search query
+        'post_type'             => 'product',
+		'post_status' => 'publish', // if you don't want drafts to be returned
+        'ignore_sticky_posts' => 1,
         'post__not_in' => array( $_GET['ignore_id'] ),
-        'posts_per_page' => 10,     );
+        'posts_per_page' => 10, // how much to show at once
+    );
 
      $products_addon_products_query = new WP_Query( $args );
 	if( $products_addon_products_query->have_posts() ) {
         while( $products_addon_products_query->have_posts() ) { $products_addon_products_query->the_post();
             $get_product_type = wc_get_product( $products_addon_products_query->post->ID );
             if( $get_product_type->get_type() == 'simple' ){
-                $product_list[] = array( $products_addon_products_query->post->ID, $products_addon_products_query->post->post_title );             }
+                $product_list[] = array( $products_addon_products_query->post->ID, $products_addon_products_query->post->post_title ); // array( Post ID, Post Title )
+            }
         }
     }
 
@@ -102,7 +109,8 @@ function cartify_addon_products_search_results(){
 
 function cartify_admin_addon_products_scripts(){
 
-        wp_enqueue_script('cartify-admin-addon-products', AGNI_FRAMEWORK_JS_URL . '/agni-addon-products/admin-agni-addon-products.js', array('jquery', 'select2'), wp_get_theme()->get('Version'), true);
+    // Registering JS for Addon Products
+    wp_enqueue_script('cartify-admin-addon-products', AGNI_FRAMEWORK_JS_URL . '/agni-addon-products/admin-agni-addon-products.js', array('jquery', 'select2'), wp_get_theme()->get('Version'), true);
 }
 
 

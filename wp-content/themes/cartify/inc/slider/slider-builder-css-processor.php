@@ -36,11 +36,13 @@ if( !function_exists('cartify_slider_css') ){
                 $styles .= apply_filters( 'agni_slider_slide_css_parser', $slide['settings'] );
 
                 foreach ($slide['content'] as $block_key => $block) {
-                                        if(isset($slide['settings']['content-animation-type']) && $slide['settings']['content-animation-type'] == 'sequential'){
+                    // print_r($block);
+                    if(isset($slide['settings']['content-animation-type']) && $slide['settings']['content-animation-type'] == 'sequential'){
                         $block['settings']['key'] = $block_key + 1;
                     }
                     $block['settings']['className'] = $slide['settings']['className'] . ' .' . $block['settings']['className'];
-                    
+                    // print_r($block['settings']);
+
                     $styles .= apply_filters( 'agni_slider_css_parser', $block['settings'] );
                     $styles .= apply_filters( 'agni_slider_css_block_processor', $block );
 
@@ -93,10 +95,16 @@ function cartify_slider_css_text( $block_settings ){
     $block_classname = isset( $block_settings['className'] ) ? $block_settings['className'] : '';
 
 
-    
+    // print_r( $block_settings );
+
     $styles = '';
 
-                    
+    // $styles .= "
+    // .agni-slider{$block_classname}{
+    //     font-size: var(--cartify_font_size_small_1);
+    // }
+    // ";
+
     $new_block_settings = array();
 
     $css_text_pattern = 'cssText';
@@ -161,8 +169,16 @@ function cartify_slider_css_group( $settings ){
         --agni_slider_group_align:{$align};
     }";
 
-                            
-    
+    // if( !empty( $gutter ) ){
+    //     $styles .= "
+    //     {$classname} {
+    //         --agni_slider_slide_gap:{$gutter};
+    //     }
+    //     ";
+    // }
+
+    // $styles .= apply_filters( 'agni_slider_css_parser', $settings );
+
 
     return $styles;
 }
@@ -337,7 +353,8 @@ if( !function_exists( 'cartify_slider_slide_css_parser' ) ){
 
 if( !function_exists( 'cartify_slider_css_parser' ) ) {
     function cartify_slider_css_parser( $settings ){
-                $styles = '';
+        // print_r($settings);
+        $styles = '';
         $field_keys = array();
 
         $animation_delay_duration = 250;
@@ -378,9 +395,16 @@ if( !function_exists( 'cartify_slider_css_parser' ) ) {
                 }
             }
 
-                                                                        
+            // if( strpos($field_key, $repeatable_pattern) !== false ){
+            //     foreach ($field_value as $index => $button) {
+            //         $button['className'] = $classname . ' .btn-' . $index;
+            //         $styles .= apply_filters( 'agni_slider_css_parser', $button );
+            //     }
+            // }
+
             if( strpos($field_key, $array_pattern) !== false ){
-                                $font_values = $field_value;
+                // print_r($field_value);
+                $font_values = $field_value;
                 $font_values['className'] = $classname;
 
                 $styles .= apply_filters( 'agni_slider_css_parser', $font_values );
@@ -411,14 +435,18 @@ if( !function_exists( 'cartify_slider_css_array_parser' ) ){
                 else if( $device == 'tab' ){
                     $break_point = '667px';
                 }
-                                                
+                // else if( $device == 'mobile' ){
+                //     $break_point = '';
+                // }
+
                                 if( $device !== 'common' && $device !== 'mobile' ){
                     $styles .= '@media (min-width: ' . $break_point . '){';
                 }
                 $styles .= $classname . '{';
                 foreach ($css as $key => $value) {
                     if( $value !== '' && $value !== 'px' && $value !== '%' && $value !== 'em' && $value !== 'rem' && $value !== 'vw' && $value !== 'vh' ){
-                                                $styles .= $key . ': ' . $value . '; ';
+                        // echo "key: " . $key . "value: " . $value . "\n";
+                        $styles .= $key . ': ' . $value . '; ';
                     }
                 }
                 $styles .= '}';

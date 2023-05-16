@@ -726,33 +726,36 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       }
     };
     $.social_login_google = {
+      parseJwt: function parseJwt(token) {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        return JSON.parse(jsonPayload);
+      },
+      handleCredentialResponse: function handleCredentialResponse(response) {
+        $.social_login_google.sendProfileAjax($.social_login_google.parseJwt(response.credential));
+      },
       init: function init($this) {
         if (cartify_woocommerce.google_client_id) {
-          console.log("found client id");
-          gapi.load('auth2', function () {
-            var auth2 = gapi.auth2.init({
-              client_id: cartify_woocommerce.google_client_id,
-              cookiepolicy: 'single_host_origin'
-            });
-            $this.on('click', function () {
-              var isSignedIn = auth2.isSignedIn.get();
-              if (!isSignedIn) {
-                auth2.signIn().then(function () {
-                  $.social_login_google.sendProfileAjax($this, auth2.currentUser.get().getBasicProfile());
-                });
-              } else {
-                $.social_login_google.sendProfileAjax($this, auth2.currentUser.get().getBasicProfile());
-              }
-            });
+          google.accounts.id.initialize({
+            client_id: cartify_woocommerce.google_client_id,
+            callback: $.social_login_google.handleCredentialResponse
           });
+          google.accounts.id.renderButton(document.getElementById("login-btn-google"), {
+            theme: "outline",
+            size: "large"
+          });
+          google.accounts.id.prompt();
         }
       },
       sendProfileAjax: function sendProfileAjax($this, response) {
         var data = {
-          id: response.getId(),
-          name: response.getName(),
-          email: response.getEmail(),
-          picture: response.getImageUrl()
+          id: response.sub,
+          name: response.name,
+          email: response.email,
+          picture: response.picture
         };
         $.ajax({
           url: cartify_woocommerce.ajaxurl_wc.toString().replace('%%endpoint%%', 'agni_social_login'),

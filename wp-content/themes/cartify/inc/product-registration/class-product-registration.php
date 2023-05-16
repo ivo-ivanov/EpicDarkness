@@ -1,7 +1,8 @@
 <?php
 
 if (!defined('ABSPATH')) {
-    exit; }
+    exit; // Exit if accessed directly.
+}
 
 class Agni_Product_Registration{
 
@@ -70,7 +71,8 @@ class Agni_Product_Registration{
 
     public static function get_item_code(){
 
-                return 'nsc8rc78xkkutjsb';     }
+                return 'nsc8rc78xkkutjsb'; // ct8x664f6tz9n4jz
+    }
 
 
     public static function get_item_id(){
@@ -93,12 +95,15 @@ class Agni_Product_Registration{
 
     public function product_registration_page(){
 
-                add_submenu_page( 'cartify', esc_html__( 'Product Registration', 'cartify' ), esc_html__( 'Product Registration', 'cartify' ), 'edit_theme_options', 'agni_product_registration', array( $this, 'contents' ), $this->defaults['position'] );
+        // add_menu_page( esc_html__( 'Header Builder', 'cartify' ), esc_html__( 'Agni Header', 'cartify' ), 'edit_theme_options', 'agni_header_builder', array( $this, 'header_builder_contents' ), $this->header_builder_menu_icon, $this->header_builder_menu_position );
+        add_submenu_page( 'cartify', esc_html__( 'Product Registration', 'cartify' ), esc_html__( 'Product Registration', 'cartify' ), 'edit_theme_options', 'agni_product_registration', array( $this, 'contents' ), $this->defaults['position'] );
     }
 
     public function contents(){
 
-                
+        // wp_enqueue_style( 'agni-header-builder-react-style');
+        // wp_enqueue_script( 'agni-header-builder-react-script');
+
 
         ?>
         <div class="wrap">
@@ -113,21 +118,25 @@ class Agni_Product_Registration{
     public function registration_form(){
 
         $args = array(
-                        'domain' => $this->domain_name,
+            // 'item_code' => $this->item_code,
+            'domain' => $this->domain_name,
             'purchase_code' => $this->purchase_code,
-                        'email' => $this->email,
+            // 'envato_token' => $this->envato_token,
+            'email' => $this->email,
             'fetch' => true
         );
 
                 $buyer_info = Agni_Product_Activation::get_remote_buyer_info( $args );
 
-                
+                // echo "Buyer Info:"; print_r( $buyer_info );
+
 
         if( isset($buyer_info->success) ){
             $get_buyer_info = $buyer_info->success;
         }
 
-        $is_not_registered = !isset($buyer_info->success); 
+        $is_not_registered = !isset($buyer_info->success); //(is_wp_error($buyer_info) || !isset( $buyer_info ) || empty( $buyer_info ));
+
         $staging = get_option( 'agni_product_registration_staging', '' );
 
         ?>
@@ -147,7 +156,12 @@ class Agni_Product_Registration{
                             <label for="product-registration-envato-purchase-code"><?php echo esc_html__( 'Envato Purchase Code', 'cartify' ); echo '<span class="required">*</span>'; ?></label>
                             <input type="text" id="product-registration-envato-purchase-code" name="purchase_code" class="input code" placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX" autocomplete="off" required value="<?php echo esc_attr( !empty( $this->purchase_code ) ? substr_replace(  $this->purchase_code, str_repeat('X', 12), 24 ) : '' ) ?>"></input>
                         </p>
-                        <?php  ?>
+                        <?php /* ?>
+                        <p>
+                            <label for="product-registration-envato-token"><?php echo esc_html__( 'Envato Personal Token', 'cartify' ); ?></label>
+                            <input type="text" id="product-registration-envato-token" name="envato_token" class="input code" placeholder="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" autocomplete="off" value="<?php echo esc_html( $this->envato_token ) ?>"></input>
+                        </p>
+                        <?php */ ?>
                         <p>
                             <label for="product-registration-email"><?php echo esc_html__( 'Enter your address (Optional)', 'cartify' ); ?></label>
                             <input type="email" id="product-registration-email" name="email" placeholder="yourmail@mail.com" value="<?php echo esc_html( $this->email ) ?>"></input>
@@ -293,7 +307,8 @@ class Agni_Product_Registration{
             'ajaxurl' => admin_url('admin-ajax.php'),
             'security' => wp_create_nonce('agni_product_registration_nonce'),
             'domain_name' => $this->domain_name,
-                    ) );
+            // 'item_code' => $this->item_code
+        ) );
         wp_enqueue_script( 'agni-cartify-product-registration-admin' );
 
             }

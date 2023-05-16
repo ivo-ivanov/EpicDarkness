@@ -27,7 +27,8 @@ global $product;
 do_action( 'agni_woocommerce_before_single_product' );
 
 if ( post_password_required() ) {
-	echo get_the_password_form(); 	return;
+	echo get_the_password_form(); // WPCS: XSS ok.
+	return;
 }
 ?>
 <div class="<?php echo esc_attr( cartify_prepare_classes( apply_filters( 'agni_product_hook_before_single_product_classes', array('agni-product-hook-before_single_product' )) ) ) ?>">

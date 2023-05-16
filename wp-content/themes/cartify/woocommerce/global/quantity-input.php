@@ -12,20 +12,14 @@
  *
  * @see     https://docs.woocommerce.com/document/template-structure/
  * @package WooCommerce\Templates
- * @version 7.2.1
+ * @version 7.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
-
+/* translators: %s: Quantity. */
 $label = ! empty( $args['product_name'] ) ? sprintf( esc_html__( '%s quantity', 'cartify' ), wp_strip_all_tags( $args['product_name'] ) ) : esc_html__( 'Quantity', 'cartify' );
 
-if ( $max_value && $min_value === $max_value ) {
-	$is_readonly = true;
-	$input_value = $min_value;
-} else {
-	$is_readonly = false;
-}
 
 $qty_choice = cartify_get_theme_option( 'shop_settings_general_qty_style',  '' );
 
@@ -54,16 +48,16 @@ $quantity_style = apply_filters( 'agni_woocommerce_qty_choice', $qty_choice );
 		<?php }
 		else{ ?>
 			<input
-				type="<?php echo $is_readonly ? 'text' : 'number'; ?>"
-				<?php echo $is_readonly ? 'readonly="readonly"' : ''; ?>
+				type="<?php echo esc_attr( $type ); ?>"
+				<?php echo $readonly ? 'readonly="readonly"' : ''; ?>
 				id="<?php echo esc_attr( $input_id ); ?>"
 				class="<?php echo esc_attr( join( ' ', (array) $classes ) ); ?>"
 				min="<?php echo esc_attr( $min_value ); ?>"
 				max="<?php echo esc_attr( 0 < $max_value ? $max_value : '999' ); ?>"
 				name="<?php echo esc_attr( $input_name ); ?>"
 				value="<?php echo esc_attr( $input_value ); ?>"
-				title="<?php echo esc_attr_x( 'Qty', 'Product quantity input tooltip', 'cartify' ); ?>"
-				<?php if ( ! $is_readonly ): ?>
+				aria-label="<?php esc_attr_e( 'Product quantity', 'woocommerce' ); ?>"
+				<?php if ( ! $readonly ): ?>
 					step="<?php echo esc_attr( $step ); ?>"
 					placeholder="<?php echo esc_attr( $placeholder ); ?>"
 					inputmode="<?php echo esc_attr( $inputmode ); ?>"

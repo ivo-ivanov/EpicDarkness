@@ -18,7 +18,8 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+	exit; // Exit if accessed directly.
+}
 
 ?>
 <?php
@@ -43,3 +44,4 @@ if ( ! defined( 'ABSPATH' ) ) {
 	 */
 	do_action( 'woocommerce_after_my_account' );
 
+/* Omit closing PHP tag at the end of PHP files to avoid "headers already sent" issues. */

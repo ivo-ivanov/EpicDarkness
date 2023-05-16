@@ -13,7 +13,8 @@ function cartify_woocommerce_template_custom_tabs($tabs){
         <?php 
 
         if( $specification_title != '' ){
-                        $tabs['spec'] = array(
+            // Adds the new tab
+            $tabs['spec'] = array(
                 'title'     => esc_html($specification_title),
                 'priority'  => 10,
                 'callback'  => 'cartify_woocommerce_spec_tab_contents'
@@ -201,7 +202,8 @@ function cartify_woocommerce_product_tab_shipping_info_popup(){
 
 function cartify_custom_tabs_scripts(){
 
-        wp_register_script('cartify-custom-tabs', AGNI_FRAMEWORK_JS_URL . '/agni-custom-tabs/agni-custom-tabs.js', array('jquery'), wp_get_theme()->get('Version'), true);
+    // Registering JS for compare
+    wp_register_script('cartify-custom-tabs', AGNI_FRAMEWORK_JS_URL . '/agni-custom-tabs/agni-custom-tabs.js', array('jquery'), wp_get_theme()->get('Version'), true);
 }
 
 
