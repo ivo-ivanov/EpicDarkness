@@ -80,11 +80,12 @@ body {
 }
 
 .agni-sidecart,
-.agni-sidecart__header h3 {
+.agni-sidecart__header h3,
+.agni-sidecart * {
     color: var(--cartify_color_black)!important;
 }
 
-site-header-icon-myaccount__contents {
+.site-header-icon-myaccount__contents {
     display: none;
 }
 
@@ -96,4 +97,33 @@ site-header-icon-myaccount__contents {
     footer .agni-block-icon-card {
         margin-bottom: 20px;
     }
+
+    footer p {
+        text-align: left!important;
+    }
+
+    footer .agni-block-1685213661026 {
+        display: none;
+    }
+}
+
+label[for="shipping_method_0_free_shipping1"] {
+    display: none;
+}
+
+.product .onsale,
+.product .agni-product-hot-label,
+.product .agni-product-new-label,
+.product .agni-product-outofstock {
+    border-radius: 0!important;
+    background-color: #000!important;
+    border: 0!important;
+}
+
+footer a {
+    color: var(--cartify_color_text_primary);
+}
+
+button {
+    background: #fff;
 }
