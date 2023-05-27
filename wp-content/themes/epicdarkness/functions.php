@@ -9,9 +9,4 @@ function agni_child_enqueue_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'agni_child_enqueue_scripts', 9 );
 
-function set_post_revisions_limit() {
-    define('WP_POST_REVISIONS', 3);
-}
-add_action('init', 'set_post_revisions_limit');
-
 ?>
