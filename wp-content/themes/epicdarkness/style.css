@@ -62,6 +62,7 @@ body {
     --cartify_color_text_primary: #e6e6e6!important;
     --cartify_color_text_body: #e6e6e6!important;
     --cartify_color_black: #000;
+    --cartify_font_weight_primary: 400!important;
   }
 
 .site-header {
@@ -121,9 +122,16 @@ label[for="shipping_method_0_free_shipping1"] {
 }
 
 footer a {
-    color: var(--cartify_color_text_primary);
+    color: #919191;
 }
 
-button {
+button,
+input[type=button],
+input[type=reset],
+input[type=submit] {
     background: #fff;
+}
+
+.agni-sidecart__button--checkout{
+    color: #fff!important;
 }
