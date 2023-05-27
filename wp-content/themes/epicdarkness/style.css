@@ -37,6 +37,12 @@ body {
     padding-top: 104px;
 }
 
+@media (max-width: 1024px) {
+    body {
+        padding-top: 52px;
+    }
+}
+
 .site-header-icon-cart__count {
     color: #000;
     line-height: 0;
@@ -134,4 +140,17 @@ input[type=submit] {
 
 .agni-sidecart__button--checkout{
     color: #fff!important;
+}
+
+.agni-cookie-consent__container,
+.agni-cookie-consent__title {
+    color: #000!important;
+}
+
+.site-header-mobile .top-1 .left-1 .logo-0 a {
+    width: 36px;
+}
+
+.agni-block-products-nav {
+    display: none;
 }
