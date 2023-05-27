@@ -93,7 +93,7 @@ site-header-icon-myaccount__contents {
         display: none;
     }
 
-    footer agni-block-icon-card {
+    footer .agni-block-icon-card {
         margin-bottom: 20px;
     }
 }
