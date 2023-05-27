@@ -83,3 +83,17 @@ body {
 .agni-sidecart__header h3 {
     color: var(--cartify_color_black)!important;
 }
+
+site-header-icon-myaccount__contents {
+    display: none;
+}
+
+@media (max-width: 667px) {
+    footer h6 span {
+        display: none;
+    }
+
+    footer agni-block-icon-card {
+        margin-bottom: 20px;
+    }
+}
