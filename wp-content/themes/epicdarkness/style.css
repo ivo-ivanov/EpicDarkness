@@ -251,3 +251,12 @@ input[type=number] {
     }
 
 }
+
+.sbi_header_text {
+    margin-bottom: 20px;
+}
+
+#sb_instagram .sb_instagram_header .sbi_header_text .sbi_bio {
+   margin-top: 10px!important;
+   width: 50%;
+}
