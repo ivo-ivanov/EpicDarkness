@@ -134,12 +134,19 @@ footer a {
 button,
 input[type=button],
 input[type=reset],
-input[type=submit] {
+input[type=submit],
+.btn,
+a.btn,
+.woocommerce .checkout-button:hover {
     background: #fff;
 }
 
 .agni-sidecart__button--checkout{
     color: #fff!important;
+}
+
+.agni-sidecart__button--checkout:hover {
+    color: #222!important;
 }
 
 .agni-cookie-consent__container,
