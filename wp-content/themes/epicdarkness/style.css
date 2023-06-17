@@ -248,6 +248,7 @@ input[type=number] {
         left: 50%;
         width: 100vw;
         margin-left: -50vw;
+        padding-bottom: 5px;
     }
 
 }
@@ -259,4 +260,8 @@ input[type=number] {
 #sb_instagram .sb_instagram_header .sbi_header_text .sbi_bio {
    margin-top: 10px!important;
    width: 50%;
+}
+
+#sb_instagram #sbi_images .sbi_item {
+    padding: 0 5px 5px!important;
 }
