@@ -265,3 +265,9 @@ input[type=number] {
 #sb_instagram #sbi_images .sbi_item {
     padding: 0 5px 5px!important;
 }
+
+@media (max-width: 667px) {
+    #sb_instagram #sbi_images .sbi_item {
+        padding: 10px 0!important;
+    }
+}
