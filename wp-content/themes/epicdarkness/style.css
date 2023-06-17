@@ -271,3 +271,7 @@ input[type=number] {
         padding: 10px 0!important;
     }
 }
+
+.privacy-policy-link {
+    color: #000;
+}
