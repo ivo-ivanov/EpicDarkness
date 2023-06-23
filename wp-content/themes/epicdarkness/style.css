@@ -19,7 +19,7 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
 body,
 .site-content {
     background-color: #161616;
-    background: url('assets/images/bgr.jpg') no-repeat center center fixed;
+    background: url('assets/images/epic-darkness-bgr.webp') no-repeat center center fixed;
     background-size: 100vw 100vh;
 }
 
