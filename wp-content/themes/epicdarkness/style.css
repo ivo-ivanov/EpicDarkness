@@ -271,3 +271,50 @@ input[type=number] {
 #content .products .woocommerce-loop-product__thumbnail img {
     background: none!important;
 }
+
+.products > li .woocommerce-loop-product__thumbnail.style-2 > a:nth-child(2) {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.products > li:hover .woocommerce-loop-product__thumbnail.style-2 > a:nth-child(2) {
+    opacity: 1;
+    visibility: visible;
+}
+
+.agni-cookie-consent__container .agni-cookie-consent__icon {
+    border-bottom: 0;
+    position: absolute;
+    right: 40px;
+    top: 30px;
+    opacity: 0.05;
+}
+
+.agni-cookie-consent__icon .svg-icon {
+    width: 100px;
+    height: 100px;
+}
+
+.agni-cookie-consent__container .agni-cookie-consent__title {
+    margin-top: 0;
+}
+
+.privacy-policy-link {
+    color: #000;
+}
+
+.woocommerce-myaccount-account-info__login-social {
+    display: none;
+}
+
+.woocommerce-form-login__submit:hover, .woocommerce-form-register__submit:hover {
+    background-color: #fff;
+}
+
+.products.shop-page-products .product:not(.product-category):hover .product-thumbnail .agni-add-to-cart {
+    display: none;
+}
+
+.woocommerce .agni-shop-control-bar {
+    display: none;
+}

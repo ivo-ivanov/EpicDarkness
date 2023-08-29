@@ -96,12 +96,12 @@ function cartify_ajax_login_scripts(){
     ));
 }
 
-if(!is_admin() || wp_doing_ajax()){
-    // myaccount action
-    add_action('agni_header_woocommerce_login_form', 'cartify_header_woocommerce_login_form');
-    add_action('wp_ajax_agni_login', 'cartify_login');
-    add_action('wp_ajax_nopriv_agni_login', 'cartify_login');
-    add_action('wp_enqueue_scripts', 'cartify_ajax_login_scripts');
-}
+// if(!is_admin() || wp_doing_ajax()){
+//     // myaccount action
+//     add_action('agni_header_woocommerce_login_form', 'cartify_header_woocommerce_login_form');
+//     add_action('wp_ajax_agni_login', 'cartify_login');
+//     add_action('wp_ajax_nopriv_agni_login', 'cartify_login');
+//     add_action('wp_enqueue_scripts', 'cartify_ajax_login_scripts');
+// }
 
 ?>
