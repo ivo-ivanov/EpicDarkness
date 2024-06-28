@@ -93,7 +93,7 @@ function agni_nav_menu_custom_fields( $item_id, $item ) {
                 <?php echo esc_html__( 'Icon Class', 'cartify' ); ?>
                 <br />
                 <input type="text" id="agni-menu-item-icon-<?php echo esc_attr( $item_id ); ?>" class="agni-menu-item-icon description-wide" name="agni_menu_item_icon[<?php echo esc_attr( $item_id ); ?>]" value="<?php echo esc_attr( $icon ); ?>" />
-                <span><a href="<?php echo esc_url( 'demo.agnidesigns.com/doc/cartify/additional/see-all-available-icons/' ); ?>"><?php echo esc_html__( 'Click here', 'cartify') ?></a><?php echo esc_html__( ' to see all available icons.', 'cartify' ); ?></span>
+                <span><a href="<?php echo esc_url( 'agnidesigns.com/doc/cartify/additional/see-all-available-icons/' ); ?>"><?php echo esc_html__( 'Click here', 'cartify') ?></a><?php echo esc_html__( ' to see all available icons.', 'cartify' ); ?></span>
             </label>
         </p>
 
@@ -105,13 +105,7 @@ function agni_nav_menu_custom_fields( $item_id, $item ) {
 
 function agni_save_nav_menu_custom_fields( $menu_id, $menu_item_db_id ) {
 
-	/*
-	label background color, border color
-	submenu width, height
-	submenu bg color, color (optional)
-
-
-		*/
+	
 
 	if ( ! isset( $_POST['agni_menu_options_nonce_field'] ) || ! wp_verify_nonce( $_POST['agni_menu_options_nonce_field'], 'agni_menu_options_nonce_action' ) ) {
 		return 'Invalid Nonce';
@@ -181,7 +175,7 @@ function agni_save_nav_menu_custom_fields( $menu_id, $menu_item_db_id ) {
 function agni_custom_menu_item_title( $title, $item, $args, $depth ){
 
 	$label = get_post_meta( $item->ID, 'agni_menu_item_label', true );
-	// $show_menu_on = get_post_meta( $item->ID, 'agni_menu_item_show_menu_on', true );
+	
 	$block_choice = get_post_meta( $item->ID, 'agni_menu_item_block_choice', true );
 	$hide_menu_text = get_post_meta( $item->ID, 'agni_menu_item_hide_menu_text', true );
 	$icon = get_post_meta( $item->ID, 'agni_menu_item_icon', true );
@@ -247,7 +241,7 @@ function agni_custom_menu_css_class( $classes, $item, $args, $depth ){
 
 function agni_custom_menu_objects( $sorted_menu_items, $args ){
 
-	// print_r( $sorted_menu_items );
+	
 
 		foreach ($sorted_menu_items as $key => $menu_item) {
 		if( 0 !== $menu_item->menu_item_parent ){
@@ -259,17 +253,17 @@ function agni_custom_menu_objects( $sorted_menu_items, $args ){
 		}
 	}
 
-	// print_r( $args );
+	
 
-	// echo $args->sub_menu;
+	
 
 	return $sorted_menu_items;
 }
 
 function agni_custom_nav_menu_start_el( $item_output, $item, $depth, $args ){
 
-	// echo "depth: " . $depth;
-	// print_r( $args['depth'] );
+	
+	
 
 	if( $args->depth == 1 ){
 		return $item_output;
@@ -300,7 +294,7 @@ function agni_custom_nav_menu_start_el( $item_output, $item, $depth, $args ){
 		wp_add_inline_style( 'agni-builder-frontend-megamenu-' . $item->ID . '-' . $block_choice, $styles );
 	}
 
-	// wp_enqueue_style( 'agni-builder-frontend-megamenu-' . $item->ID . '-' . $block_choice );
+	
 
 	if( !empty( $block_choice ) ){
 
@@ -314,7 +308,7 @@ function agni_custom_nav_menu_start_el( $item_output, $item, $depth, $args ){
 
 		$item_output .= '<div class="' . esc_attr( cartify_prepare_classes( $item_output_classes ) ) . '">'; 
 		$item_output .= '<div class="agni-megamenu-block-container">'; 
-		$item_output .= apply_filters( 'agni_content_block', $block_choice );// apply_filters('the_content', get_post_field('post_content', $block_choice));
+		$item_output .= apply_filters( 'agni_content_block', $block_choice );
 		$item_output .= '</div>';
 		$item_output .= '</div>';
 	}
@@ -363,7 +357,7 @@ function agni_megamenu_enqueue_scripts(){
 						}
 					$styles .= "}";
 
-					// register styles
+					
 					wp_register_style( 'cartify-megamenu-custom-' . $megamenu_item->ID . '-' . $block_choice, AGNI_FRAMEWORK_CSS_URL . '/custom.css' );
 					wp_add_inline_style( 'cartify-megamenu-custom-' . $megamenu_item->ID . '-' . $block_choice, $styles );
 					wp_enqueue_style( 'cartify-megamenu-custom-' . $megamenu_item->ID . '-' . $block_choice );

@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 
 global $product;
 
-// Ensure visibility.
+
 if ( empty( $product ) || ! $product->is_visible() ) {
 	return;
 }
@@ -70,7 +70,7 @@ if ( empty( $product ) || ! $product->is_visible() ) {
 	</div>
 	<div class="product-buttons">
 		<?php
-		// adding add to cart
+		
 		/**
 		 * Hook: agni_woocommerce_after_shop_loop_item.
 		 *
@@ -80,11 +80,11 @@ if ( empty( $product ) || ! $product->is_visible() ) {
 		 */
 		do_action( 'agni_woocommerce_after_shop_loop_item' );
 
-		// adding quickview button
-		// do_action( 'agni_woocommerce_quickview_shop_loop_item' );
+		
+		
 
-		// // adding compare button
-		// do_action( 'agni_woocommerce_compare_shop_loop_item' );
+		
+		
 
 
 		?>

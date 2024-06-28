@@ -44,7 +44,7 @@ function cartify_footer_default(){
         <div class="site-footer-main">
             <div class="site-footer-main__container">
                 <div class="site-footer-copyright-text">
-                    <?php // get footer text theme option
+                    <?php 
 
                     $footer_copyright_text = esc_html__( 'copyright @ 2022 AgniHD. All rights reserved.', 'cartify' );
 

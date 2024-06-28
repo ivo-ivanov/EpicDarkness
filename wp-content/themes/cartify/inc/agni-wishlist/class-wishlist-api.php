@@ -11,8 +11,8 @@ class Agni_Wishlist_REST_API{
         add_filter( 'rest_authentication_errors', function( $result ) {
             global $wp;
 
-            // No authentication has been performed yet.
-            // Return an error if user is not logged in and not trying to login.
+            
+            
             if ( ! is_user_logged_in() && $wp->request === 'wp-json/wp/v2/agni_wc_wishlist' ) {
                 return new WP_Error(
                     'rest_forbidden',
@@ -36,7 +36,7 @@ class Agni_Wishlist_REST_API{
         register_rest_route( 'agni-wishlist/v1', 'wishlist', array(
             'methods' => WP_REST_Server::EDITABLE,
             'callback' => array( $this, 'create_wishlist' ),
-            // 'permission_callback' => '__return_true'
+            
             'permission_callback' => function() use($current_user_can){
                 return $current_user_can;
             },
@@ -45,7 +45,7 @@ class Agni_Wishlist_REST_API{
         register_rest_route( 'agni-wishlist/v1', 'wishlist/(?P<id>\d+)', array(
             'methods' => WP_REST_Server::EDITABLE,
             'callback' => array( $this, 'update_wishlist' ),
-            // 'permission_callback' => '__return_true'
+            
             'permission_callback' => function() use($current_user_can){
                 return $current_user_can;
             },
@@ -54,7 +54,7 @@ class Agni_Wishlist_REST_API{
         register_rest_route( 'agni-wishlist/v1', 'wishlist/(?P<id>\d+)', array(
             'methods' => WP_REST_Server::DELETABLE,
             'callback' => array( $this, 'delete_wishlist' ),
-            // 'permission_callback' => '__return_true'
+            
             'permission_callback' => function() use($current_user_can){
                 return $current_user_can;
             },
@@ -145,7 +145,7 @@ class Agni_Wishlist_REST_API{
 
         }
 
-        // Update the post into the database
+        
         wp_update_post( $args );
 
         $redirect_url = add_query_arg(array(
@@ -167,7 +167,7 @@ class Agni_Wishlist_REST_API{
 
         $response = ob_get_clean();
         return wp_send_json( $response );
-        // return $response;
+        
     }
 
     public function delete_wishlist( WP_REST_Request $request ){
@@ -180,7 +180,7 @@ class Agni_Wishlist_REST_API{
             'redirect_url' => esc_url( wc_get_account_endpoint_url('wishlist') )
         );
 
-        // $url = wc_get_account_endpoint_url('wishlist');
+        
 
         return wp_send_json( $data );
     }

@@ -17,7 +17,7 @@ class Agni_Product_Layouts{
 
         add_action( 'woocommerce_init', array( $this, 'remove_existing_actions' ) );
 
-        // add_action( 'woocommerce_before_main_content', array( $this, 'layout_setup' ), 1 );
+        
 
         add_action( 'agni_single_product_layout', array( $this, 'layout_init' ) );
 
@@ -113,7 +113,7 @@ class Agni_Product_Layouts{
         $chosen_layout_template = $chosen_layout['template'];
         $chosen_layout_settings = $chosen_layout['settings'];
 
-        // wp_enqueue_style( 'cartify-product-layout-custom-' . $chosen_layout_id );
+        
 
 
         $this->layout_classes[] = 'layout-template-' . $chosen_layout_template;
@@ -145,7 +145,7 @@ class Agni_Product_Layouts{
                 } );
             }
 
-            // foreach ($row['content'] as $col_key => $col) { 
+            
             $i = 10; 
             if( isset($placement['content']) && !empty($placement['content']) ){
                 $this->layout_block_processor_loop($placement, $hook, $i);
@@ -161,9 +161,9 @@ class Agni_Product_Layouts{
             $block['priority'] = $i + 1;
 
             if( $block['slug'] == 'columns' ){
-                // add column hook with prioriy
+                
                 $j = $block['priority'];
-                // add_action( 'woocommerce_' . $hook, 'cartify_woocommerce_single_row_open_tag', $j );
+                
                 add_action('woocommerce_' . $hook, function() use ($block) { 
                     $row_settings = isset( $block['settings'] ) ? $block['settings'] : '';
 
@@ -187,13 +187,13 @@ class Agni_Product_Layouts{
                         );
                         ?><div class="<?php echo esc_attr( cartify_prepare_classes( $col_classes ) ); ?>"><?php
                     }, $k );
-                    // foreach ($inner_col['content'] as $inner_block_key => $inner_block) {
-                    //     $inner_block['hook'] = $hook;
-                    //     $inner_block['priority'] = $k + 1;
-                    //     // echo apply_filters( 'agni_product_layout_block_processor', $inner_block );
+                    
+                    
+                    
+                    
 
-                    //     $k = $inner_block['priority'] + 1; 
-                    // }
+                    
+                    
 
                     $k = $this->layout_block_processor_loop($inner_col, $hook, $k );
 
@@ -278,15 +278,15 @@ class Agni_Product_Layouts{
 
         $product_layout_presets = $this->get_product_presets();
 
-        // $layout = array(
-        //     array(
-        //         'id' => $product_layout_presets['id'],
-        //         'title' => $product_layout_presets['title'],
-        //         'locked' => true,
-        //         'content' => $product_layout_presets['content'],
-        //         'settings' => $product_layout_presets['settings'],
-        //     )
-        // );
+        
+        
+        
+        
+        
+        
+        
+        
+        
 
                 if( empty( get_option('agni_product_builder_layouts_preset') ) ){
             update_option( 'agni_product_builder_layouts_preset', $product_layout_presets );
@@ -350,11 +350,11 @@ class Agni_Product_Layouts{
 
             $styles = apply_filters( 'agni_product_layout_css', $layout );
 
-            // register styles
+            
             wp_register_style( 'cartify-product-layout-custom-' . $layout_id, AGNI_FRAMEWORK_CSS_URL . '/custom.css' );
             wp_add_inline_style( 'cartify-product-layout-custom-' . $layout_id, $styles );
 
-            // enqueue styles
+            
             wp_enqueue_style( 'cartify-product-layout-styles', AGNI_FRAMEWORK_CSS_URL . '/product-layout/product-layout.css', array(), wp_get_theme()->get('Version'));
             wp_style_add_data( 'cartify-product-layout-styles', 'rtl', 'replace' );
 
@@ -385,7 +385,7 @@ class Agni_Product_Layouts{
     }
 
     public function admin_enqueue_scripts(){
-        // enqueue styles
+        
 
         wp_enqueue_style( 'cartify-product-layout-editor-styles', AGNI_FRAMEWORK_CSS_URL . '/product-layout/product-layout-editor.css', array(), wp_get_theme()->get('Version'));
 

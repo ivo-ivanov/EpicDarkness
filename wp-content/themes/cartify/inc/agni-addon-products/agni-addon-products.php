@@ -43,6 +43,8 @@ function cartify_addon_products_prepare_contents($products_list){
     $variation_price = 0;
     $total_price = 0;
 
+    $exclude_current_product = apply_filters( 'agni_woocommerce_addon_products_exclude_current_product', false );
+
     if( isset( $_POST['current_product_id'] ) ){
         $current_product_id = $_POST['current_product_id'];
     }
@@ -62,15 +64,19 @@ function cartify_addon_products_prepare_contents($products_list){
     $current_product = wc_get_product( $current_product_id );
 
     $products_list_current = isset($revised_products_list)?$revised_products_list:$products_list;
-    array_unshift($products_list_current, $current_product_id);
+    if( !$exclude_current_product ){
+    	array_unshift($products_list_current, $current_product_id);
+	}
     $products_list_current = array_unique( $products_list_current );
 
     $default_products_list = $products_list;
-    array_unshift($default_products_list, $current_product_id);
+	if( !$exclude_current_product ){
+    	array_unshift($default_products_list, $current_product_id);
+	}
 
-        // print_r($products_list);
-    // print_r($products_list_current);
-    // echo $variation_id;
+        
+    
+    
 
     ?>
 
@@ -256,26 +262,26 @@ function cartify_addon_products_prepare_contents($products_list){
     </div>
     <?php
 
-    // if(!is_admin() || wp_doing_ajax()){
-    //     die();
-    // }
+    
+    
+    
 }
 
 function cartify_addon_products_add_all_to_cart(){
 
-    // if (!check_ajax_referer('agni_addon_products_nonce', 'security')) {
-    //     return 'Invalid Nonce';
-    // }
+    
+    
+    
 
 	if(!isset($_POST['products_to_cart'])){
 		die();
 	}
 
-		// get woocommerce error notice
+		
 	$error = wc_get_notices( 'error' );
 
 	if( $error ){
-		// print notice
+		
 		ob_start();
 		foreach( $error as $value ) {
 			wc_print_notice( $value, 'error' );
@@ -285,7 +291,7 @@ function cartify_addon_products_add_all_to_cart(){
 			'error' => ob_get_clean()
 		);
 
-		wc_clear_notices(); // clear other notice
+		wc_clear_notices(); 
 		wp_send_json($js_data);
 	}
 
@@ -316,7 +322,7 @@ function cartify_addon_products_scripts(){
         return;
     }
 
-    // Registering JS for Addon Products
+    
     wp_register_script('cartify-addon-products', AGNI_FRAMEWORK_JS_URL . '/agni-addon-products/agni-addon-products.js', array('jquery', 'select2'), wp_get_theme()->get('Version'), true);
     wp_localize_script('cartify-addon-products', 'cartify_addon_products', array(
         'ajaxurl' => admin_url('admin-ajax.php'),
@@ -330,7 +336,7 @@ function cartify_addon_products_scripts(){
 add_action( 'agni_addon_products_contents', 'cartify_addon_products_prepare_contents', 10, 1 );
 add_action( 'wc_ajax_agni_addon_products_contents', 'cartify_addon_products_prepare_contents', 10, 1 );
 add_action( 'wc_ajax_agni_addon_products_add_all_to_cart', 'cartify_addon_products_add_all_to_cart' );
-//add_action( 'wc_ajax_nopriv_agni_addon_products_add_all_to_cart', 'cartify_addon_products_add_all_to_cart' );
+
 
 add_action( 'woocommerce_after_single_product_summary', 'cartify_addon_products_display_single_product', 9 );
 

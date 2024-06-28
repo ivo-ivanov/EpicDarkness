@@ -99,7 +99,7 @@ if (!function_exists('cartify_page')) {
                     </article>
 
                     <?php
-                        // If comments are open or we have at least one comment, load up the comment template.
+                        
                         if (comments_open() || get_comments_number()) :
                             comments_template();
                         endif;
@@ -115,14 +115,14 @@ if (!function_exists('cartify_page')) {
 
 if (!function_exists('cartify_page_sidebar')) {
     function cartify_page_sidebar(){
-        // $blog_single_sidebar = $blog_sidebar = !$disableSidebar;
+        
 
         $page_id = get_the_id();
 
         $sidebar = get_post_meta( $page_id, 'agni_page_sidebar_choice', true );
 
                 if( is_page() ){
-            // if( $sidebar != 'no-sidebar' && $sidebar != '' ){
+            
             if( !empty($sidebar) && $sidebar !== 'no-sidebar' ){
                 get_sidebar();
             }  
@@ -133,16 +133,16 @@ if (!function_exists('cartify_page_sidebar')) {
 
 function cartify_page_slider(){
 
-    // print_r( get_option('agni_slider_builder_sliders') );
+    
 
-    // do action for slider remove all contents
+    
 
 
     $page_id = get_the_ID();
 
         $slider_id = esc_attr( get_post_meta($page_id, 'agni_slider_id', true) );
 
-    // $slider_id = '0';
+    
     if( $slider_id !== '' ){
         do_action( 'agni_slider', $slider_id );
     }
@@ -177,9 +177,9 @@ function cartify_page_compare(){
         return;
     }
     ?>
-    <?php //if( function_exists('cartify_compare_display_products') ){
+    <?php 
         do_action( 'agni_woocommerce_compare_page' );
-    // } ?>
+    ?>
     <?php 
 }
 

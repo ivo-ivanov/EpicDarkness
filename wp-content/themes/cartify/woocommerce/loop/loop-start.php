@@ -18,10 +18,10 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-$view = apply_filters( 'agni_products_archives_view_choice', cartify_get_theme_option( 'shop_settings_general_view_choice', 'grid' ) ); // 'grid'; // get theme option to choose default view
-$display_style = apply_filters( 'agni_products_archives_display_style', cartify_get_theme_option( 'shop_settings_general_display_style', '1a' ) ); // '1';
-$qty = apply_filters( 'agni_products_archives_qty_show', cartify_get_theme_option( 'shop_settings_general_show_qty', '' ) ); //'1';
-$qty_style = apply_filters( 'agni_products_archives_qty_choice', cartify_get_theme_option( 'shop_settings_general_show_qty_choice', '2' ) ); //'2'; 
+$view = apply_filters( 'agni_products_archives_view_choice', cartify_get_theme_option( 'shop_settings_general_view_choice', 'grid' ) ); 
+$display_style = apply_filters( 'agni_products_archives_display_style', cartify_get_theme_option( 'shop_settings_general_display_style', '1a' ) ); 
+$qty = apply_filters( 'agni_products_archives_qty_show', cartify_get_theme_option( 'shop_settings_general_show_qty', '' ) ); 
+$qty_style = apply_filters( 'agni_products_archives_qty_choice', cartify_get_theme_option( 'shop_settings_general_show_qty_choice', '2' ) ); 
 
 
 if(isset($_GET['view'])){

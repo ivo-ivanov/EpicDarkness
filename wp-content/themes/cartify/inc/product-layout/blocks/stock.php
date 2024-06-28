@@ -11,13 +11,13 @@ function cartify_template_product_layout_block_stock($block){
     );
 
 
-    // if( isset( $block_settings['availability-bar-show'] ) ){
-    //     foreach ($block_settings['availability-bar-show'] as $device => $value) {
-    //         if( $value ){
-    //             $block_classes[] = "has-availability-bar-{$device}";
-    //         }
-    //     }
-    // }
+    
+    
+    
+    
+    
+    
+    
 
 
     ?>

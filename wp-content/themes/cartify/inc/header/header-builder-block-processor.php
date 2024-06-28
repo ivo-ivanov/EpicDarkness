@@ -1,9 +1,9 @@
 <?php
-// actions
+
 add_action( 'agni_before_footer', 'cartify_header_myaccount_login_form', 10, 1 );
 add_action( 'agni_before_footer', 'cartify_header_sidecart', 20, 1 );
 
-// filters
+
 add_filter( 'agni_header_social_icons', 'cartify_header_social_icons' , 10, 1 );
 add_filter( 'agni_header_myaccount', 'cartify_header_myaccount' , 10, 1 );
 add_filter( 'agni_header_categories_dropdown', 'cartify_header_categories_dropdown' , 10, 1 );
@@ -20,7 +20,7 @@ add_filter( 'agni_header_compare', 'cartify_header_compare' , 10, 1 );
 add_filter( 'agni_header_button', 'cartify_header_button', 10, 1 );
 add_filter( 'agni_header_content_block', 'cartify_header_content_block', 10, 1 );
 
-// ajax filter 
+
 add_filter('agni_ajax_header_cart_get_count', 'cartify_ajax_header_cart_get_count');
 add_filter('agni_ajax_header_cart_get_amount', 'cartify_ajax_header_cart_get_amount');
 
@@ -153,11 +153,11 @@ if( !function_exists('cartify_header_myaccount') ){
                             echo wp_nav_menu( $args ); 
                         } 
 
-                                                // if ( is_front_page() || is_home() ) {
-                        //     $url = get_home_url();
-                        // } else {
-                        //     $url = get_permalink();
-                        // }
+                                                
+                        
+                        
+                        
+                        
 
                         global $wp;
                         $url = home_url( $wp->request );
@@ -167,42 +167,9 @@ if( !function_exists('cartify_header_myaccount') ){
                     </div>
                 </div>
             <?php } ?>
-            <?php //if( $my_account_general_show_login_form == 'on'  && !is_user_logged_in() && $myaccount_page_id != get_the_id() ){ 
-                /* ?>
-                <div class="site-header-icon-myaccount__contents">
-                    <div class="site-header-icon-myaccount-panel">
-                        <div class="site-header-icon-myaccount-panel__overlay"></div>
-                        <div class="site-header-icon-myaccount-panel__container">
-                            <?php //if(  ){ ?>
-                            <div class="site-header-icon-myaccount-panel__title">
-                                <h3><?php echo esc_html( 'Login/Register', 'cartify' ); ?></h3>
-                                <span class="site-header-icon-myaccount-panel__close"><i class="lni lni-close"></i></span>
-                            </div>
-                            <?php //} ?>
-                            <div class="site-header-icon-myaccount-panel__contents">
-                                <div class="site-header-icon-myaccount__register">
-                                    <span><?php echo esc_html('Don\'t have an account', 'cartify');?></span>
-                                    <a href="<?php echo esc_url( get_permalink( get_option('woocommerce_myaccount_page_id') ) ); ?>" class="site-header-icon-myaccount__register-btn btn btn-bold btn-block btn-lg btn-alt"><?php echo esc_html__( 'Register', 'cartify' ); ?></a>
-                                </div>
-                                <div class="site-header-icon-myaccount__login--form">
-                                    <?php // do_action( 'agni_header_woocommerce_login_form' ); ?>
-                                </div>
-                                <div class="site-header-icon-myaccount__login--social">
-                                    <?php if( $social_login_fb_show ){?>
-                                        <button id="login-btn-facbook" class="site-header-icon-myaccount__login-btn--facbook btn btn-block btn-bold btn-lg"><?php echo esc_html__( 'Continue with Facebook', 'cartify'); ?></button>
-                                    <?php } ?>
-                                    <?php if( $social_login_google_show ){ ?>
-                                        <button id="login-btn-google" class="site-header-icon-myaccount__login-btn--google btn btn-block btn-bold btn-lg"><?php echo esc_html__( 'Continue with Google', 'cartify'); ?></button>
-                                    <?php } ?>
-                                </div>
-                            </div>
-                            <div class="site-header-icon-myaccount__loader"><?php echo esc_html__( 'Loading', 'cartify' ); ?></div>
-                        </div>
-
-                                            </div>
-                </div>
-            <?php */ 
-            //} ?>
+            <?php 
+                 
+            ?>
         </div>
         <?php
     }
@@ -237,12 +204,12 @@ if( !function_exists('cartify_header_categories_dropdown') ){
         }
 
 
-        // $category_menus 
+        
         $category_menus = '';
 
         ob_start();
         foreach ($category_menu_choice_repeatable as $key => $category_menu_options) {
-            # code...
+            
             $category_menu_choice = isset($category_menu_options['menu_choice'])?$category_menu_options['menu_choice']:'';
             $category_menu_title = isset($category_menu_options['menu_title'])?$category_menu_options['menu_title']:'';
             $category_menu_btn_text = isset($category_menu_options['menu_btn_text'])?$category_menu_options['menu_btn_text']:'';
@@ -269,12 +236,9 @@ if( !function_exists('cartify_header_categories_dropdown') ){
                     </div>
                 <?php } ?>
                 <div class="category-dropdown-menu-nav-menu__contents">
-                    <?php // if( !empty( $category_menu_choice ) ){
+                    <?php 
                         apply_filters( 'agni_header_menu_nav_cateogory_dropdown', cartify_header_menu_nav( $category_menu_choice, 'category' ) );
-                    /* }
-                    else{ ?>
-                        <a href="#"><?php echo esc_html__( 'Setup menu', 'cartify' ); ?></a>
-                    <?php } */ ?>
+                     ?>
                 </div>
             </div>
             <?php
@@ -282,8 +246,8 @@ if( !function_exists('cartify_header_categories_dropdown') ){
         }
 
         $category_menus = ob_get_clean();
-        // echo "menu active";
-        // print_r( $category_dropdown_active );
+        
+        
         $category_classes = array(
             'site-header-category-dropdown',
             'toggle-style-' . $category_display_choice,
@@ -412,7 +376,7 @@ if( !function_exists('cartify_header_cart') ){
                 </div>
             </a>
 
-            <?php // do_action( 'agni_ajax_sidecart' ); ?>
+            <?php ?>
         </div>
         <?php 
     }
@@ -597,9 +561,9 @@ if( !function_exists('cartify_header_additional_menu') ){
 
 if( !function_exists('cartify_header_additional_info') ){
     function cartify_header_additional_info($block_options){
-        // $block_options['additional-info-general-info-repeatable'];
-        // info_name,
-        // info_value
+        
+        
+        
         $additional_info_repeatable = isset( $block_options['additional-info-general-info'] ) ? $block_options['additional-info-general-info'] : array(
             array(
                 'info_name' =>  esc_html__( 'Support:', 'cartify' ),
@@ -639,9 +603,9 @@ if( !function_exists('cartify_header_additional_info') ){
 
 if( !function_exists('cartify_header_search') ){
     function cartify_header_search($block_options){
-        // if( !class_exists('WooCommerce') ){
-        //     return;
-        // }
+        
+        
+        
 
         $search_general_display_style = isset($block_options['search-general-display-style']) ? $block_options['search-general-display-style'] : '1';
         $search_form_grow = isset($block_options['search-form-flex-grow']) ? $block_options['search-form-flex-grow'] : 'on';
@@ -689,18 +653,18 @@ if( !function_exists('cartify_header_language') ){
             return;
         }
 
-                // if( $wpml_diplay_options == '2' ){
-        //     $label = $l['native_name'];
-        // }
-        // else if( $wpml_diplay_options == '3' ){
-        //     $label = $l['language_code'];
-        // }
-        // else if( $wpml_diplay_options == '4' ){
-        //     $label = '<img src="'.$l['country_flag_url'].'" alt="'.$l['translated_name'].'" />';
-        // }
-        // else{
-        //     $label = $l['translated_name'];
-        // }
+                
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 
         $lang_array = array();
         $label = $language_general_menu_custom_label;
@@ -762,24 +726,24 @@ if( !function_exists('cartify_header_currency') ){
 
         $currency_class_name = isset( $block_options['className'] ) ? $block_options['className'] : "";
 
-        // if( !function_exists('icl_object_id') && $currency_general_menu_choice == '' ){
-        //     return;
-        // }
+        
+        
+        
 
-                // if( $wpml_diplay_options == '2' ){
-        //     $label = $l['native_name'];
-        // }
-        // else if( $wpml_diplay_options == '3' ){
-        //     $label = $l['currency_code'];
-        // }
-        // else if( $wpml_diplay_options == '4' ){
-        //     $label = '<img src="'.$l['country_flag_url'].'" alt="'.$l['translated_name'].'" />';
-        // }
-        // else{
-        //     $label = $l['translated_name'];
-        // }
+                
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 
-        // $lang_array = array();
+        
         $label = $currency_general_menu_custom_label;
 
 
@@ -919,17 +883,17 @@ if( !function_exists( 'cartify_header_content_block' ) ){
     }
 }
 
-// helper functions
+
 if( !function_exists('cartify_header_menu_nav') ){
     function cartify_header_menu_nav($menu_choice = '', $fallback = '', $depth = 0) {
 
-        // $menu_selector = empty($position) ? $menu_choice : $position;
+        
 
-        // $header_menu_location = $position;
-        // $header_menu_class = 'site-header-menu-' . $menu_selector;
-        // $header_menu_id = 'site-header-menu-' . $menu_selector;
+        
+        
+        
 
-        // $menu_list = cartify_registered_menus_list(true);
+        
 
         $header_menu_classes = array(
             $fallback !== 'primary' ? 'site-header-menu-additional' : '', 
@@ -940,10 +904,10 @@ if( !function_exists('cartify_header_menu_nav') ){
 
                 $args = array(
             'menu_class'        => cartify_prepare_classes( $header_menu_classes ), 
-            // 'menu_id'           => $header_menu_id, 
+            
             'container'         => false, 
             'fallback_cb'       => 'cartify_header_menu_nav_fallback',
-            // 'walker' => new Agni_Walker_Nav_Menu()
+            
         );
 
         if( $depth ){
@@ -1000,12 +964,12 @@ if( !function_exists('cartify_header_myaccount_login_form') ){
             <div class="site-header-login-panel">
                 <div class="site-header-login-panel__overlay"></div>
                 <div class="site-header-login-panel__container">
-                    <?php //if(  ){ ?>
+                    <?php ?>
                     <div class="site-header-login-panel__title">
                         <h3><?php echo esc_html( 'Login/Register', 'cartify' ); ?></h3>
                         <span class="site-header-login-panel__close"><i class="lni lni-close"></i></span>
                     </div>
-                    <?php //} ?>
+                    <?php ?>
                     <div class="site-header-login-panel__contents">
                         <div class="site-header-login-panel__register">
                             <span><?php echo esc_html('Don\'t have an account', 'cartify');?></span>

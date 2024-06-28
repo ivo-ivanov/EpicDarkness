@@ -14,9 +14,9 @@ function cartify_quickview_button(){
 
     wp_enqueue_script('cartify-quickview');
 
-	//wp_enqueue_script('cartify-ajax-sidecart');
-    //wp_enqueue_script( 'wc-add-to-cart-variation' );
-	//wp_enqueue_script('cartify-ajax-sidecart');
+	
+    
+	
 
     ?>
     <div class="agni-quickview"><?php
@@ -49,7 +49,7 @@ function cartify_quickview_contents(){
         <div class="agni-quickview-contents__gallery">
             <?php
 
-                           // echo apply_filters( 'woocommerce_single_product_image_thumbnail_html', wc_get_gallery_image_html( $post_thumbnail_id, true ), $post_thumbnail_id );
+                           
             echo apply_filters( 'woocommerce_single_product_image_thumbnail_html', wp_get_attachment_image( $post_thumbnail_id, 'woocommerce_single' ) );
 
             if ( $attachment_ids && $post_thumbnail_id ) {
@@ -94,20 +94,20 @@ function cartify_quickview_additional_variation_images(){
     $variation_id = $_REQUEST['variation_id'];
 
     $product = wc_get_product( $product_id );
-    //$variation = new WC_Product_Variation($variation_id);
+    
     $available_variations = $product->get_available_variations();
     $variation_image_id = '';
     ?>
     <?php
 
 
-                // if ( $available_variation_images_ids ) {
-    //     foreach ( $available_variation_images_ids as $available_variation_images_id ) {
-    //         echo apply_filters( 'woocommerce_single_product_image_thumbnail_html', wc_get_gallery_image_html( $available_variation_images_id, true ), $available_variation_images_id ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
-    //     }
-    // }
+                
+    
+    
+    
+    
 
-    //$available_variation_images_ids = array();
+    
     foreach( $available_variations as $variation ){
         if( $variation_id == $variation['variation_id']){
             $variation_image_id = $variation['image_id'];
@@ -154,16 +154,16 @@ function cartify_quickview_additional_variation_images_reset(){
 
 function cartify_quickview_scripts(){
 
-    // Registering JS for compare
+    
     wp_register_script('cartify-quickview', AGNI_FRAMEWORK_JS_URL . '/agni-quickview/agni-quickview.js', array('jquery'), wp_get_theme()->get('Version'), true);
     wp_localize_script('cartify-quickview', 'cartify_quickview', array(
         'ajaxurl' => admin_url('admin-ajax.php'),
         'ajaxurl_wc' => WC_AJAX::get_endpoint( "%%endpoint%%" ),
-        // 'add_to_compare_text' => 'Compare',
-        // 'remove_from_compare_text' => 'Remove Compare',
+        
+        
 
-        // 'security' => wp_create_nonce('agni_ajax_search_nonce'),
-        // 'action' => 'agni_processing_ajax_search',
+        
+        
     ));
 }
 

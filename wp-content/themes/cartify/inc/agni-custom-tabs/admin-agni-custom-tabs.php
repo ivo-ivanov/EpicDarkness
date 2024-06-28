@@ -100,7 +100,7 @@ function cartify_product_data_additional_tabs_custom_field(){
                     'name'    => 'agni_product_data_tab_specification_title',
                     'label'   => esc_html__( 'Title', 'cartify' ),
                     'value'   => esc_html( $agni_product_data_tab_specification_title )
-                    //'desc_tip'=> esc_html__( 'Enter title for specification tab', 'cartify' ),
+                    
                 ) );
                 ?>
                 <div id="agni_product_data_tab_specification_table_fields_repeatable" class="agni_product_data_tab_specification_table_fields agni_product_data_fields_repeatable">
@@ -169,7 +169,7 @@ function cartify_product_data_additional_info_custom_field(){
     $agni_product_data_threesixty_images = get_post_meta( $post->ID, 'agni_product_data_threesixty_images', true );
     $agni_product_data_video_embed_url = get_post_meta( $post->ID, 'agni_product_data_video_embed_url', true );
 
-	// Note the 'id' attribute needs to match the 'target' parameter set above
+	
 	?><div id='agni-additional-info-options' class='panel woocommerce_options_panel'><?php
 
 		?><div class='options_group'>
@@ -259,7 +259,7 @@ function cartify_product_data_additional_info_custom_field(){
                     <div class="agni_product_data_tab_threesixty_images__holder"> 
                         <?php 
 
-                            //$agni_product_data_threesixty_images = json_decode( $agni_product_data_threesixty_images_json[0], true );
+                            
 
                                                         if( $agni_product_data_threesixty_images ){
                                 foreach( $agni_product_data_threesixty_images as $agni_product_data_threesixty_image ){
@@ -479,12 +479,12 @@ function cartify_product_data_custom_tabs_save_custom_field( $post_id ) {
 
 function cartify_admin_custom_tabs_scripts(){
 
-    // Enqueue JS
+    
 	if( !did_action( 'wp_enqueue_media' ) ) {
         wp_enqueue_media();
 	}
 
-    // Registering JS for custom tabs
+    
     wp_enqueue_script('cartify-admin-custom-tabs', AGNI_FRAMEWORK_JS_URL . '/agni-custom-tabs/admin-agni-custom-tabs.js', array('jquery'), wp_get_theme()->get('Version'), true);
 }
 

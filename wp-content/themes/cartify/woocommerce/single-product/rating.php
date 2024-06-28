@@ -16,7 +16,7 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
+	exit; 
 }
 
 global $product;
@@ -35,14 +35,14 @@ $average      = $product->get_average_rating();
 	<?php
 
 	if ( $rating_count > 0 ) {
-		echo wc_get_rating_html( $average, $rating_count ); // WPCS: XSS ok. 
+		echo wc_get_rating_html( $average, $rating_count ); 
 	} 
 	else{
 		$html = '';
 		$rating = 0;
 		$count = 0;
 
-		/* translators: %s: rating */
+		
 		$label = sprintf( esc_html__( 'Rated %s out of 5', 'cartify' ), $rating );
 		$html  = '<div class="star-rating" role="img" aria-label="' . esc_attr( $label ) . '">' . wc_get_star_rating_html( $rating, $count ) . '</div>';
 
@@ -51,7 +51,7 @@ $average      = $product->get_average_rating();
 
 		?>
 	<?php if ( comments_open() ) : ?>
-		<?php //phpcs:disable ?>
+		<?php ?>
 		<a href="#reviews" class="woocommerce-review-link" rel="nofollow"><?php 
 		if ( $rating_count > 0 ) {	
 			printf( _n( '%s review', '%s reviews', $review_count, 'cartify' ), '<span class="count">' . esc_html( $review_count ) . '</span>' ); 
@@ -60,6 +60,6 @@ $average      = $product->get_average_rating();
 			echo esc_html__( 'Be the first to review', 'cartify' );
 		}
 		?></a>
-		<?php // phpcs:enable ?>
+		<?php ?>
 	<?php endif ?>
 </div>

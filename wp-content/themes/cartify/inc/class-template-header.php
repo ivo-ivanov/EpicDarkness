@@ -22,12 +22,12 @@ class Agni_Header{
 
     public function header_init( $header_source, $header_choice ){
 
-        // if( empty( $header_id ) ){
-        //     return;
-        // }
+        
+        
+        
 
-        // $header_choice = '';// get value from theme options
-        // // $header_id = '';
+        
+        
         ?>
         <header id="masthead" class="site-header">
             <?php if($header_source != '3'){ 
@@ -53,9 +53,9 @@ class Agni_Header{
 
             $styles = apply_filters( 'agni_header_css', $header );
 
-            // print_r( $styles );
+            
 
-            // register styles
+            
             wp_register_style( 'cartify-header-custom-'.$header_id, AGNI_FRAMEWORK_CSS_URL . '/custom.css' );
             wp_add_inline_style( 'cartify-header-custom-'.$header_id, $styles );
 

@@ -19,7 +19,7 @@ function cartify_template_product_layout_block_related($block){
     $block_args = array();
 
     $block_args['posts_per_page'] = $posts_per_page;
-    // $block_args['columns'] = $columns;
+    
 
     add_filter( 'agni_products_archives_display_style', function() use($display_style){
         return $display_style;
@@ -34,8 +34,8 @@ function cartify_template_product_layout_block_related($block){
     }, 99, 1 );
 
     add_filter( 'woocommerce_output_related_products_args', function($args) use ($block_args){
-        $args['posts_per_page'] = $block_args['posts_per_page']; // 4 related products
-        // $args['columns'] = $block_args['columns']; // arranged in 2 columns
+        $args['posts_per_page'] = $block_args['posts_per_page']; 
+        
 
         return $args;
     }, 99, 1 );

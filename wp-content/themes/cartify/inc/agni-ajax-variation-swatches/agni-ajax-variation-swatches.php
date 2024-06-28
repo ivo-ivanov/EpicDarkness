@@ -26,17 +26,17 @@ function cartify_woocommerce_variation_swatches( $html, $args ){
         )
     );
 
-    // foreach( $terms as $term ){
+    
 
-            //     $values[] = get_term_meta($term->term_id, 'agni_variation_swatch_field', true);
+            
 
-            // }
+            
 
-    // Get selected value.
-    // if ( false === $args['selected'] && $args['attribute'] && $args['product'] instanceof WC_Product ) {
-    // 	$selected_key     = 'attribute_' . sanitize_title( $args['attribute'] );
-    // 	$args['selected'] = isset( $_REQUEST[ $selected_key ] ) ? wc_clean( wp_unslash( $_REQUEST[ $selected_key ] ) ) : $args['product']->get_variation_default_attribute( $args['attribute'] ); // WPCS: input var ok, CSRF ok, sanitization ok.
-    // }
+    
+    
+    
+    
+    
 
     $options               = $args['options'];
     $product               = $args['product'];
@@ -44,19 +44,19 @@ function cartify_woocommerce_variation_swatches( $html, $args ){
     $name                  = $args['name'] ? $args['name'] : 'attribute_' . sanitize_title( $attribute );
     $id                    = $args['id'] ? $args['id'] : sanitize_title( $attribute );
     $class                 = $args['class'];
-    $show_option_none      = false; //(bool) $args['show_option_none'];
-    $show_option_none_text = $args['show_option_none'] ? $args['show_option_none'] : esc_html__( 'Choose an option', 'cartify' ); // We'll do our best to hide the placeholder, but we'll need to show something when resetting options.
+    $show_option_none      = false; 
+    $show_option_none_text = $args['show_option_none'] ? $args['show_option_none'] : esc_html__( 'Choose an option', 'cartify' ); 
 
     if ( empty( $options ) && ! empty( $product ) && ! empty( $attribute ) ) {
         $attributes = $product->get_variation_attributes();
         $options    = $attributes[ $attribute ];
     }
 
-    //$html .= '<span value="">' . esc_html( $show_option_none_text ) . '</span>';
+    
 
     if ( ! empty( $options ) ) {
         if ( $product && taxonomy_exists( $attribute ) ) {
-            // Get terms if this is a taxonomy - ordered. We need the names too.
+            
             $terms = wc_get_product_terms(
                 $product->get_id(),
                 $attribute,
@@ -141,7 +141,7 @@ function cartify_variation_swatches(){
     <?php
 
 
-    // Registering JS for Variation swatches
+    
     wp_enqueue_script('cartify-variation-swatches', AGNI_FRAMEWORK_JS_URL . '/agni-ajax-variation-swatches/agni-ajax-variation-swatches.js', array('jquery'), wp_get_theme()->get('Version'), true);
 }
 

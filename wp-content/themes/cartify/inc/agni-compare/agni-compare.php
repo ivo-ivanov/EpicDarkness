@@ -73,7 +73,7 @@ function cartify_compare_set_cookie(){
     if( !isset($_POST['product_id']) ){
         return;
     }
-    //echo 'product found to add cookie';
+    
     $product_id = sanitize_text_field( $_POST['product_id'] );
     $products_to_compare = ! empty( $_COOKIE['agni_woocommerce_compare'] ) ? (array) explode( '|', sanitize_text_field( $_COOKIE['agni_woocommerce_compare'] ) ) : array();
 
@@ -96,15 +96,15 @@ function cartify_compare_update_cookie(){
     $product_id = sanitize_text_field( $_POST['product_id'] );
     $products_to_compare = cartify_compare_get_cookie_selected_ids();
 
-    //$updated_products_to_compare = str_replace( $product_id, '', $products_to_compare );
-    //print_r( $products_to_compare );
+    
+    
     if (($product_id_key = array_search($product_id, $products_to_compare)) !== false) {
         unset($products_to_compare[$product_id_key]);
     }
-    //print_r( $products_to_compare );
-    // print_r( $updated_products_to_compare );
-    //return $updated_products_to_compare;
-    //wc_setcookie('agni_woocommerce_compare', '', time() + 60 * 60 * 24 * 30);
+    
+    
+    
+    
 
     wc_setcookie('agni_woocommerce_compare', implode( '|', $products_to_compare ), time() + 60 * 60 * 24 * 30);
 
@@ -126,7 +126,7 @@ function cartify_compare_display_products(){
     ?>
     <?php
 
-            // Get recently viewed product cookies data
+            
         $products_to_compare = ! empty( $_COOKIE['agni_woocommerce_compare'] ) ? (array) explode( '|', sanitize_text_field( $_COOKIE['agni_woocommerce_compare'] ) ) : array();
         $products_to_compare = array_reverse( array_filter( array_map( 'absint', $products_to_compare ) ) );
 
@@ -174,7 +174,7 @@ function cartify_compare_display_single_product(){
     <div id="agni-compare" class="agni-compare">
         <?php
         echo apply_filters('agni_woocommerce_single_product_compare_title', cartify_woocommerce_single_product_compare_title());
-        // send all product ids through below function
+        
         cartify_compare_prepare_compare_table($products_list, 1);
 
                 ?>
@@ -202,20 +202,7 @@ function cartify_compare_prepare_compare_table_new( $product_ids = array(), $sin
     <div class="agni-compare-container">
         <div class="agni-compare-table">
             <?php 
-            /* if( !$single ){
-                ?>
-                <thead>
-                    <th></th>
-                    <?php 
-                    foreach( $product_ids as $product_id ){
-                        ?>
-                        <td><span class="agni-compare-product-remove" data-remove-id=<?php echo esc_attr($product_id); ?>><i class="lni lni-close"></i><?php echo esc_html_x( 'Remove', 'Similar Compare remove', 'cartify' ); ?></span></td>
-                        <?php
-                    }
-                    ?>
-                </thead>
-                <?php
-            } */
+            
 
 
 
@@ -274,7 +261,7 @@ function cartify_compare_prepare_compare_table_new( $product_ids = array(), $sin
                     foreach( $product_ids as $product_id ){
                         $product = wc_get_product( $product_id );
 
-                        // echo $product->get_title();
+                        
                         $compare_product_classes = array(
                             'product',
                         );
@@ -418,18 +405,7 @@ function cartify_compare_prepare_compare_table_new( $product_ids = array(), $sin
                             ?>
                                 <?php 
 
-                                    /* if($single){ ?>
-                                        <td class="<?php 
-                                            if($base_product->get_id() == $product_id){ 
-                                                echo 'agni-compare__column--base';
-                                            }
-                                            else{
-                                                echo 'agni-compare__column--similar'; 
-                                            } ?>">
-                                    <?php }
-                                    else{ ?>
-                                        <td>
-                                    <?php } */
+                                    
                                     ?>
                                     <div><?php 
                                     if( !empty($product_specs) ){
@@ -503,7 +479,7 @@ function cartify_compare_prepare_compare_table( $product_ids = array(), $single 
                     foreach( $product_ids as $product_id ){
                         $product = wc_get_product( $product_id );
 
-                        // echo $product->get_title();
+                        
                         $compare_product_classes = array(
                             'product',
                         );
@@ -757,7 +733,7 @@ function cartify_compare_prepare_compare_table( $product_ids = array(), $single 
 
 function cartify_compare_scripts(){
 
-    // Registering JS for compare
+    
     wp_register_script('cartify-compare', AGNI_FRAMEWORK_JS_URL . '/agni-compare/agni-compare.js', array('jquery'), wp_get_theme()->get('Version'), true);
     wp_localize_script('cartify-compare', 'cartify_compare', array(
         'ajaxurl' => admin_url('admin-ajax.php'),
@@ -765,8 +741,8 @@ function cartify_compare_scripts(){
         'add_to_compare_text' => 'Compare',
         'remove_from_compare_text' => 'Remove Compare',
 
-        // 'security' => wp_create_nonce('agni_ajax_search_nonce'),
-        // 'action' => 'agni_processing_ajax_search',
+        
+        
     ));
 }
 

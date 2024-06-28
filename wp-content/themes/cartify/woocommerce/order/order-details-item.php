@@ -31,16 +31,16 @@ if ( ! apply_filters( 'woocommerce_order_item_visible', true, $item ) ) {
 		?>
 	<div class="woocommerce-table__product-thumbnail product-thumbnail">
 		<?php
-		echo wp_kses( apply_filters( 'woocommerce_order_item_thumbnail', $product_permalink ? sprintf( '<a href="%s">%s</a>', $product_permalink, $product->get_image() ) : $product->get_image(), $product, $item, $is_visible ), 'img' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo wp_kses( apply_filters( 'woocommerce_order_item_thumbnail', $product_permalink ? sprintf( '<a href="%s">%s</a>', $product_permalink, $product->get_image() ) : $product->get_image(), $product, $item, $is_visible ), 'img' ); 
 		?>
 	</div>
 	<div class="woocommerce-table__product-details product-details">
 		<h6 class="woocommerce-table__product-name product-name">
 			<?php
-			// $is_visible        = $product && $product->is_visible();
-			// $product_permalink = apply_filters( 'woocommerce_order_item_permalink', $is_visible ? $product->get_permalink( $item ) : '', $item, $order );
+			
+			
 
-			echo wp_kses( apply_filters( 'woocommerce_order_item_name', $product_permalink ? sprintf( '<a href="%s">%s</a>', $product_permalink, $item->get_name() ) : $item->get_name(), $item, $is_visible ), 'title' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo wp_kses( apply_filters( 'woocommerce_order_item_name', $product_permalink ? sprintf( '<a href="%s">%s</a>', $product_permalink, $item->get_name() ) : $item->get_name(), $item, $is_visible ), 'title' ); 
 			?>
 		</h6>
 		<div class="woocommerce-table__product-quantity product-quantity">
@@ -56,14 +56,14 @@ if ( ! apply_filters( 'woocommerce_order_item_visible', true, $item ) ) {
 			}
 			?>
 			<span><?php
-				echo apply_filters( 'woocommerce_order_item_quantity_html', $qty_display, $item ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo apply_filters( 'woocommerce_order_item_quantity_html', $qty_display, $item ); 
 			?></span>
 		</div>
 		<span class="woocommerce-table__product-variations product-variations">
 			<?php
 			do_action( 'woocommerce_order_item_meta_start', $item_id, $item, $order, false );
 
-			//wc_display_item_meta( $item, false ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			
 			$strings = array();
 
 			foreach ( $item->get_formatted_meta_data() as $meta_id => $meta ) {
@@ -93,7 +93,7 @@ if ( ! apply_filters( 'woocommerce_order_item_visible', true, $item ) ) {
 
 <div class="woocommerce-table__product-purchase-note product-purchase-note">
 
-	<span colspan="2"><?php echo wpautop( do_shortcode( esc_html( $purchase_note ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+	<span colspan="2"><?php echo wpautop( do_shortcode( esc_html( $purchase_note ) ) ); ?></span>
 
 </div>
 

@@ -47,7 +47,7 @@ function cartify_template_product_layout_block_add_to_cart($block){
 }
 
 
-// Agni Single Add to cart Sticky
+
 function cartify_template_product_layout_block_add_to_cart_sticky(){
 
 		$product_id = get_the_id();
@@ -71,12 +71,9 @@ function cartify_template_product_layout_block_add_to_cart_sticky(){
                     else{
                         woocommerce_template_single_add_to_cart(); 
                     }
-                    // if( $product->get_type() == 'simple' || $product->get_type() == 'external' ){
-                        // do_action( 'woocommerce_' . $product->get_type() . '_add_to_cart' ); 
-                    /* }
-                    else{ ?>
-                        <a class="add-to-cart-sticky-btn btn-product-<?php echo esc_attr( $product->get_type() ); ?>" href="#<?php echo 'product-'.$product_id; ?>"><?php echo esc_html__( 'Config Product', 'cartify' ); ?></a>
-                    <?php } */
+                    
+                        
+                    
                 }
                 else{ ?>
                     <span class="agni-add-to-cart-sticky-out-of-stock out-of-stock-label"><?php echo esc_html__( 'Out of stock', 'cartify' ); ?></span>

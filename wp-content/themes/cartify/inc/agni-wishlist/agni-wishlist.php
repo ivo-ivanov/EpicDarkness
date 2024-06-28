@@ -6,7 +6,7 @@ if ( !class_exists( 'Agni_Wishlist' ) ){
 
 		public function __construct(){
 
-			// add_action( 'agni_woocommerce_after_shop_loop_item', array( $this, 'add_to_wishlist'), 25 );
+			
 			add_action( 'woocommerce_single_product_summary', array( __class__, 'add_to_wishlist'), 35 );
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts') );
 
@@ -114,10 +114,10 @@ if ( !class_exists( 'Agni_Wishlist' ) ){
 			if( $this->get_user_id() ){
 				$url = add_query_arg(array( 
 					'user_id' => $this->get_user_id(), 
-					'product_id' => get_the_id(), //$this->get_product_id(), 
+					'product_id' => get_the_id(), 
 					'wishlist_name' => $this->get_wishlist_name() 
 				), '');
-				// $url = add_query_arg( 'product_id', cartify_wishlist_get_product_id(), $url );
+				
 			}
 			else{
 				global $wp;
@@ -133,18 +133,18 @@ if ( !class_exists( 'Agni_Wishlist' ) ){
 
 		public function enqueue_scripts(){
 
-					// Registering scripts
+					
 			wp_register_script('cartify-wishlist', AGNI_FRAMEWORK_JS_URL . '/agni-wishlist/agni-wishlist.js', array('jquery'), wp_get_theme()->get('Version'), true);
 			wp_localize_script('cartify-wishlist', 'cartify_wishlist', array(
 				'ajaxurl' => admin_url('admin-ajax.php'),
 				'ajaxurl_wc' => WC_AJAX::get_endpoint( "%%endpoint%%" ),
 				'resturl' => esc_url_raw( rest_url('agni-wishlist/v1') ),
-				// 'apipath' => 'wp-json/wp/v2',
-				// 'add_to_compare_text' => 'Compare',
-				// 'remove_from_compare_text' => 'Remove Compare',
+				
+				
+				
 
 						'security' => wp_create_nonce('agni_ajax_wishlist_nonce'),
-				// 'action' => 'agni_processing_ajax_search',
+				
 			));
 
 				}

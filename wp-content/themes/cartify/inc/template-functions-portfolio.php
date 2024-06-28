@@ -164,7 +164,7 @@ if( !function_exists('cartify_portfolio_single') ){
             'portfolio-single-page-container'
         ));
 
-        $portfolio_single_btn_url = '#portfolio-single-content'; // get_the_permalink();
+        $portfolio_single_btn_url = '#portfolio-single-content'; 
 
         ?>
         <div class="<?php echo esc_attr( $portfolio_single_classes ); ?>">
@@ -177,7 +177,7 @@ if( !function_exists('cartify_portfolio_single') ){
                                 <div class="portfolio-single-thumbnail"><?php 
                                     apply_filters( 'agni_portfolio_post_thumbnail', the_post_thumbnail() ); 
                                 ?></div>
-                                <?php // the_title( '<h1 class="entry-title">', '</h1>' ); ?>
+                                <?php ?>
                                 <div class="portfolio-single-header-content">
                                     <div class="portfolio-single-category">
                                         <?php echo apply_filters( 'agni_portfolio_item_category', cartify_portfolio_cat( get_the_ID() ) ); ?>
@@ -221,11 +221,11 @@ function cartify_portfolio_single_slider(){
 
 
 function cartify_portfolio_cat( $portfolio_id ) {
-	// Hide category and tag text for pages.
+	
 	if ( 'portfolio' == get_post_type() ) {
-		/* translators: used between list items, there is a space after the comma */
+		
 		$portfolio_category_names = wp_get_object_terms( $portfolio_id, 'portfolio_category', array( 'fields' => 'names' ) );
-        // print_r( $categories_list );
+        
 		if ( !empty($portfolio_category_names) ) { ?>
             <span class="cat-links">
                 <?php  foreach ($portfolio_category_names as $key => $name) { ?>

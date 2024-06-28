@@ -76,9 +76,9 @@ function cartify_woocommerce_checkout_multistep_navigation(){
 	if( !$multistep_checkout ){
 		return;
 	}
-	// if(/* is not Multistep naviagation */){
+	
 
-	// }
+	
 	$go_back = false;
 
 		if( !is_user_logged_in() && !( 'no' === get_option( 'woocommerce_enable_signup_and_login_from_checkout' ) && 'no' === get_option( 'woocommerce_enable_checkout_login_reminder' ) )){
@@ -113,30 +113,30 @@ function cartify_woocommerce_checkout_multistep_navigation(){
 
 function cartify_multistep_address_validation() {
 
-    // print_r( $_REQUEST );
+    
 
     global $woocommerce;
     $chosen_methods = WC()->session->get( 'chosen_shipping_methods' );
 
-    // print_r($chosen_methods);
+    
 
-    // billing_country
-    // billing_postcode
-    // billing_email
-    // billing_phone
+    
+    
+    
+    
 
-    // shipping_country
-    // shipping_postcode
+    
+    
 
     $validation = new WC_Validation();
 
     $is_billing_valid = $validation->is_postcode( $_REQUEST['billing_postcode'], $_REQUEST['billing_country'] );
-    // $is_email_valid = $validation->is_email( $_REQUEST['billing_email'] );
-	// $is_phone_valid = $validation->is_phone( $_REQUEST['billing_phone'] );
+    
+	
 
 	    $results = array(
-        // 'email' => $is_email_valid,
-		// 'phone' => $is_phone_valid,
+        
+		
 		'shipping_options' => $chosen_methods,
         'valid_billing_address' => $is_billing_valid,
 	);
@@ -155,7 +155,7 @@ function cartify_multistep_address_validation() {
 		$results['valid_shipping_address'] = $is_shipping_valid;
 	}
 
-		// WC()->session->set( 'chosen_shipping_methods', null );
+		
 
     wp_send_json_success( $results );
 
@@ -171,7 +171,7 @@ function cartify_apply_coupon() {
 	check_ajax_referer( 'apply-coupon', 'security' );
 
 	if ( ! empty( $_POST['coupon_code'] ) ) {
-		WC()->cart->add_discount( wc_format_coupon_code( wp_unslash( $_POST['coupon_code'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		WC()->cart->add_discount( wc_format_coupon_code( wp_unslash( $_POST['coupon_code'] ) ) ); 
 	} else {
 		wc_add_notice( WC_Coupon::get_generic_coupon_error( WC_Coupon::E_WC_COUPON_PLEASE_ENTER ), 'error' );
 	}
@@ -186,7 +186,7 @@ function cartify_apply_coupon() {
 function cartify_remove_coupon() {
 	check_ajax_referer( 'remove-coupon', 'security' );
 
-	$coupon = isset( $_POST['coupon'] ) ? wc_format_coupon_code( wp_unslash( $_POST['coupon'] ) ) : false; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	$coupon = isset( $_POST['coupon'] ) ? wc_format_coupon_code( wp_unslash( $_POST['coupon'] ) ) : false; 
 
 	if ( empty( $coupon ) ) {
 		wc_add_notice( esc_html__( 'Sorry there was a problem removing this coupon.', 'cartify' ), 'error' );

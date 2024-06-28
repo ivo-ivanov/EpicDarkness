@@ -12,7 +12,7 @@
  *
  * @see     https://docs.woocommerce.com/document/template-structure/
  * @package WooCommerce/Templates
- * @version 7.8.0
+ * @version 7.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -52,9 +52,9 @@ defined( 'ABSPATH' ) || exit;
 							$thumbnail = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image(), $cart_item, $cart_item_key );
 
 							if ( ! $product_permalink ) {
-								echo wp_kses( $thumbnail, 'img' ); // PHPCS: XSS ok.
+								echo wp_kses( $thumbnail, 'img' ); 
 							} else {
-								printf( '<a href="%s">%s</a>', esc_url( $product_permalink ), $thumbnail ); // PHPCS: XSS ok.
+								printf( '<a href="%s">%s</a>', esc_url( $product_permalink ), $thumbnail ); 
 							}
 							?>
 							</div>
@@ -73,7 +73,7 @@ defined( 'ABSPATH' ) || exit;
 																do_action( 'woocommerce_after_cart_item_name', $cart_item, $cart_item_key );
 
 
-								// Backorder notification.
+								
 								if ( $_product->backorders_require_notification() && $_product->is_on_backorder( $cart_item['quantity'] ) ) {
 									echo wp_kses( apply_filters( 'woocommerce_cart_item_backorder_notification', '<p class="backorder_notification">' . esc_html__( 'Available on backorder', 'cartify' ) . '</p>', $product_id ), array( 'p' => array() ) );
 								}
@@ -83,7 +83,7 @@ defined( 'ABSPATH' ) || exit;
 
 								<span class="product-price" data-title="<?php esc_attr_e( 'Price', 'cartify' ); ?>">
 									<?php
-										echo apply_filters( 'woocommerce_cart_item_price', WC()->cart->get_product_price( $_product ), $cart_item, $cart_item_key ); // PHPCS: XSS ok.
+										echo apply_filters( 'woocommerce_cart_item_price', WC()->cart->get_product_price( $_product ), $cart_item, $cart_item_key ); 
 									?>
 								</span>
 
@@ -93,12 +93,12 @@ defined( 'ABSPATH' ) || exit;
 
 																	<div class="product-remove">
 									<?php
-										echo apply_filters( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+										echo apply_filters( 
 											'woocommerce_cart_item_remove_link',
 											sprintf(
 												'<a href="%s" class="remove" aria-label="%s" data-product_id="%s" data-product_sku="%s">%s</a>',
-												esc_url( wc_get_cart_remove_url( $cart_item_key ) ),/* translators: %s is the product name */
-												esc_attr( sprintf( __( 'Remove %s from cart', 'cartify' ), $product_name ) ),
+												esc_url( wc_get_cart_remove_url( $cart_item_key ) ),
+												esc_attr( sprintf( __( 'Remove %s from cart', 'cartify' ), wp_strip_all_tags( $product_name ) ) ),
 												esc_attr( $product_id ),
 												esc_attr( $_product->get_sku() ),
 												esc_html_x( 'Remove', 'Cart item remove', 'cartify' )
@@ -132,13 +132,13 @@ defined( 'ABSPATH' ) || exit;
 								false
 							);
 
-								echo apply_filters( 'woocommerce_cart_item_quantity', $product_quantity, $cart_item_key, $cart_item ); // PHPCS: XSS ok.
+								echo apply_filters( 'woocommerce_cart_item_quantity', $product_quantity, $cart_item_key, $cart_item ); 
 							?>
 							</div>
 
 							<div class="product-subtotal" data-title="<?php esc_attr_e( 'Subtotal', 'cartify' ); ?>">
 								<?php
-									echo apply_filters( 'woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal( $_product, $cart_item['quantity'] ), $cart_item, $cart_item_key ); // PHPCS: XSS ok.
+									echo apply_filters( 'woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal( $_product, $cart_item['quantity'] ), $cart_item, $cart_item_key ); 
 								?>
 							</div>
 						</div>
