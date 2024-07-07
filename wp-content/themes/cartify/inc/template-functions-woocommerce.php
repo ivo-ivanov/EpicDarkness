@@ -2250,7 +2250,7 @@ function cartify_woocommerce_myaccount_dashboard(){
 		?>
 	<ul class="agni-woocommerce-account-dashboard-control">
 		<?php if( !empty($endpoints['wishlist']) ){ ?>
-			<li><a href="<?php echo esc_url( wc_get_endpoint_url( 'wishlist' ) ) ?>"><?php echo esc_html__( 'Wishlists', 'cartify' ); ?></a></li>
+			<!-- TEMP IVO remove wishlist functionality <li><a href="<?php echo esc_url( wc_get_endpoint_url( 'wishlist' ) ) ?>"><?php echo esc_html__( 'Wishlists', 'cartify' ); ?></a></li> -->
 		<?php } ?>
 		<?php if( !empty($endpoints['orders']) ){ ?>
 			<li><a href="<?php echo esc_url( wc_get_endpoint_url( 'orders' ) ) ?>"><?php echo esc_html__( 'Orders', 'cartify' ); ?></a></li>

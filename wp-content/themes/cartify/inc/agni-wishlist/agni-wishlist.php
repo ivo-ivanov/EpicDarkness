@@ -152,6 +152,7 @@ if ( !class_exists( 'Agni_Wishlist' ) ){
 	}
 }
 
-$agni_wishlist = new Agni_Wishlist();
+//TEMP IVO remove wishlist functionality
+//$agni_wishlist = new Agni_Wishlist();
 
 ?>

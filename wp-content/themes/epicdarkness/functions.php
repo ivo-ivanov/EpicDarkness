@@ -9,15 +9,27 @@ function agni_child_enqueue_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'agni_child_enqueue_scripts', 9 );
 
-function replace_image_urls_with_production_domain($image, $attachment_id, $size, $icon) {
-    // Check if the image URL contains "localhost"
-    if (strpos($image[0], 'localhost') !== false) {
-        // Replace "localhost" with the production domain
-        $image[0] = str_replace('http://localhost', 'https://epicdarkness.com', $image[0]);
-    }
-
-    return $image;
+// Load the local.php file if we're in a development environment
+if ('production' !== wp_get_environment_type()) {
+    // Require the local.php file
+    require_once get_stylesheet_directory() . '/local.php';
 }
-add_filter('wp_get_attachment_image_src', 'replace_image_urls_with_production_domain', 10, 4);
+
+// Use a quality setting of 85 for AVIF images.
+function filter_avif_quality( $quality, $mime_type ) {
+	if ( 'image/avif' === $mime_type ) {
+		return 85;
+	}
+	return $quality;
+}
+add_filter( 'wp_editor_set_quality', 'filter_avif_quality', 10, 2 );
+
+// Output AVIFs for uploaded JPEGs and PNGs
+function filter_image_editor_output_format( $formats ) {
+	$formats['image/jpeg'] = 'image/avif';
+    $formats['image/png'] = 'image/avif';
+	return $formats;
+}
+add_filter( 'image_editor_output_format', 'filter_image_editor_output_format' );
 
 ?>

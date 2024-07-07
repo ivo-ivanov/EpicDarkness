@@ -155,9 +155,17 @@ input[type=reset],
 input[type=submit],
 .btn,
 a.btn,
-.woocommerce .checkout-button:hover {
-    background: #fff;
-    color: var(--cartify_color_black);
+a.btn.btn-bold:hover,
+.woocommerce .woocommerce-checkout-payment button[type=submit],
+.woocommerce .checkout-button:hover
+ {
+    background: #fff!important;
+    color: var(--cartify_color_black)!important;
+    border: 1px solid #fff!important;
+}
+
+a.btn.btn-bold:hover {
+    border: 1px solid #000!important
 }
 
 button:hover,
@@ -166,9 +174,12 @@ input[type=reset]:hover,
 input[type=submit]:hover,
 .btn:hover,
 a.btn:hover,
-.woocommerce .checkout-button {
-    background: var(--cartify_color_black);
-    color: #fff;
+.woocommerce .checkout-button,
+.woocommerce .woocommerce-checkout-payment button[type=submit]:hover,
+a.btn.btn-bold {
+    background: var(--cartify_color_black)!important;
+    color: #fff!important;
+    border: 1px solid var(--cartify_color_black)!important;
 }
 
 .agni-sidecart__button--checkout{
@@ -317,4 +328,12 @@ input[type=number] {
 
 .woocommerce .agni-shop-control-bar {
     display: none;
+}
+
+.woocommerce .woocommerce-cart-form>.shop_table .product-remove a {
+    color: var(--cartify_color_line_lite_grey);
+    text-transform: lowercase;
+    text-decoration: none;
+    background: darkred;
+    padding: 4px 6px;
 }
