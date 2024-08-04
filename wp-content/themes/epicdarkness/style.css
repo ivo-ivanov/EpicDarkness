@@ -149,6 +149,10 @@ footer a {
     color: #919191;
 }
 
+.site-footer-content-block .agni-block-columns__background--color {
+    background-color: #0000009e;
+}
+
 button,
 input[type=button],
 input[type=reset],
@@ -201,6 +205,10 @@ a.btn.btn-bold {
 
 .agni-block-products-nav {
     display: none;
+}
+
+.agni-product-layout-block-images .woocommerce-product-gallery__wrapper img {
+    background-color: none!important;
 }
 
 input[type=text],
@@ -337,3 +345,4 @@ input[type=number] {
     background: darkred;
     padding: 4px 6px;
 }
+
