@@ -109,7 +109,7 @@
           }
           $options['rtl'] = document.dir === 'rtl';
           var $nav_options = {
-            slidesToShow: 5,
+            slidesToShow: 8,
             focusOnSelect: true,
             infinite: false,
             vertical: false,

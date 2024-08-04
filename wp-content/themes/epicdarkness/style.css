@@ -208,7 +208,7 @@ a.btn.btn-bold {
 }
 
 .agni-product-layout-block-images .woocommerce-product-gallery__wrapper img {
-    background-color: none!important;
+    background-color: transparent!important;
 }
 
 input[type=text],
