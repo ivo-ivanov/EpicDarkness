@@ -145,6 +145,14 @@ label[for="shipping_method_0_free_shipping1"] {
     border: 0!important;
 }
 
+.product .woocommerce-loop-product__thumbnail > a {
+    max-width: 300px;
+}
+
+.agni-product-layout-block-images.product-style-2 .woocommerce-product-gallery__wrapper, .agni-product-layout-block-images.product-style-3 .woocommerce-product-gallery__wrapper {
+    max-width: 600px;
+}
+
 footer a {
     color: #919191;
 }
